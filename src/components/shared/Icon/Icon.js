@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // Due to weird Protocol errors with external SVGs the svg use doesn't work well with production builds
 // So we Ajax the SVG in with a snippet at the bottom of public/index.html
 
-const Icon = ({ iconClass, iconName }) => {
+const Icon = ({ className, iconName }) => {
   return (
-    <svg className={iconClass}>
+    <svg className={className}>
       <use xlinkHref={`#wmnds-${iconName}`} href={`#wmnds-${iconName}`} />
     </svg>
   );
@@ -14,11 +14,11 @@ const Icon = ({ iconClass, iconName }) => {
 
 Icon.propTypes = {
   iconName: PropTypes.string.isRequired,
-  iconClass: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Icon.defaultProps = {
-  iconClass: null,
+  className: null,
 };
 
 export default Icon;
