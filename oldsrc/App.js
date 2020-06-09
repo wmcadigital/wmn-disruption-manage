@@ -202,36 +202,36 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.enum.started = true;
-    const queryString = this._getQuery();
-    if (_.has(queryString, 'lines')) {
-      queryString.lines = JSON.parse(atob(queryString.lines));
-    } else {
-      queryString.lines = [];
-    }
-    if (_.has(queryString, 'lnames')) {
-      queryString.lnames = JSON.parse(atob(queryString.lnames));
-    } else {
-      queryString.lnames = [];
-    }
-    this.enum.deleteUrl += queryString.user;
-    this.enum.url += queryString.user;
-    this.enum.siteCode = queryString.user;
+  // componentDidMount() {
+  //   this.enum.started = true;
+  //   const queryString = this._getQuery();
+  //   if (_.has(queryString, 'lines')) {
+  //     queryString.lines = JSON.parse(atob(queryString.lines));
+  //   } else {
+  //     queryString.lines = [];
+  //   }
+  //   if (_.has(queryString, 'lnames')) {
+  //     queryString.lnames = JSON.parse(atob(queryString.lnames));
+  //   } else {
+  //     queryString.lnames = [];
+  //   }
+  //   this.enum.deleteUrl += queryString.user;
+  //   this.enum.url += queryString.user;
+  //   this.enum.siteCode = queryString.user;
 
-    window
-      .fetch(this.enum.url)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        return { name: '', lineId: [], newUser: true, email: '' };
-        // throw new Error('Something went wrong');
-      })
-      .then(
-        (m) => this._setData(m, queryString) // .catch((error) => {console.log(error); })
-      );
-  }
+  //   window
+  //     .fetch(this.enum.url)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         return response.json();
+  //       }
+  //       return { name: '', lineId: [], newUser: true, email: '' };
+  //       // throw new Error('Something went wrong');
+  //     })
+  //     .then(
+  //       (m) => this._setData(m, queryString) // .catch((error) => {console.log(error); })
+  //     );
+  // }
 
   _handleClickUnsubscribe(e) {
     e.preventDefault();
