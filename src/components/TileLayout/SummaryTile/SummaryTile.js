@@ -17,13 +17,7 @@ const SummaryTile = () => {
         ? manage
         : null}
 
-      <div className="wmnds-content-tile">
-        <h2>Add new alerts</h2>
-        <p>Press the button below</p>
-        <a href={signRef} className="wmnds-btn  wmnds-col-1 wmnds-col-sm-auto">
-          Add alerts
-        </a>
-      </div>
+
       <div className="wmnds-content-tile">
         <h2>Unsubscribe from all alerts</h2>
         <p>You will no longer receive alerts and your data will be deleted.</p>
