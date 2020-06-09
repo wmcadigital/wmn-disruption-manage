@@ -1,20 +1,14 @@
+// React
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from 'components/App/App';
 import * as serviceWorker from './serviceWorker';
-
-var configWmca = {
-  live: 'https://rtccdisruptions6zqwajo6s.azurewebsites.net/', // Address to call the api
-  test: 'http://localhost:7071/', // testing link
-  signUp: 'https://wmcadigital.github.io/wmn-disruption-email-alerts/alerts/personal-details.html', // addrsss to the sign up site
-};
 
 ReactDOM.render(
   <React.StrictMode>
-    <App appConfig={configWmca} />
+    <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('wmn-disruption-manage-app')
 );
 
 // If you want your app to work offline and load faster, you can change

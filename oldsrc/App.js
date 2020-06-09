@@ -1,18 +1,13 @@
-import React from 'react';
+import React from '../oldsrc/react';
 import './App.css';
-import 'promise-polyfill/src/polyfill';
-import 'whatwg-fetch';
-import SubscribedTable from 'components/SubscribedTable/SubscribedTable';
-import MainSubscribedTable from 'components/MainSubscribedTable/MainSubscribedTable';
-import PendingTable from 'components/PendingTable/PendingTable';
-import MainPendingTable from 'components/MainPendingTable/MainPendingTable';
+import '../oldsrc/promise-polyfill/src/polyfill';
+import '../oldsrc/whatwg-fetch';
+import SubscribedTable from '../oldsrc/components/SubscribedTable/SubscribedTable';
+import MainSubscribedTable from '../oldsrc/components/MainSubscribedTable/MainSubscribedTable';
+import PendingTable from '../oldsrc/components/PendingTable/PendingTable';
+import MainPendingTable from '../oldsrc/components/MainPendingTable/MainPendingTable';
 
-const _ = require('underscore');
-
-<SubscribedTable />;
-<MainSubscribedTable />;
-<PendingTable />;
-<MainPendingTable />;
+const _ = require('../oldsrc/underscore');
 
 class App extends React.Component {
   constructor(props) {

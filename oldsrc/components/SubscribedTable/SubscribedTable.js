@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '../oldsrc/react';
 
 class SubscribedTable extends React.Component {
   _handleClick(e) {
