@@ -11,11 +11,9 @@ const TileLayout = () => {
 
   return (
     <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
-      <div className="wmnds-col-1">
-        <SummaryTile />
-        <AddMoreTile />
-        <DeleteTile />
-      </div>
+      <SummaryTile />
+      <AddMoreTile />
+      <DeleteTile />
     </div>
   );
 };
