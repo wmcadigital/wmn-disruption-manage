@@ -11,10 +11,17 @@ export const SubscriberProvider = (props) => {
     name: '',
     query: {
       lines: getSearchParam('lines') ? JSON.parse(atob(getSearchParam('lines'))) : [],
+      lnames: getSearchParam('lnames') ? JSON.parse(atob(getSearchParam('lnames'))) : [],
       secret: '',
       user: getSearchParam('user') || '',
     },
-    user: {},
+    user: {
+      name: '',
+      email: '',
+      lineId: [],
+      NewUser: false,
+      updates: null,
+    },
   };
 
   // Set up a reducer so we can change state based on centralised logic here
