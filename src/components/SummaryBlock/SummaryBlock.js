@@ -1,8 +1,6 @@
-import React, { useContext } from 'react';
-import { SubscriberContext } from 'globalState/SubscriberContext';
+import React from 'react';
 
 const SummaryBlock = () => {
-  const [subscriberState] = useContext(SubscriberContext);
   // const queryString = this._getQuery();
   // if (_.has(queryString, 'lines')) {
   //   queryString.lines = JSON.parse(atob(queryString.lines));
@@ -34,7 +32,7 @@ const SummaryBlock = () => {
   return (
     <div>
       <div className="wmnds-content-tile">
-        <p>Managing {subscriberState.query.user}&apos;s alerts about disruption</p>
+        {/* <p>Managing {subscriberState.query.user}&apos;s alerts about disruption</p> */}
         {/* <p>Alerts sent to {this.enum.email}</p> */}
       </div>
 
