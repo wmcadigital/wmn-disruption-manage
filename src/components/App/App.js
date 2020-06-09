@@ -1,12 +1,19 @@
 import React from 'react';
+import { SubscriberProvider } from 'globalState/SubscriberContext';
+// Import components
+import SummaryBlock from 'components/SummaryBlock/SummaryBlock';
 
-function App() {
+const App = () => {
   return (
-    <>
-      <div className="wmnds-col-1 wmnds-col-md-3-5">hello</div>
-      <div className="wmnds-col-1 wmnds-col-md-1-5">side</div>
-    </>
+    <React.StrictMode>
+      <SubscriberProvider>
+        <div className="wmnds-col-1 wmnds-col-md-3-5">
+          <SummaryBlock />
+        </div>
+        <div className="wmnds-col-1 wmnds-col-md-1-5">side</div>
+      </SubscriberProvider>
+    </React.StrictMode>
   );
-}
+};
 
 export default App;
