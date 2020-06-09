@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { SubscriberContext } from 'globalState/SubscriberContext';
 
-const SummaryBlock = () => {
+const SummaryTile = () => {
+  const [subscriberState] = useContext(SubscriberContext);
+
   // const queryString = this._getQuery();
   // if (_.has(queryString, 'lines')) {
   //   queryString.lines = JSON.parse(atob(queryString.lines));
@@ -32,8 +35,8 @@ const SummaryBlock = () => {
   return (
     <div>
       <div className="wmnds-content-tile">
-        {/* <p>Managing {subscriberState.query.user}&apos;s alerts about disruption</p> */}
-        {/* <p>Alerts sent to {this.enum.email}</p> */}
+        <p>Managing {subscriberState.user.name}&apos;s alerts about disruption</p>
+        <p>Alerts sent to {subscriberState.user.email}</p>
       </div>
 
       {/* {this.state.MainPending && this.enum.started ? pending : null}
@@ -65,4 +68,4 @@ const SummaryBlock = () => {
   );
 };
 
-export default SummaryBlock;
+export default SummaryTile;

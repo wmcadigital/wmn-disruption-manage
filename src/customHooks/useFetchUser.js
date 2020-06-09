@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchUser = () => {
-  const [subscriberState] = useContext(SubscriberContext);
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
   const [isFetching, setIsFetching] = useState(false);
 
   fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
@@ -16,6 +16,7 @@ const useFetchUser = () => {
     // If formsubmission is successful
     .then((payload) => {
       console.log({ payload });
+      subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
       setIsFetching(false); // set to false as we are done fetching now
     }) // If formsubmission errors
     .catch((error) => {

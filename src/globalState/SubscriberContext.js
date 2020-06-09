@@ -10,21 +10,23 @@ export const SubscriberProvider = (props) => {
   const initialState = {
     name: '',
     query: {
-      lines: JSON.parse(atob(getSearchParam('lines'))) || [],
+      lines: getSearchParam('lines') ? JSON.parse(atob(getSearchParam('lines'))) : [],
       secret: '',
       user: getSearchParam('user') || '',
     },
+    user: {},
   };
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
     // Update the favState depening on action type
+    console.log({ action });
     switch (action.type) {
       // Add favourite
-      case 'ADD_FAV':
+      case 'MAP_USER_DETAILS':
         return {
           ...state,
-          bus: [...state.bus, action.id],
+          user: action.payload,
         };
       // Remove favourite
       case 'REMOVE_FAV':
