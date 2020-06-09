@@ -19,8 +19,7 @@ export const SubscriberProvider = (props) => {
 
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
-    // Update the favState depening on action type
-    console.log({ action });
+    // Update the state depening on action type
     switch (action.type) {
       // Add favourite
       case 'MAP_USER_DETAILS':
