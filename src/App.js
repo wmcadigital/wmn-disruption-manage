@@ -2,166 +2,17 @@ import React from 'react';
 import './App.css';
 import 'promise-polyfill/src/polyfill';
 import 'whatwg-fetch';
+import SubscribedTable from 'components/SubscribedTable/SubscribedTable';
+import MainSubscribedTable from 'components/MainSubscribedTable/MainSubscribedTable';
+import PendingTable from 'components/PendingTable/PendingTable';
+import MainPendingTable from 'components/MainPendingTable/MainPendingTable';
 
 const _ = require('underscore');
 
-class SubscribedTable extends React.Component {
-  _handleClick(e) {
-    e.preventDefault();
-    this.props.handleclick(e.target.id);
-  }
-
-  render() {
-    const routeNames = this.props.name.split('-').map((m) => m.trim());
-    const [stopName, routeName, lineId] = routeNames;
-    const buttonStyle = this.props.clicked
-      ? 'wmnds-btn  wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto'
-      : 'wmnds-btn wmnds-btn--start wmnds-col-1 wmnds-col-sm-auto';
-
-    const stopDetail = (
-      <td>
-        <li className="wmnds-content-tile__list--li">
-          <div className="wmnds-col-auto">
-            <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium">
-              {stopName}
-            </div>
-          </div>
-          <p className="wmnds-disruption-indicator-large__text">
-            <strong>{routeName}</strong>
-            <br />
-            including return journey
-          </p>
-        </li>
-      </td>
-    );
-
-    const button = (
-      <button onClick={this._handleClick.bind(this)} id={this.props.idx} className={buttonStyle}>
-        {this.props.btntype}
-      </button>
-    );
-
-    return (
-      <tr className={this.props.clicked && this.props.idx !== 'deleteselected' ? 'striked' : ''}>
-        <td>{this.props.idx === 'deleteselected' ? button : stopDetail}</td>
-        <td>{this.props.idx === 'deleteselected' ? null : button}</td>
-      </tr>
-    );
-  }
-}
-
-class MainSubscribedTable extends React.Component {
-  _handleClick(e) {
-    this.props.handlesubclick(e);
-  }
-
-  _getData() {
-    return this.props.getsubdata();
-  }
-
-  _getSunscribed() {
-    const data = this._getData();
-    return data.map((m) => (
-      <SubscribedTable
-        name={m.name}
-        idx={m.idx}
-        clicked={m.clicked}
-        btntype={m.btnType}
-        handleclick={this._handleClick.bind(this)}
-        key={m.idx}
-      />
-    ));
-  }
-
-  render() {
-    const tables = this._getSunscribed();
-    return (
-      <div className="row">
-        <div className="col-md-12">
-          <table className="table">
-            <thead>
-              <tr>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody>{tables}</tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-}
-
-class PendingTable extends React.Component {
-  render() {
-    return (
-      <tr>
-        <td>
-          <li className="wmnds-content-tile__list--li">
-            <div className="wmnds-col-auto">
-              <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium">
-                {this.props.name}
-              </div>
-            </div>
-            <p className="wmnds-disruption-indicator-large__text">
-              <strong>{this.props.idName}</strong>
-              <br />
-              including return journey
-            </p>
-          </li>
-        </td>
-      </tr>
-    );
-  }
-}
-
-class MainPendingTable extends React.Component {
-  _getData() {
-    return this.props.getpendata();
-  }
-
-  _getTable(lines) {
-    return lines.map((m) => <PendingTable name={m.Name} idName={m.IdName} key={m.Id} />);
-  }
-
-  _handleClick() {
-    this.props.processpending();
-  }
-
-  render() {
-    const data = this._getData();
-    const { lines, secret, user, lnames } = data;
-    const table = this._getTable(lnames);
-
-    return (
-      <div className="row">
-        <div className="col-md-12">
-          <table className="table">
-            <thead>
-              <tr>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {table}
-              <tr>
-                <td>
-                  <button
-                    className="wmnds-btn wmnds-btn--start wmnds-col-1 wmnds-col-sm-auto"
-                    onClick={this._handleClick.bind(this)}
-                  >
-                    Confirm your routes
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-}
+<SubscribedTable />;
+<MainSubscribedTable />;
+<PendingTable />;
+<MainPendingTable />;
 
 class App extends React.Component {
   constructor(props) {
