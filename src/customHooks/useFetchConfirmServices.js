@@ -11,7 +11,6 @@ const useFetchConfirmServices = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`, {
       method: 'put',
-      secret: 'Hello World',
       body: JSON.stringify(confirmData),
       headers: {
         'Content-Type': 'application/json',
