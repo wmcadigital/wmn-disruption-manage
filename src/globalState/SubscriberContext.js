@@ -19,7 +19,7 @@ export const SubscriberProvider = (props) => {
       name: '',
       email: '',
       lineId: [],
-      NewUser: false,
+      newUser: false,
       updates: null,
     },
   };
