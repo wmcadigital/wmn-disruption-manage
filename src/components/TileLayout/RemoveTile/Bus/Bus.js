@@ -1,46 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'components/shared/Icon/Icon';
-import style from './Bus.module.scss';
+import Button from 'components/shared/Button/Button';
+import s from './Bus.module.scss';
 
-function Bus(props) {
-  const { serviceNumber, routeName, handleRemove, showRemove } = props;
+const Bus = ({ serviceNumber, routeName, handleRemove }) => {
   const onClick = () => {
     handleRemove(serviceNumber);
   };
   return (
-    <div className={`${style.serviceWrapper}`}>
-      <div
-        className={`wmnds-disruption-indicator-medium
-        wmnds-col-auto wmnds-m-r-md`}
-      >
-        {serviceNumber}
+    <>
+      <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
+        {/* Left side (service number and route name) */}
+        <div className="wmnds-col-1 wmnds-col-sm-auto">
+          <div className="wmnds-disruption-indicator-medium wmnds-m-r-md">{serviceNumber}</div>
+          <strong>{routeName}</strong>
+        </div>
+
+        {/* Right side for remove route button */}
+        <Button
+          className={`wmnds-btn--destructive wmnds-col-auto ${s.removeBtn}`}
+          text="Remove route"
+          iconRight="general-trash"
+        />
       </div>
-      <strong className="wmnds-col-auto">{routeName}</strong>
-      {showRemove && (
-        <button
-          type="button"
-          className={style.removeBtn}
-          onClick={() => {
-            onClick();
-          }}
-        >
-          <Icon iconName="general-cross" className={`general-cross ${style.closeIcon}`} />
-        </button>
-      )}
-    </div>
+      <hr className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md" />
+    </>
   );
-}
+};
+
 Bus.propTypes = {
   serviceNumber: PropTypes.string.isRequired,
   routeName: PropTypes.string.isRequired,
   handleRemove: PropTypes.func,
-  showRemove: PropTypes.bool,
 };
 
 Bus.defaultProps = {
   handleRemove: () => {},
-  showRemove: false,
 };
 
 export default Bus;

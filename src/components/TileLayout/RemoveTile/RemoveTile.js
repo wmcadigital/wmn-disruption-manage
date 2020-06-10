@@ -12,7 +12,7 @@ const RemoveTile = () => {
       <div className="wmnds-msg-help wmnds-col-1">
         Select services you want to remove from your email alerts list.
       </div>
-      <hr className="wmnds-m-t-lg wmnds-m-b-lg" />
+      <hr className="wmnds-m-t-md wmnds-m-b-md" />
       <h3>Bus routes added</h3>
       <div>
         {BusServices && BusServices.length > 0 && (
@@ -24,7 +24,6 @@ const RemoveTile = () => {
                     serviceNumber={busRoute.name}
                     routeName={busRoute.idName}
                     key={`${busRoute.id}`}
-                    showRemove={true}
                   />
                 );
               })}
