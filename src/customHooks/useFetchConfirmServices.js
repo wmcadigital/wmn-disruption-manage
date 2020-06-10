@@ -12,7 +12,7 @@ const useFetchConfirmServices = () => {
     // If the user is a newUser then fire off a request to confirm them and their lines
     if (subscriberState.user.newUser) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`, {
-        method: 'put',
+        method: 'PUT',
         body: JSON.stringify(confirmData),
         headers: {
           'Content-Type': 'application/json',

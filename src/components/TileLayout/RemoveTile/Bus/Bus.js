@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 import s from './Bus.module.scss';
+import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 
 const Bus = ({ serviceNumber, routeName, handleRemove }) => {
-  const onClick = () => {
-    handleRemove(serviceNumber);
-  };
+  const { removeRoute } = useFetchDeleteRoute();
+
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
@@ -21,6 +21,7 @@ const Bus = ({ serviceNumber, routeName, handleRemove }) => {
           className={`wmnds-btn--destructive wmnds-col-auto ${s.removeBtn}`}
           text="Remove route"
           iconRight="general-trash"
+          onClick={removeRoute()}
         />
       </div>
       <hr className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md" />
