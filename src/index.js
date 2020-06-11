@@ -5,9 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 var configWmca = {
-    live: "https://rtccdisruptions6zqwajo6s.azurewebsites.net/", // Address to call the api
+    live: "https://rtccdisruptionsb5phceeso.azurewebsites.net/", // Address to call the api
     test: "http://localhost:7071/", // testing link
-    signUp: "https://wmcadigital.github.io/wmn-disruption-email-alerts/alerts/personal-details.html" // addrsss to the sign up site
+    signUp: "https://disruption-sign-up.wmnetwork.co.uk" // addrsss to the sign up site
 };
 
 ReactDOM.render(

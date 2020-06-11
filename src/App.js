@@ -19,7 +19,6 @@ class SubscribedTable extends React.Component {
       : 'wmnds-btn wmnds-btn--start wmnds-col-1 wmnds-col-sm-auto';
 
     const stopDetail = (
-      <td>
         <li className="wmnds-content-tile__list--li">
           <div className="wmnds-col-auto">
             <div className="wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium">
@@ -32,7 +31,6 @@ class SubscribedTable extends React.Component {
             including return journey
           </p>
         </li>
-      </td>
     );
 
     const button = (
@@ -182,9 +180,7 @@ class App extends React.Component {
       deleteUrl: `${baseUrl}api/person/`,
       url: `${baseUrl}api/person/`,
       uSub: `${baseUrl}api/removeme/`,
-      signUpUrl: this.props.appConfig.signUp,
-      // deleteUrl: "https://disruptionsuk.azurewebsites.net/api/person/",
-      // url: "https://rtccdisruptions6zqwajo6s.azurewebsites.net/api/person/",
+      signUpUrl: this.props.appConfig.signUp,      
       release: true,
       query: {
         lines: [],
@@ -235,29 +231,32 @@ class App extends React.Component {
 
   _handleClickUnsubscribe(e) {
     e.preventDefault();
-    const confirm = window.confirm(
-      'Are you sure you want to remove all of your data from our system?'
-    );
+    const confirm = window.confirm("Are you sure you want to remove all of your data from our system?");
     if (confirm) {
-      this._unsubscribeUser().then((m) => console.log(m));
+        this._unsubscribeUser();
     }
   }
 
   _unsubscribeUser() {
-    const { siteCode, uSub } = this.enum;
-    const data = { name: siteCode };
-    const url = uSub + siteCode;
-    return window
-      .fetch(url, {
-        credentials: 'same-origin', // 'include', default: 'omit'
-        method: 'DELETE', // 'GET', 'PUT', 'DELETE', etc.
-        body: JSON.stringify(data), // Coordinate the body type with 'Content-Type'
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-      })
-      .then((response) => response.json());
-  }
+        let { siteCode, uSub } = this.enum;
+        let data = { name: siteCode };
+        let url = uSub + siteCode;
+        window.fetch(url, {
+            credentials: "same-origin", // 'include', default: 'omit'
+            method: "DELETE", // 'GET', 'PUT', 'DELETE', etc.
+            body: JSON.stringify(data), // Coordinate the body type with 'Content-Type'
+            headers: new Headers({
+                "Content-Type": "application/json"
+            })
+        }).then(response => {
+            if (response.status === 200) {
+                window.alert("Your data has been removed successfully");
+                return true;
+            } else {
+                return false;                
+            }
+        })           
+    }
 
   _setData(data, queryString) {
     this.enum.name = data.name;
@@ -463,15 +462,7 @@ class App extends React.Component {
     const mainsubT = this._getHeaderT();
 
     const mainpenT = this._getPendingT();
-    const nocontent =
-      this.state.MainPending === 0 && this.state.MainSubscribed === 0 ? (
-        <h3 style={{ color: 'red' }}>
-          <p>You have 0 pending and 0 registered lines.</p>
-          <p>
-            Click <a href="#">here</a> to add something
-          </p>
-        </h3>
-      ) : null;
+    
     const name = window.encodeURI(this.enum.name);
     const email = window.encodeURI(this.enum.email);
     const signRef = `${this.enum.signUpUrl}?name=${name}&email=${email}`;
@@ -534,8 +525,7 @@ class App extends React.Component {
             Unsubscribe from all alerts
           </button>
         </div>
-
-        {nocontent && this.enum.started}
+        
       </div>
     );
   }
