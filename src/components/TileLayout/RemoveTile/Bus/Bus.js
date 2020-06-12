@@ -6,7 +6,7 @@ import s from './Bus.module.scss';
 
 const Bus = ({ service }) => {
   const { id, name, idName } = service;
-  const { removeRoute } = useFetchDeleteRoute(id);
+  const { removeRoute, isFetching } = useFetchDeleteRoute(id);
 
   return (
     <>
@@ -20,6 +20,8 @@ const Bus = ({ service }) => {
         {/* Right side for remove route button */}
         <Button
           className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${s.removeBtn}`}
+          disabled={isFetching}
+          isFetching={isFetching}
           text="Remove route"
           iconRight="general-trash"
           onClick={removeRoute}

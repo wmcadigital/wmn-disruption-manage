@@ -34,11 +34,14 @@ export const SubscriberProvider = (props) => {
           ...state,
           user: action.payload,
         };
-      // Remove favourite
-      case 'REMOVE_FAV':
+      // Remove line id from state when deleted via API call
+      case 'REMOVE_LINE_ID':
         return {
           ...state,
-          bus: state.bus.filter((item) => item !== action.id),
+          user: {
+            ...state.user,
+            lineId: state.user.lineId.filter((x) => x.id !== action.payload),
+          },
         };
       // Default should return intial state if error
       default:

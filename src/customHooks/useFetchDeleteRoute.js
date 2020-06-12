@@ -6,7 +6,7 @@ const useFetchDeleteRoute = (lineId) => {
   const [isFetching, setIsFetching] = useState(false);
   const { secret } = subscriberState.query;
 
-  const confirmData = { lineId, secret };
+  const confirmData = { lineId: [lineId], secret };
 
   const removeRoute = () => {
     if (lineId) {
@@ -26,7 +26,7 @@ const useFetchDeleteRoute = (lineId) => {
         })
         // If formsubmission is successful
         .then((data) => {
-          console.log({ data });
+          subscriberDispatch({ type: 'REMOVE_LINE_ID', payload: lineId }); // remove item from local state
           setIsFetching(false); // set to false as we are done fetching now
         }) // If formsubmission errors
         .catch((error) => {
@@ -38,7 +38,7 @@ const useFetchDeleteRoute = (lineId) => {
     }
   };
 
-  return { removeRoute };
+  return { removeRoute, isFetching };
 };
 
 export default useFetchDeleteRoute;
