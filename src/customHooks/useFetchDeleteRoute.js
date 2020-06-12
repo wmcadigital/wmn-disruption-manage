@@ -27,12 +27,11 @@ const useFetchDeleteRoute = (lineId) => {
         })
         // If fetch is successful
         .then((response) => {
+          setIsFetching(false); // set to false as we are done fetching now
           subscriberDispatch({
             type: 'REMOVE_LINE_ID',
             payload: lineId,
           }); // Remove this lineId from local state
-
-          setIsFetching(false); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
