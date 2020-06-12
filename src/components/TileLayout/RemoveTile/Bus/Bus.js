@@ -4,9 +4,9 @@ import Button from 'components/shared/Button/Button';
 import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 import s from './Bus.module.scss';
 
-const Bus = ({ service, handleRemove }) => {
-  // const { removeRoute } = useFetchDeleteRoute();
+const Bus = ({ service }) => {
   const { id, name, idName } = service;
+  const { removeRoute } = useFetchDeleteRoute(id);
 
   return (
     <>
@@ -22,7 +22,7 @@ const Bus = ({ service, handleRemove }) => {
           className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${s.removeBtn}`}
           text="Remove route"
           iconRight="general-trash"
-          // onClick={removeRoute()}
+          onClick={removeRoute}
         />
       </div>
       <hr className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md" />
@@ -36,11 +36,6 @@ Bus.propTypes = {
     name: PropTypes.string,
     idName: PropTypes.string,
   }).isRequired,
-  handleRemove: PropTypes.func,
-};
-
-Bus.defaultProps = {
-  handleRemove: () => {},
 };
 
 export default Bus;
