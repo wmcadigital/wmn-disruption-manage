@@ -2,15 +2,16 @@ import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchDeleteRoute = (lineId) => {
-  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
-  const [isFetching, setIsFetching] = useState(false);
-  const { secret } = subscriberState.query;
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
+  const { secret, user } = subscriberState.query; // Destructure state
 
-  const confirmData = { lineId: [lineId], secret };
+  const confirmData = { lineId: [lineId], secret }; // Strucutre the data before sending
 
   const removeRoute = () => {
     if (lineId) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`, {
+      // If lineId is passed in then submit a delete request for that lineId
+      fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'DELETE',
         body: JSON.stringify(confirmData),
         headers: {
@@ -24,11 +25,14 @@ const useFetchDeleteRoute = (lineId) => {
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If formsubmission is successful
-        .then((data) => {
-          subscriberDispatch({ type: 'REMOVE_LINE_ID', payload: lineId }); // remove item from local state
+        // If fetch is successful
+        .then(() => {
+          subscriberDispatch({
+            type: 'REMOVE_LINE_ID',
+            payload: lineId,
+          }); // Remove this lineId from local state
           setIsFetching(false); // set to false as we are done fetching now
-        }) // If formsubmission errors
+        }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
@@ -38,6 +42,7 @@ const useFetchDeleteRoute = (lineId) => {
     }
   };
 
+  // Return function and isFetching state to be used outside of custom hook
   return { removeRoute, isFetching };
 };
 

@@ -2,8 +2,8 @@ import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchUser = () => {
-  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
-  const [isFetching, setIsFetching] = useState(false);
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
@@ -14,12 +14,12 @@ const useFetchUser = () => {
         }
         throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
       })
-      // If formsubmission is successful
+      // If fetch is successful
       .then((payload) => {
         console.log({ payload });
         subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
         setIsFetching(false); // set to false as we are done fetching now
-      }) // If formsubmission errors
+      }) // If fetch errors
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error({ error });

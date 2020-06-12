@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+//  Components
 import Button from 'components/shared/Button/Button';
+// Custom hooks
 import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
+// Styles
 import s from './Bus.module.scss';
 
 const Bus = ({ service }) => {
-  const { id, name, idName } = service;
-  const { removeRoute, isFetching } = useFetchDeleteRoute(id);
+  const { id, name, idName } = service; // Grab the id, name, idName from the service passed in
+  const { removeRoute, isFetching } = useFetchDeleteRoute(id); // Use a custom hook to assist with deleting a route
 
   return (
     <>

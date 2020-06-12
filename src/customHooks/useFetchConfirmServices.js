@@ -2,16 +2,16 @@ import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchConfirmServices = () => {
-  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
-  const [isFetching, setIsFetching] = useState(false);
-  const { lines, secret } = subscriberState.query;
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
+  const { lines, secret, user } = subscriberState.query; // Destructure state
 
   const confirmData = { lineId: lines, secret };
 
   useEffect(() => {
     // If the user is a newUser then fire off a request to confirm them and their lines
     if (subscriberState.user.newUser) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`, {
+      fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
         headers: {
@@ -25,11 +25,11 @@ const useFetchConfirmServices = () => {
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If formsubmission is successful
+        // If fetch is successful
         .then((data) => {
           console.log({ data });
           setIsFetching(false); // set to false as we are done fetching now
-        }) // If formsubmission errors
+        }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
@@ -37,7 +37,7 @@ const useFetchConfirmServices = () => {
           setIsFetching(false); // set to false as we are done fetching now
         });
     }
-  }, [confirmData, subscriberDispatch, subscriberState.query.user, subscriberState.user.newUser]);
+  }, [confirmData, subscriberState.user.newUser, user]);
 };
 
 export default useFetchConfirmServices;
