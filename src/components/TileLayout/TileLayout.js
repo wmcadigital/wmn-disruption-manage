@@ -14,10 +14,14 @@ const TileLayout = () => {
 
   return (
     <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
-      <SummaryTile />
-      <AddMoreTile />
-      <RemoveTile />
-      <DeleteTile />
+      <div className="wmnds-col-1 wmnds-col-md-3-4">
+        <div className="wmnds-grid">
+          <SummaryTile />
+          <AddMoreTile />
+          <RemoveTile />
+          <DeleteTile />
+        </div>
+      </div>
     </div>
   );
 };

@@ -19,13 +19,7 @@ const RemoveTile = () => {
           <div className={` ${BusServices.length > 0 ? 'wmnds-m-b-xl' : ''}`}>
             {BusServices &&
               BusServices.map((busRoute) => {
-                return (
-                  <Bus
-                    serviceNumber={busRoute.name}
-                    routeName={busRoute.idName}
-                    key={`${busRoute.id}`}
-                  />
-                );
+                return <Bus service={busRoute} key={busRoute.id} />;
               })}
           </div>
         )}
