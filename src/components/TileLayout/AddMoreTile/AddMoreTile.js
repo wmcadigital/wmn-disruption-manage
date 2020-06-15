@@ -4,10 +4,7 @@ const AddMoreTile = () => {
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Add more services</h2>
-      <p>
-        Subscribe to more service alerts. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry.{' '}
-      </p>
+      <p>You can add as many services as you would like.</p>
       <a
         href={process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}
         title="Add more service services"
