@@ -12,7 +12,7 @@ const useFetchConfirmServices = () => {
   useEffect(() => {
     console.log({ confirmServiceIsFinished });
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
-    if (!confirmServiceIsFinished && secret && lines) {
+    if (!confirmServiceIsFinished && secret && lines.length) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
@@ -29,8 +29,7 @@ const useFetchConfirmServices = () => {
         })
         // If fetch is successful
         .then((data) => {
-          // When we have confirmed the service(s), update URL to remove secret, lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
-          delSearchParam('secret');
+          // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
           delSearchParam('lines');
           delSearchParam('lnames');
 
