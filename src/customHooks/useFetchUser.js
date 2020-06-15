@@ -40,6 +40,8 @@ const useFetchUser = (confirmServiceIsFinished) => {
         });
     }
   }, [confirmServiceIsFinished, subscriberDispatch, subscriberState.query.user]);
+
+  return { isFetching };
 };
 
 export default useFetchUser;
