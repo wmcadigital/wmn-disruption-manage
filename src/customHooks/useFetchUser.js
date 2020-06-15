@@ -12,16 +12,20 @@ const useFetchUser = (confirmServiceIsFinished) => {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
-            return response.text(); // Return response as json
+          if (response.status === 200) {
+            return response.json(); // Return response as json
+          }
+          if (response.status === 400) {
+            return response.text();
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
         .then((payload) => {
+          if (payload === 'no account found') setHasError('noAccount');
+
           subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
 
-          if (payload === 'no account found') setHasError('noAccount');
           // subscriberDispatch({
           //   type: 'MAP_USER_DETAILS',
           //   payload: {
