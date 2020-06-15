@@ -10,7 +10,7 @@ const useFetchConfirmServices = () => {
 
   useEffect(() => {
     // If the user is a newUser then fire off a request to confirm them and their lines
-    if (subscriberState.user.newUser) {
+    if (subscriberState.user.email && secret) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
@@ -37,7 +37,7 @@ const useFetchConfirmServices = () => {
           setIsFetching(false); // set to false as we are done fetching now
         });
     }
-  }, [confirmData, subscriberState.user.newUser, user]);
+  }, [confirmData, subscriberState.user.email, user]);
 };
 
 export default useFetchConfirmServices;

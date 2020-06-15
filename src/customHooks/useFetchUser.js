@@ -17,17 +17,17 @@ const useFetchUser = () => {
       // If fetch is successful
       .then((payload) => {
         console.log({ payload });
-        // subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
-        subscriberDispatch({
-          type: 'MAP_USER_DETAILS',
-          payload: {
-            name: '',
-            email: '',
-            lineId: [{ id: '1234', idName: 'hello', name: '77' }],
-            newUser: false,
-            updates: null,
-          },
-        });
+        subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
+        // subscriberDispatch({
+        //   type: 'MAP_USER_DETAILS',
+        //   payload: {
+        //     name: '',
+        //     email: '',
+        //     lineId: [{ id: '1234', idName: 'hello', name: '77' }],
+        //     newUser: false,
+        //     updates: null,
+        //   },
+        // });
         setIsFetching(false); // set to false as we are done fetching now
       }) // If fetch errors
       .catch((error) => {

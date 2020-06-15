@@ -18,7 +18,7 @@ export const SubscriberProvider = (props) => {
     user: {
       name: '',
       email: '',
-      lineId: [{ id: '1234', idName: 'hello', name: '77' }],
+      lineId: [],
       newUser: false,
       updates: null,
     },
@@ -36,7 +36,6 @@ export const SubscriberProvider = (props) => {
         };
       // Remove line id from state when deleted via API call
       case 'REMOVE_LINE_ID':
-        console.log({ action });
         return {
           ...state,
           user: {
