@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+// Custom hooks
+import useFetchDeleteAccount from 'customHooks/useFetchDeleteAccount';
+// Components
 import Button from 'components/shared/Button/Button';
 
 const DeleteTile = () => {
   const [wantToDelete, setWantToDelete] = useState(false);
+  const { deleteAccount, isFetching } = useFetchDeleteAccount();
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -36,9 +40,11 @@ const DeleteTile = () => {
           </div>
           <Button
             className="wmnds-btn--destructive wmnds-m-r-md"
+            disabled={isFetching}
+            isFetching={isFetching}
             text="Confirm deletion of account"
             iconRight="general-trash"
-            onClick={() => setWantToDelete((x) => !x)}
+            onClick={deleteAccount}
           />
           <Button
             className="wmnds-btn--secondary"
@@ -47,30 +53,6 @@ const DeleteTile = () => {
           />
         </>
       )}
-
-      {/* {wantToDelete && (
-        <div className="wmnds-msg-summary wmnds-msg-summary--warning wmnds-m-t-lg">
-          <div className="wmnds-msg-summary__header">
-            <svg className="wmnds-msg-summary__icon">
-              <use xlinkHref="#wmnds-general-warning-circle" href="#wmnds-general-warning-circle" />
-            </svg>
-            <h3 className="wmnds-msg-summary__title">ARE YOU SURE? ....DUDE?</h3>
-          </div>
-
-          <div className="wmnds-msg-summary__info">
-            Details added what happened and what to do next. Lorem ipsum lorem ipsum. Lorem ipsum
-            lorem ipsum.
-            <br />
-            <br />
-            <Button
-              className="wmnds-btn--destructive"
-              text="Confirm deletion of account"
-              iconRight="general-trash"
-              onClick={() => setWantToDelete((x) => !x)}
-            />
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
