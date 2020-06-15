@@ -11,14 +11,16 @@ const DeleteTile = () => {
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Unsubscribe from all alerts</h2>
-      <p>You will no longer receive alerts and your data will be deleted.</p>
       {!wantToDelete && (
-        <Button
-          className="wmnds-btn--primary"
-          text="Delete account"
-          iconRight="general-trash"
-          onClick={() => setWantToDelete(true)}
-        />
+        <>
+          <p>You will no longer receive alerts and your information will be deleted.</p>
+          <Button
+            className="wmnds-btn--primary"
+            text="Unsubscribe from alerts"
+            iconRight="general-trash"
+            onClick={() => setWantToDelete(true)}
+          />
+        </>
       )}
 
       {wantToDelete && (
@@ -31,24 +33,26 @@ const DeleteTile = () => {
                   href="#wmnds-general-warning-circle"
                 />
               </svg>
-              <h3 className="wmnds-msg-summary__title">ARE YOU SURE? ....DUDE?</h3>
+              <h3 className="wmnds-msg-summary__title">
+                Are you sure you want to unsubscribe from alerts?
+              </h3>
             </div>
 
             <div className="wmnds-msg-summary__info">
-              <p>You will no longer receive alerts and your data will be deleted.</p>
+              <p>Your information will be erased and you will have to sign up again.</p>
             </div>
           </div>
           <Button
             className="wmnds-btn--destructive wmnds-m-r-md"
             disabled={isFetching}
             isFetching={isFetching}
-            text="Confirm deletion of account"
+            text="Unsubscribe"
             iconRight="general-trash"
             onClick={deleteAccount}
           />
           <Button
             className="wmnds-btn--secondary"
-            text="No, I didn't mean it"
+            text="Cancel"
             onClick={() => setWantToDelete(false)}
           />
         </>
