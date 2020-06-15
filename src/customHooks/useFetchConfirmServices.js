@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
+import { delSearchParam } from 'helpers/URLSearchParams';
 
 const useFetchConfirmServices = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -28,6 +29,11 @@ const useFetchConfirmServices = () => {
         })
         // If fetch is successful
         .then((data) => {
+          // When we have confirmed the service(s), update URL to remove secret, lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
+          delSearchParam('secret');
+          delSearchParam('lines');
+          delSearchParam('lnames');
+
           setConfirmServiceIsFinished(true); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
