@@ -9,8 +9,8 @@ import RemoveTile from './RemoveTile/RemoveTile';
 import DeleteTile from './DeleteTile/DeleteTile';
 
 const TileLayout = () => {
-  useFetchUser();
-  useFetchConfirmServices();
+  const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
+  useFetchUser(confirmServiceIsFinished); // Then fetch the user
 
   return (
     <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">

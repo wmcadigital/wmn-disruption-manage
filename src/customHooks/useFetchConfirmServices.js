@@ -3,14 +3,15 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchConfirmServices = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
+  const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(); // Track if fetch request is currently fetching
   const { lines, secret, user } = subscriberState.query; // Destructure state
 
   const confirmData = { lineId: lines, secret };
 
   useEffect(() => {
-    // If the user is a newUser then fire off a request to confirm them and their lines
-    if (subscriberState.user.email && secret) {
+    console.log({ confirmServiceIsFinished });
+    // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
+    if (!confirmServiceIsFinished && secret && lines) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
@@ -21,23 +22,28 @@ const useFetchConfirmServices = () => {
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
-            return response.json(); // Return response as json
+            return response.text(); // Return response as json
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
         .then((data) => {
-          console.log({ data });
-          setIsFetching(false); // set to false as we are done fetching now
+          setConfirmServiceIsFinished(true); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
 
-          setIsFetching(false); // set to false as we are done fetching now
+          setConfirmServiceIsFinished(true); // set to false as we are done fetching now
         });
     }
-  }, [confirmData, subscriberState.user.email, user]);
+    // Else the user doesn't need to confirm service so return that this service is finished
+    else {
+      setConfirmServiceIsFinished(true);
+    }
+  }, [confirmData, confirmServiceIsFinished, lines, secret, user]);
+
+  return { confirmServiceIsFinished };
 };
 
 export default useFetchConfirmServices;

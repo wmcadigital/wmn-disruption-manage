@@ -43,6 +43,7 @@ export const SubscriberProvider = (props) => {
             lineId: state.user.lineId.filter((x) => x.id !== action.payload),
           },
         };
+
       // Default should return intial state if error
       default:
         return initialState;
