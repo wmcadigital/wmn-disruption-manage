@@ -39,7 +39,7 @@ const ErrorPage = ({ hasError }) => {
               >
                 sign up
               </a>{' '}
-              again .
+              again.
             </p>
           </>
         ) : (

@@ -10,7 +10,6 @@ const useFetchConfirmServices = () => {
   const confirmData = { lineId: lines, secret };
 
   useEffect(() => {
-    console.log({ confirmServiceIsFinished });
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
     if (!confirmServiceIsFinished && secret && lines.length) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {

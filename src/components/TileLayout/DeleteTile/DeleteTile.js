@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-// Custom hooks
+import React, { useState } from 'react'; // Custom hooks
+import PropTypes from 'prop-types';
 import useFetchDeleteAccount from 'customHooks/useFetchDeleteAccount';
 // Components
 import Button from 'components/shared/Button/Button';
 
-const DeleteTile = () => {
+const DeleteTile = ({ setIsUnsubscribed }) => {
   const [wantToDelete, setWantToDelete] = useState(false);
-  const { deleteAccount, isFetching } = useFetchDeleteAccount();
+  const { deleteAccount, isFetching } = useFetchDeleteAccount(setIsUnsubscribed);
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -59,6 +59,10 @@ const DeleteTile = () => {
       )}
     </div>
   );
+};
+
+DeleteTile.propTypes = {
+  setIsUnsubscribed: PropTypes.func.isRequired,
 };
 
 export default DeleteTile;

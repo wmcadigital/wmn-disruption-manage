@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // Custom hooks
 import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
@@ -9,10 +9,12 @@ import RemoveTile from './RemoveTile/RemoveTile';
 import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
+import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished); // Then fetch the user
+  const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   return (
     <>
@@ -25,11 +27,13 @@ const TileLayout = () => {
               <SummaryTile />
               <AddMoreTile />
               <RemoveTile />
-              <DeleteTile />
+              <DeleteTile setIsUnsubscribed={setIsUnsubscribed} />
             </div>
           </div>
         </div>
       )}
+
+      {isUnsubscribed && <UnsubscribedView />}
 
       {!isFetching && hasError && <ErrorView hasError={hasError} />}
     </>

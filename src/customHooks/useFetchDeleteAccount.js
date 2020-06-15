@@ -6,7 +6,7 @@ const useFetchDeleteAccount = (lineId) => {
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const { user } = subscriberState.query; // Destructure state
 
-  const deleteAccount = () => {
+  const deleteAccount = (setIsUnsubscribed) => {
     if (user) {
       // If lineId is passed in then submit a delete request for that lineId
       fetch(`${process.env.REACT_APP_API_HOST}api/removeme/${user}`, {
@@ -25,7 +25,7 @@ const useFetchDeleteAccount = (lineId) => {
         })
         // If fetch is successful
         .then((response) => {
-          console.log({ response });
+          setIsUnsubscribed(true);
           setIsFetching(false); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
