@@ -9,11 +9,9 @@ const RemoveTile = () => {
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Remove your services</h2>
-      <div className="wmnds-msg-help wmnds-col-1">
-        Select services you want to remove from your email alerts list.
-      </div>
+      <p>Remove services you no longer want alerts for.</p>
       <hr className="wmnds-m-t-md wmnds-m-b-md" />
-      <h3>Bus routes added</h3>
+      <h3>Bus services added</h3>
       {/* If we have bus services then map through them */}
       {busServices && busServices.length > 0 && (
         <div className={`${busServices.length > 0 ? 'wmnds-m-b-xl' : ''}`}>

@@ -25,8 +25,9 @@ const Bus = ({ service }) => {
           className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${s.removeBtn}`}
           disabled={isFetching}
           isFetching={isFetching}
-          text="Remove route"
+          text="Remove service"
           iconRight="general-trash"
+          title={`Remove service ${name}: ${idName}`}
           onClick={removeRoute}
         />
       </div>
