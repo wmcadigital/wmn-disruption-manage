@@ -8,16 +8,17 @@ import AddMoreTile from './AddMoreTile/AddMoreTile';
 import RemoveTile from './RemoveTile/RemoveTile';
 import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
+import ErrorView from './ErrorView/ErrorView';
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
-  const { isFetching } = useFetchUser(confirmServiceIsFinished); // Then fetch the user
+  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished); // Then fetch the user
 
   return (
     <>
-      {isFetching ? (
-        <LoadingView />
-      ) : (
+      {isFetching && <LoadingView />}
+
+      {!isFetching && !hasError && (
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4">
             <div className="wmnds-grid">
@@ -29,6 +30,8 @@ const TileLayout = () => {
           </div>
         </div>
       )}
+
+      {!isFetching && hasError && <ErrorView hasError={hasError} />}
     </>
   );
 };
