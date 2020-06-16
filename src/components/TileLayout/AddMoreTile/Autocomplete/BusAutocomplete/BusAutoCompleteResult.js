@@ -3,8 +3,8 @@ import React from 'react';
 
 const BusAutoCompleteResult = (props) => {
   const { result, handleKeyDown, setBus, setMode } = props || {};
-  const updateSelectedService = (serviceId, routeName, serviceNumber) => {
-    setBus((prevState) => [...prevState, { serviceId, routeName, serviceNumber }]);
+  const updateSelectedService = (lineId, routeName, serviceNumber) => {
+    setBus((prevState) => [...prevState, { lineId, routeName, serviceNumber }]);
     setMode(null);
   };
   // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type

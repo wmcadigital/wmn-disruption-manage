@@ -5,8 +5,11 @@ import Icon from 'components/shared/Icon/Icon';
 // Styles
 import style from './BusSummary.module.scss';
 
-const Bus = ({ lineId, serviceNumber, routeName }) => {
-  const handleClick = () => {};
+const Bus = ({ lineId, serviceNumber, routeName, setBus }) => {
+  // Removes this service from the busArr
+  const handleClick = () => {
+    setBus((prevState) => prevState.filter((item) => item.lineId !== lineId));
+  };
   return (
     <div className={`${style.serviceWrapper} wmnds-m-b-md`}>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
@@ -34,6 +37,7 @@ Bus.propTypes = {
   lineId: PropTypes.string.isRequired,
   serviceNumber: PropTypes.string.isRequired,
   routeName: PropTypes.string.isRequired,
+  setBus: PropTypes.func.isRequired,
 };
 
 export default Bus;

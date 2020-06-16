@@ -43,10 +43,10 @@ const AddMoreTile = () => {
               return (
                 <BusSummary
                   showRemove
-                  // handleRemove={handleRemove}
-                  lineId={busRoute.serviceId}
+                  lineId={busRoute.lineId}
                   serviceNumber={busRoute.serviceNumber}
                   routeName={busRoute.routeName}
+                  setBus={setBus}
                   key={busRoute.serviceId}
                 />
               );
