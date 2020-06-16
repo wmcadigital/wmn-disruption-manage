@@ -7,8 +7,6 @@ import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
-import style from './ServiceAutocomplete.module.scss';
-
 const BusAutoComplete = ({ mode, setMode, setBus }) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
@@ -23,10 +21,6 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
   const updateQuery = (query) => {
     setErrorInfo(null);
     setLineNumber(query);
-  };
-
-  const handleCancel = () => {
-    setMode(null);
   };
 
   useEffect(() => {
@@ -157,7 +151,6 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
                     result={result}
                     handleKeyDown={handleKeyDown}
                     type={mode}
-                    handleCancel={handleCancel}
                     setBus={setBus}
                   />
                 );
@@ -166,13 +159,6 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
           )
         )}
       </div>
-      <button
-        type="button"
-        className={`wmnds-btn wmnds-btn--disabled wmnds-col-1 wmnds-m-t-xl ${style.wmndsError}`}
-        onClick={() => handleCancel()}
-      >
-        Cancel
-      </button>
     </>
   );
 };
