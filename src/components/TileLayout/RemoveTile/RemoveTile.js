@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-import Bus from './Bus/Bus';
+import Bus from 'components/shared/Bus/Bus';
 
 const RemoveTile = () => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -17,7 +17,14 @@ const RemoveTile = () => {
         <div className={`${busServices.length > 0 ? 'wmnds-m-b-xl' : ''}`}>
           {busServices &&
             busServices.map((busRoute) => {
-              return <Bus service={busRoute} key={busRoute.id} />;
+              return (
+                <Bus
+                  lineId={busRoute.id}
+                  serviceNumber={busRoute.name}
+                  routeName={busRoute.idName}
+                  key={busRoute.id}
+                />
+              );
             })}
         </div>
       ) : (

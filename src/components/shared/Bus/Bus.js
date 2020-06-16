@@ -7,17 +7,17 @@ import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 // Styles
 import s from './Bus.module.scss';
 
-const Bus = ({ service }) => {
-  const { id, name, idName } = service; // Grab the id, name, idName from the service passed in
-  const { removeRoute, isFetching } = useFetchDeleteRoute(id); // Use a custom hook to assist with deleting a route
+const Bus = ({ lineID, serviceNumber, routeName }) => {
+  // const  = service; // Grab the id, name, routeName from the service passed in
+  const { removeRoute, isFetching } = useFetchDeleteRoute(lineID); // Use a custom hook to assist with deleting a route
 
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
         {/* Left side (service number and route name) */}
         <div className="wmnds-col-1 wmnds-col-sm-auto">
-          <div className="wmnds-disruption-indicator-medium wmnds-m-r-md">{name}</div>
-          <strong>{idName}</strong>
+          <div className="wmnds-disruption-indicator-medium wmnds-m-r-md">{serviceNumber}</div>
+          <strong>{routeName}</strong>
         </div>
 
         {/* Right side for remove route button */}
@@ -27,7 +27,7 @@ const Bus = ({ service }) => {
           isFetching={isFetching}
           text="Remove service"
           iconRight="general-trash"
-          title={`Remove service ${name}: ${idName}`}
+          title={`Remove service ${serviceNumber}: ${routeName}`}
           onClick={removeRoute}
         />
       </div>
@@ -37,11 +37,9 @@ const Bus = ({ service }) => {
 };
 
 Bus.propTypes = {
-  service: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    idName: PropTypes.string,
-  }).isRequired,
+  lineID: PropTypes.string.isRequired,
+  serviceNumber: PropTypes.string.isRequired,
+  routeName: PropTypes.string.isRequired,
 };
 
 export default Bus;
