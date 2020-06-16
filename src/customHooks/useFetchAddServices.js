@@ -31,7 +31,7 @@ const useFetchAddServices = (selectedBuses) => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then((response) => {
+        .then(() => {
           setIsFetching(false); // set to false as we are done fetching now
           setIsFetchSuccessful(true);
         }) // If fetch errors

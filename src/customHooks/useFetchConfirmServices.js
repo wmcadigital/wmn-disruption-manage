@@ -27,7 +27,7 @@ const useFetchConfirmServices = () => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then((data) => {
+        .then(() => {
           // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
           delSearchParam('lines');
           delSearchParam('lnames');

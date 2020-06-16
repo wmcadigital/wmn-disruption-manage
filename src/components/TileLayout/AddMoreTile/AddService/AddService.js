@@ -67,7 +67,13 @@ const AddService = ({ isFetching, selectedBuses, setSelectedBuses, addRoutes }) 
 
 AddService.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  selectedBuses: PropTypes.array.isRequired,
+  selectedBuses: PropTypes.arrayOf(
+    PropTypes.shape({
+      lineId: PropTypes.string.isRequired,
+      routeName: PropTypes.string.isRequired,
+      serviceNumber: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   setSelectedBuses: PropTypes.func.isRequired,
   addRoutes: PropTypes.func.isRequired,
 };
