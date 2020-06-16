@@ -35,12 +35,12 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
     if (lineNumber) {
-      const { REACT_APP_AUTOCOMPLETE_API, REACT_APP_AUTOCOMPLETE_KEY } = process.env; // Destructure env vars
+      const { REACT_APP_AUTOCOMPLETE_API, REACT_APP_AUTOCOMPLETE_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(`${REACT_APP_AUTOCOMPLETE_API}/bus/v1/service?q=${encodeURI(lineNumber)}`, {
           headers: {
-            'Ocp-Apim-Subscription-Key': REACT_APP_AUTOCOMPLETE_KEY,
+            'Ocp-Apim-Subscription-Key': REACT_APP_AUTOCOMPLETE_API_KEY,
           },
           cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
