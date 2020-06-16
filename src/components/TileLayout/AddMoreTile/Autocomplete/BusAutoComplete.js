@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/package/react-debounce-input
-
-// Import components
-// import Message from '../../../Message';
-import Icon from '../../../shared/Icon/Icon';
+// Components
+import Message from 'components/shared/Message/Message';
+import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './AutoCompleteResult';
 
 import style from './ServiceAutocomplete.module.scss';
@@ -137,8 +136,7 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
 
         {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
         {!loading && errorInfo ? (
-          // <Message type="error" title={errorInfo.title} message={errorInfo.message} />
-          <span>hello</span>
+          <Message type="error" title={errorInfo.title} message={errorInfo.message} />
         ) : (
           searchResults && (
             <div className="wmnds-wmnds-col-1 wmnds-col-md-3-5 wmnds-col-lg-2-5">

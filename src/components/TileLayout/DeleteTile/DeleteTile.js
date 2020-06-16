@@ -2,6 +2,7 @@ import React, { useState } from 'react'; // Custom hooks
 import PropTypes from 'prop-types';
 import useFetchDeleteAccount from 'customHooks/useFetchDeleteAccount';
 // Components
+import Message from 'components/shared/Message/Message';
 import Button from 'components/shared/Button/Button';
 
 const DeleteTile = ({ setIsUnsubscribed }) => {
@@ -25,23 +26,12 @@ const DeleteTile = ({ setIsUnsubscribed }) => {
 
       {wantToDelete && (
         <>
-          <div className="wmnds-msg-summary wmnds-msg-summary--warning wmnds-m-b-lg">
-            <div className="wmnds-msg-summary__header">
-              <svg className="wmnds-msg-summary__icon">
-                <use
-                  xlinkHref="#wmnds-general-warning-circle"
-                  href="#wmnds-general-warning-circle"
-                />
-              </svg>
-              <h3 className="wmnds-msg-summary__title">
-                Are you sure you want to unsubscribe from alerts?
-              </h3>
-            </div>
-
-            <div className="wmnds-msg-summary__info">
-              <p>Your information will be erased and you will have to sign up again.</p>
-            </div>
-          </div>
+          <Message
+            className="wmnds-m-b-lg"
+            type="warning"
+            title="Are you sure you want to unsubscribe from alerts?"
+            message="Your information will be erased and you will have to sign up again."
+          />
           <Button
             className="wmnds-btn--destructive wmnds-m-r-md"
             disabled={isFetching}
