@@ -5,7 +5,7 @@ import Button from 'components/shared/Button/Button';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddMoreTile = () => {
-  const [addMore, setAddMore] = useState(false);
+  const [mode, setMode] = useState(null);
   const [bus, setBus] = useState([]);
 
   return (
@@ -13,11 +13,11 @@ const AddMoreTile = () => {
       <h2>Add more services</h2>
       <p>You can add as many services as you would like.</p>
 
-      {!addMore && <Button text="Add more services" onClick={() => setAddMore(true)} />}
+      {!mode && <Button text="Add more services" onClick={() => setMode('bus')} />}
 
-      {addMore && (
+      {mode && (
         <>
-          <AutoComplete mode="bus" setBus={setBus} />
+          <AutoComplete mode="bus" setBus={setBus} setMode={setMode} />
 
           <div className={` ${bus.length ? 'wmnds-m-b-xl' : ''}`}>
             {bus &&
@@ -38,7 +38,7 @@ const AddMoreTile = () => {
           <Button
             className="wmnds-btn--secondary wmnds-m-t-md"
             text="Cancel"
-            onClick={() => setAddMore(false)}
+            onClick={() => setMode(null)}
           />
         </>
       )}

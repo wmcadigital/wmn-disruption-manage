@@ -7,7 +7,7 @@ import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
-const BusAutoComplete = ({ mode, setBus }) => {
+const BusAutoComplete = ({ mode, setBus, setMode }) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const [searchResults, setSearchResults] = useState();
@@ -107,9 +107,6 @@ const BusAutoComplete = ({ mode, setBus }) => {
   return (
     <>
       <div className="wmnds-m-t-md wmnds-col-1">
-        <label className="wmnds-fe-label wmnds-col-1" htmlFor="busSearch">
-          Search for a bus service
-        </label>
         <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
           <div className="wmnds-wmnds-col-1">
             <Icon iconName="general-search" className="wmnds-autocomplete__icon" />
@@ -152,6 +149,7 @@ const BusAutoComplete = ({ mode, setBus }) => {
                     handleKeyDown={handleKeyDown}
                     type={mode}
                     setBus={setBus}
+                    setMode={setMode}
                   />
                 );
               })}
@@ -166,6 +164,7 @@ const BusAutoComplete = ({ mode, setBus }) => {
 BusAutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setBus: PropTypes.func.isRequired,
+  setMode: PropTypes.func.isRequired,
 };
 
 export default BusAutoComplete;
