@@ -7,9 +7,9 @@ import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 // Styles
 import s from './Bus.module.scss';
 
-const Bus = ({ lineID, serviceNumber, routeName }) => {
+const Bus = ({ lineId, serviceNumber, routeName }) => {
   // const  = service; // Grab the id, name, routeName from the service passed in
-  const { removeRoute, isFetching } = useFetchDeleteRoute(lineID); // Use a custom hook to assist with deleting a route
+  const { removeRoute, isFetching } = useFetchDeleteRoute(lineId); // Use a custom hook to assist with deleting a route
 
   return (
     <>
@@ -37,7 +37,7 @@ const Bus = ({ lineID, serviceNumber, routeName }) => {
 };
 
 Bus.propTypes = {
-  lineID: PropTypes.string.isRequired,
+  lineId: PropTypes.string.isRequired,
   serviceNumber: PropTypes.string.isRequired,
   routeName: PropTypes.string.isRequired,
 };

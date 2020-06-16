@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Import components
-import BusAutoComplete from './BusAutoComplete';
+import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 
 const AutoComplete = ({ mode, setBus }) => {
   // Do a switch on the mode, then return the component related to that

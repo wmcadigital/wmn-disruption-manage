@@ -26,9 +26,10 @@ const AddMoreTile = () => {
                   <Bus
                     showRemove
                     // handleRemove={handleRemove}
+                    lineId={busRoute.serviceId}
                     serviceNumber={busRoute.serviceNumber}
                     routeName={busRoute.routeName}
-                    key={`${busRoute.serviceNumber}`}
+                    key={busRoute.serviceId}
                   />
                 );
               })}
