@@ -1,4 +1,5 @@
 import React from 'react';
+import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddMoreTile = () => {
   return (
@@ -13,6 +14,7 @@ const AddMoreTile = () => {
       >
         Add more services
       </a>
+      <AutoComplete />
     </div>
   );
 };

@@ -22,6 +22,7 @@ export const SubscriberProvider = (props) => {
       newUser: false,
       updates: null,
     },
+    addServices: [],
   };
 
   // Set up a reducer so we can change state based on centralised logic here
