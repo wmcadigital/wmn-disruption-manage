@@ -27,7 +27,14 @@
       }
     ],
     "react/jsx-curly-newline": 0,
-    "react/jsx-one-expression-per-line": 0
+    "react/jsx-one-expression-per-line": 0,
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "controlComponents": ["DebounceInput"],
+        "depth": 3
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

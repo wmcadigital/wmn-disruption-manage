@@ -112,21 +112,25 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
   };
   return (
     <>
-      <div className="wmnds-m-b-xl wmnds-col-1">
+      <div className="wmnds-m-t-md wmnds-col-1">
+        <label className="wmnds-fe-label wmnds-col-1" htmlFor="busSearch">
+          Search for a bus service
+        </label>
         <div className={`wmnds-autocomplete wmnds-grid ${loading ? 'wmnds-is--loading' : ''}`}>
-          <div className="wmnds-wmnds-col-1 wmnds-col-md-3-5 wmnds-col-lg-2-5">
+          <div className="wmnds-wmnds-col-1">
             <Icon iconName="general-search" className="wmnds-autocomplete__icon" />
             <div className="wmnds-loader" role="alert" aria-live="assertive">
               <p className="wmnds-loader__content">Content is loading...</p>
             </div>
             <DebounceInput
+              id="busSearch"
               type="text"
               name="busSearch"
-              placeholder="Search for a service"
+              placeholder="Search for a bus service"
               className="wmnds-fe-input wmnds-autocomplete__input"
               value={lineNumber || ''}
               onChange={(e) => updateQuery(e.target.value)}
-              aria-label="Search for a service"
+              aria-label="Search for a bus service"
               debounceTimeout={600}
               onKeyDown={(e) => handleKeyDown(e)}
               inputRef={debounceInput}
@@ -136,26 +140,29 @@ const BusAutoComplete = ({ mode, setMode, setBus }) => {
 
         {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
         {!loading && errorInfo ? (
-          <Message type="error" title={errorInfo.title} message={errorInfo.message} />
+          <Message
+            type="error"
+            title={errorInfo.title}
+            message={errorInfo.message}
+            className="wmnds-m-t-md"
+          />
         ) : (
           searchResults && (
-            <div className="wmnds-wmnds-col-1 wmnds-col-md-3-5 wmnds-col-lg-2-5">
-              <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-                {searchResults.map((result) => {
-                  // eslint-disable-next-line no-unused-expressions
-                  return (
-                    <BusAutoCompleteResult
-                      key={result.id}
-                      result={result}
-                      handleKeyDown={handleKeyDown}
-                      type={mode}
-                      handleCancel={handleCancel}
-                      setBus={setBus}
-                    />
-                  );
-                })}
-              </ul>
-            </div>
+            <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
+              {searchResults.map((result) => {
+                // eslint-disable-next-line no-unused-expressions
+                return (
+                  <BusAutoCompleteResult
+                    key={result.id}
+                    result={result}
+                    handleKeyDown={handleKeyDown}
+                    type={mode}
+                    handleCancel={handleCancel}
+                    setBus={setBus}
+                  />
+                );
+              })}
+            </ul>
           )
         )}
       </div>

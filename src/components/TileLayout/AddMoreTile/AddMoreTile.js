@@ -14,7 +14,7 @@ const AddMoreTile = () => {
       >
         Add more services
       </a>
-      <AutoComplete />
+      <AutoComplete mode="bus" />
     </div>
   );
 };
