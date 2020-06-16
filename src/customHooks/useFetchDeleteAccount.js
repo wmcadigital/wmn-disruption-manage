@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchDeleteAccount = (setIsUnsubscribed) => {
-  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const { user } = subscriberState.query; // Destructure state
 

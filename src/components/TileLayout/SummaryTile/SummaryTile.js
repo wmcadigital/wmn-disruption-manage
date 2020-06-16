@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-import Button from 'components/shared/Button/Button';
+// import Button from 'components/shared/Button/Button';
 
 const SummaryTile = () => {
   const [subscriberState] = useContext(SubscriberContext);
-  const portalURL = `${window.location.protocol}//${window.location.host}/?user=${subscriberState.query.user}`;
+  // const portalURL = `${window.location.protocol}//${window.location.host}/?user=${subscriberState.query.user}`;
 
   const { name, email } = subscriberState.user;
 
