@@ -13,13 +13,15 @@ const RemoveTile = () => {
       <hr className="wmnds-m-t-md wmnds-m-b-md" />
       <h3>Bus services added</h3>
       {/* If we have bus services then map through them */}
-      {busServices && busServices.length > 0 && (
+      {busServices && busServices.length > 0 ? (
         <div className={`${busServices.length > 0 ? 'wmnds-m-b-xl' : ''}`}>
           {busServices &&
             busServices.map((busRoute) => {
               return <Bus service={busRoute} key={busRoute.id} />;
             })}
         </div>
+      ) : (
+        <span>You are not subscribed to any services</span>
       )}
     </div>
   );
