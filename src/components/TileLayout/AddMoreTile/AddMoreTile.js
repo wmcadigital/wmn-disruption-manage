@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // Components
-import Bus from 'components/shared/Bus/Bus';
 import Button from 'components/shared/Button/Button';
+import BusSummary from './BusSummary/BusSummary';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddMoreTile = () => {
@@ -41,7 +41,7 @@ const AddMoreTile = () => {
             {bus.length > 0 && <h4>Services you want to add</h4>}
             {bus.map((busRoute) => {
               return (
-                <Bus
+                <BusSummary
                   showRemove
                   // handleRemove={handleRemove}
                   lineId={busRoute.serviceId}

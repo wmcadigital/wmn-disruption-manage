@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-import Bus from 'components/shared/Bus/Bus';
+// Components
+import Bus from './Bus/Bus';
 
 const RemoveTile = () => {
   const [subscriberState] = useContext(SubscriberContext);
