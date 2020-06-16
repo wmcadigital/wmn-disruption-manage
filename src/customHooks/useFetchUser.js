@@ -1,5 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
+// Context
 import { SubscriberContext } from 'globalState/SubscriberContext';
+// Helpers
+import { getSearchParam } from 'helpers/URLSearchParams';
 
 const useFetchUser = (confirmServiceIsFinished) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -8,7 +11,8 @@ const useFetchUser = (confirmServiceIsFinished) => {
 
   useEffect(() => {
     // Only start fetching the user if the confirm service has been completed
-    if (confirmServiceIsFinished && window.location.search) {
+    if (confirmServiceIsFinished && getSearchParam('user')) {
+      setHasError(null); // Set errors to null
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
