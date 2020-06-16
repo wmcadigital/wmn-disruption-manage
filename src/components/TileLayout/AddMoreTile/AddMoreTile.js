@@ -12,12 +12,22 @@ const AddMoreTile = () => {
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Add more services</h2>
-      <AddService
-        isFetching={isFetching}
-        selectedBuses={selectedBuses}
-        setSelectedBuses={setSelectedBuses}
-        addRoutes={addRoutes}
-      />
+      {!isFetchSuccessful && (
+        <AddService
+          isFetching={isFetching}
+          selectedBuses={selectedBuses}
+          setSelectedBuses={setSelectedBuses}
+          addRoutes={addRoutes}
+        />
+      )}
+
+      {isFetchSuccessful && (
+        <p>We have sent you an email asking you to confirm your subscription.</p>
+      )}
+
+      {isFetchSuccessful === false && (
+        <p>Apologies, we are having technical difficulties. Try again later.</p>
+      )}
     </div>
   );
 };
