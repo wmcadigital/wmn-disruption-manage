@@ -5,7 +5,7 @@ import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/p
 // Components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
-import BusAutoCompleteResult from './AutoCompleteResult';
+import BusAutoCompleteResult from './BusAutoCompleteResult';
 
 import style from './ServiceAutocomplete.module.scss';
 

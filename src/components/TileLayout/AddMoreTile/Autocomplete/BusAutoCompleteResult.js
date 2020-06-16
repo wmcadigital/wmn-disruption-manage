@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 // import { FormDataContext } from 'globalState/FormDataContext';
 
-const AutoCompleteResult = (props) => {
+const BusAutoCompleteResult = (props) => {
   const { result, handleKeyDown, handleCancel, setBus } = props || {};
   // const [formState] = useContext(FormDataContext);
   const updateSelectedService = (serviceId, routeName, serviceNumber) => {
@@ -39,4 +39,4 @@ const AutoCompleteResult = (props) => {
   );
 };
 
-export default AutoCompleteResult;
+export default BusAutoCompleteResult;
