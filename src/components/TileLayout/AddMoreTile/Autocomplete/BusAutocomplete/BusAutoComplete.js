@@ -7,7 +7,7 @@ import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
-const BusAutoComplete = ({ mode, setBus, setMode }) => {
+const BusAutoComplete = ({ mode, setSelectedBuses, setMode }) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const [searchResults, setSearchResults] = useState();
@@ -148,7 +148,7 @@ const BusAutoComplete = ({ mode, setBus, setMode }) => {
                     result={result}
                     handleKeyDown={handleKeyDown}
                     type={mode}
-                    setBus={setBus}
+                    setSelectedBuses={setSelectedBuses}
                     setMode={setMode}
                   />
                 );
@@ -163,7 +163,7 @@ const BusAutoComplete = ({ mode, setBus, setMode }) => {
 
 BusAutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
-  setBus: PropTypes.func.isRequired,
+  setSelectedBuses: PropTypes.func.isRequired,
   setMode: PropTypes.func.isRequired,
 };
 

@@ -6,7 +6,7 @@ import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddMoreTile = () => {
   const [mode, setMode] = useState(null);
-  const [bus, setBus] = useState([]);
+  const [selectedBuses, setSelectedBuses] = useState([]);
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -25,7 +25,7 @@ const AddMoreTile = () => {
       {/* Show autocomplete if we want to add more services */}
       {mode && (
         <>
-          <AutoComplete mode="bus" setBus={setBus} setMode={setMode} />
+          <AutoComplete mode="bus" setSelectedBuses={setSelectedBuses} setMode={setMode} />
           <Button
             className="wmnds-btn--secondary wmnds-m-t-md"
             text="Cancel"
@@ -35,24 +35,24 @@ const AddMoreTile = () => {
       )}
 
       {/* If bus array exists then we have some services, so show them when autocomplete isn't visible */}
-      {bus && !mode && (
+      {selectedBuses && !mode && (
         <>
-          <div className={` ${bus.length ? 'wmnds-m-t-md' : ''}`}>
-            {bus.length > 0 && <h4>Services you want to add</h4>}
-            {bus.map((busRoute) => {
+          <div className={` ${selectedBuses.length ? 'wmnds-m-t-md' : ''}`}>
+            {selectedBuses.length > 0 && <h4>Services you want to add</h4>}
+            {selectedBuses.map((busRoute) => {
               return (
                 <BusSummary
                   showRemove
                   lineId={busRoute.lineId}
                   serviceNumber={busRoute.serviceNumber}
                   routeName={busRoute.routeName}
-                  setBus={setBus}
+                  setSelectedBuses={setSelectedBuses}
                   key={busRoute.serviceId}
                 />
               );
             })}
           </div>
-          {bus.length > 0 && <Button text="Confirm new subscriptions" />}
+          {selectedBuses.length > 0 && <Button text="Confirm new subscriptions" />}
         </>
       )}
     </div>
