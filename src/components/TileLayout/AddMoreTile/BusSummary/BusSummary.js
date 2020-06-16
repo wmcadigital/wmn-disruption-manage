@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //  Components
-import Button from 'components/shared/Button/Button';
-// Custom hooks
-import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
+import Icon from 'components/shared/Icon/Icon';
 // Styles
-import s from './BusSummary.module.scss';
+import style from './BusSummary.module.scss';
 
 const Bus = ({ lineId, serviceNumber, routeName }) => {
-  // const  = service; // Grab the id, name, routeName from the service passed in
-  const { removeRoute, isFetching } = useFetchDeleteRoute(lineId); // Use a custom hook to assist with deleting a route
-
+  const handleClick = () => {};
   return (
-    <>
+    <div className={`${style.serviceWrapper} wmnds-m-b-md`}>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
         {/* Left side (service number and route name) */}
         <div className="wmnds-col-1 wmnds-col-sm-auto">
@@ -21,18 +17,16 @@ const Bus = ({ lineId, serviceNumber, routeName }) => {
         </div>
 
         {/* Right side for remove route button */}
-        <Button
-          className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${s.removeBtn}`}
-          disabled={isFetching}
-          isFetching={isFetching}
-          text="Remove service"
-          iconRight="general-trash"
+        <button
+          type="button"
+          className={style.removeBtn}
           title={`Remove service ${serviceNumber}: ${routeName}`}
-          onClick={removeRoute}
-        />
+          onClick={handleClick}
+        >
+          <Icon iconName="general-cross" className={`general-cross ${style.closeIcon}`} />
+        </button>
       </div>
-      <hr className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md" />
-    </>
+    </div>
   );
 };
 
