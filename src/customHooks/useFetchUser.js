@@ -8,7 +8,7 @@ const useFetchUser = (confirmServiceIsFinished) => {
 
   useEffect(() => {
     // Only start fetching the user if the confirm service has been completed
-    if (confirmServiceIsFinished) {
+    if (confirmServiceIsFinished && window.location.search) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
@@ -23,27 +23,19 @@ const useFetchUser = (confirmServiceIsFinished) => {
         // If fetch is successful
         .then((payload) => {
           if (payload === 'no account found') setHasError('noAccount');
-
-          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload });
-
-          // subscriberDispatch({
-          //   type: 'MAP_USER_DETAILS',
-          //   payload: {
-          //     name: '',
-          //     email: '',
-          //     lineId: [{ id: '1234', idName: 'hello', name: '77' }],
-          //     newUser: false,
-          //     updates: null,
-          //   },
-          // });
+          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
           setIsFetching(false); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
-          setHasError(true); // Set to true as error has occured
+          setHasError('true'); // Set to 'true' as error has occured
           setIsFetching(false); // set to false as we are done fetching now
         });
+    }
+    // Not a valid URL as no search params exist, so not a valide account
+    else {
+      setHasError('noAccount');
     }
   }, [confirmServiceIsFinished, subscriberDispatch, subscriberState.query.user]);
 
