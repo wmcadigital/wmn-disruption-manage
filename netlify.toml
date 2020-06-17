@@ -1,2 +1,9 @@
 [build]
   ignore = "git log -1 --pretty=%B | grep dependabot"  # ignore all PRs opened by `dependabot` (with last commit made by `dependabot`)
+
+[[plugins]]
+  package = "@sentry/netlify-build-plugin"
+
+  [plugins.inputs]
+    sentryOrg = "wmca-digital"
+    sentryProject = "wmn-disruption-manage"
