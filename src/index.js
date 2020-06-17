@@ -1,3 +1,4 @@
+import 'react-app-polyfill/stable';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom';
