@@ -4,7 +4,7 @@ import { delSearchParam } from 'helpers/URLSearchParams';
 
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(); // Track if fetch request is currently fetching
+  const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(false); // Track if fetch request is currently fetching
   const { lines, secret, user } = subscriberState.query; // Destructure state
 
   const confirmData = { lineId: lines, secret };

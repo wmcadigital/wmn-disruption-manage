@@ -18,7 +18,7 @@ const TileLayout = () => {
 
   return (
     <>
-      {isFetching && <LoadingView />}
+      {(!confirmServiceIsFinished || isFetching) && <LoadingView />}
 
       {!isFetching && !hasError && !isUnsubscribed && (
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
@@ -35,7 +35,7 @@ const TileLayout = () => {
 
       {isUnsubscribed && <UnsubscribedView />}
 
-      {!isFetching && hasError && <ErrorView hasError={hasError} />}
+      {!isFetching && confirmServiceIsFinished && hasError && <ErrorView hasError={hasError} />}
     </>
   );
 };
