@@ -6,8 +6,8 @@ import useFetchAddServices from 'customHooks/useFetchAddServices';
 import AddService from './AddService/AddService';
 
 const AddMoreTile = () => {
-  const [selectedBuses, setSelectedBuses] = useState([]);
-  const { addRoutes, isFetching, isFetchSuccessful } = useFetchAddServices(selectedBuses);
+  const [selectedServices, setSelectedServices] = useState([]);
+  const { addRoutes, isFetching, isFetchSuccessful } = useFetchAddServices(selectedServices);
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -15,19 +15,15 @@ const AddMoreTile = () => {
       {!isFetchSuccessful && (
         <AddService
           isFetching={isFetching}
-          selectedBuses={selectedBuses}
-          setSelectedBuses={setSelectedBuses}
+          selectedServices={selectedServices}
+          setSelectedServices={setSelectedServices}
           addRoutes={addRoutes}
         />
       )}
 
-      {isFetchSuccessful && (
-        <p>We have sent you an email asking you to confirm your subscription.</p>
-      )}
+      {isFetchSuccessful && <p>We have sent you an email asking you to confirm your subscription.</p>}
 
-      {isFetchSuccessful === false && (
-        <p>Apologies, we are having technical difficulties. Try again later.</p>
-      )}
+      {isFetchSuccessful === false && <p>Apologies, we are having technical difficulties. Try again later.</p>}
     </div>
   );
 };

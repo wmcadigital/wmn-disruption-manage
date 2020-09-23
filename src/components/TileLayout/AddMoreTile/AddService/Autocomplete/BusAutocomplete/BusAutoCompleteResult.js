@@ -1,10 +1,10 @@
 import React from 'react';
 // import { FormDataContext } from 'globalState/FormDataContext';
 
-const BusAutoCompleteResult = (props) => {
-  const { result, handleKeyDown, setSelectedBuses, setMode } = props || {};
+const BusAutoCompleteResult = props => {
+  const { result, handleKeyDown, setSelectedServices, setMode } = props || {};
   const updateSelectedService = (lineId, routeName, serviceNumber) => {
-    setSelectedBuses((prevState) => [...prevState, { lineId, routeName, serviceNumber }]);
+    setSelectedServices(prevState => [...prevState, { lineId, routeName, serviceNumber }]);
     setMode(null);
   };
   // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type
@@ -16,10 +16,8 @@ const BusAutoCompleteResult = (props) => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={(e) => handleKeyDown(e)}
-      onClick={() =>
-        updateSelectedService(result.id, result.routes[0].routeName, result.serviceNumber)
-      }
+      onKeyDown={e => handleKeyDown(e)}
+      onClick={() => updateSelectedService(result.id, result.routes[0].routeName, result.serviceNumber)}
     >
       {/* Right section */}
       <div
