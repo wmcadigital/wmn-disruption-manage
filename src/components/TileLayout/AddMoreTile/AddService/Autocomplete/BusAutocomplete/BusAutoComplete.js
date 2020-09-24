@@ -7,13 +7,17 @@ import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
-const BusAutoComplete = ({ mode, setSelectedServices, setMode }) => {
+const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServices }) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const [searchResults, setSearchResults] = useState();
   const [lineNumber, setLineNumber] = useState();
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
+  const existingBusIds = [];
+  existingBusServices.forEach(bus => {
+    existingBusIds.push(bus.id);
+  });
 
   // const [formDataState] = useContext(FormDataContext);
   // const busId = formDataState.formData.LineId;
@@ -141,6 +145,7 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode }) => {
                   <BusAutoCompleteResult
                     key={result.id}
                     result={result}
+                    existing={existingBusIds.indexOf(result.id) > 0}
                     handleKeyDown={handleKeyDown}
                     type={mode}
                     setSelectedServices={setSelectedServices}
@@ -159,7 +164,8 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode }) => {
 BusAutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setSelectedServices: PropTypes.func.isRequired,
-  setMode: PropTypes.func.isRequired
+  setMode: PropTypes.func.isRequired,
+  existingBusIds: PropTypes.array
 };
 
 export default BusAutoComplete;

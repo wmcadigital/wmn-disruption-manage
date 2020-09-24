@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { SubscriberContext } from 'globalState/SubscriberContext';
 import PropTypes from 'prop-types';
 // Components
 import Button from 'components/shared/Button/Button';
@@ -6,6 +7,12 @@ import BusSummary from './BusSummary/BusSummary';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
+  /* Check the services that are already assigned */
+  const [subscriberState] = useContext(SubscriberContext);
+  const allServices = subscriberState.user.lineId;
+  const busServices = allServices.filter(service => service.id !== '4546');
+  const tramServices = allServices.filter(service => service.id === '4546');
+
   const [mode, setMode] = useState(null);
   let trams = [];
   let buses = [];
@@ -21,7 +28,12 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
       {/* Show bus autocomplete if we want to add more bus services */}
       {mode === 'bus' && (
         <>
-          <AutoComplete mode="bus" setSelectedServices={setSelectedServices} setMode={setMode} />
+          <AutoComplete
+            mode="bus"
+            setSelectedServices={setSelectedServices}
+            setMode={setMode}
+            existingBusServices={busServices}
+          />
           <Button className="wmnds-btn--secondary wmnds-m-t-md" text="Cancel" onClick={() => setMode(null)} />
         </>
       )}
@@ -73,7 +85,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           <Button
             className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
             text="Add tram service"
-            disabled={selectedServices && selectedServices.length > 0 && trams.length > 0}
+            disabled={(selectedServices && selectedServices.length > 0 && trams.length > 0) || tramServices.length > 0}
             onClick={() => {
               setMode('tram');
               setSelectedServices(prevState => [
