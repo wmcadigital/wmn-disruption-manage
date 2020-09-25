@@ -139,20 +139,21 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServic
         ) : (
           searchResults && (
             <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
-              {searchResults.map(result => {
-                // eslint-disable-next-line no-unused-expressions
-                return (
-                  <BusAutoCompleteResult
-                    key={result.id}
-                    result={result}
-                    existing={existingBusIds.indexOf(result.id) > 0}
-                    handleKeyDown={handleKeyDown}
-                    type={mode}
-                    setSelectedServices={setSelectedServices}
-                    setMode={setMode}
-                  />
-                );
-              })}
+              {searchResults
+                .filter(result => existingBusIds.indexOf(result.id) === -1)
+                .map(result => {
+                  // eslint-disable-next-line no-unused-expressions
+                  return (
+                    <BusAutoCompleteResult
+                      key={result.id}
+                      result={result}
+                      handleKeyDown={handleKeyDown}
+                      type={mode}
+                      setSelectedServices={setSelectedServices}
+                      setMode={setMode}
+                    />
+                  );
+                })}
             </ul>
           )
         )}
