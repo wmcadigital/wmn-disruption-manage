@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
-const useFetchAddServices = selectedServices => {
+const useFetchAddServices = (selectedServices) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const [isFetchSuccessful, setIsFetchSuccessful] = useState(null);
@@ -10,7 +10,7 @@ const useFetchAddServices = selectedServices => {
   const dataToSend = {
     Name: name,
     Email: email,
-    LineId: selectedServices.map(item => +item.lineId)
+    LineId: selectedServices.map((item) => +item.lineId),
   }; // Strucutre the data before sending
 
   const addRoutes = () => {
@@ -20,10 +20,10 @@ const useFetchAddServices = selectedServices => {
         method: 'POST',
         body: JSON.stringify(dataToSend),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
-        .then(response => {
+        .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
             return response.text(); // Return response as json
@@ -35,7 +35,7 @@ const useFetchAddServices = selectedServices => {
           setIsFetching(false); // set to false as we are done fetching now
           setIsFetchSuccessful(true);
         }) // If fetch errors
-        .catch(error => {
+        .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
 
