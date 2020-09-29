@@ -78,22 +78,25 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
             iconRight="general-expand"
           />
           <span className="wmnds-m-r-md wmnds-hide-mobile" />
-          <Button
-            className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
-            text="Add tram service"
-            disabled={
-              (selectedServices && selectedServices.length > 0 && trams.length > 0) ||
-              tramServices.length > 0
-            }
-            onClick={() => {
-              setMode('tram');
-              setSelectedServices((prevState) => [
-                ...prevState,
-                { lineId: '4546', routeName: 'Birmingham to Wolverhampton', serviceNumber: 'mm1' },
-              ]);
-            }}
-            iconRight="general-expand"
-          />
+
+          {trams.length === 0 && tramServices.length === 0 && (
+            <Button
+              className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
+              text="Add tram service"
+              onClick={() => {
+                setMode('tram');
+                setSelectedServices((prevState) => [
+                  ...prevState,
+                  {
+                    lineId: '4546',
+                    routeName: 'Birmingham to Wolverhampton',
+                    serviceNumber: 'mm1',
+                  },
+                ]);
+              }}
+              iconRight="general-expand"
+            />
+          )}
 
           {/* Add button to confirm new subscriptions */}
           {selectedServices && selectedServices.length > 0 && (
