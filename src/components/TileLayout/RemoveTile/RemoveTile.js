@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
-import { SubscriberContext } from 'globalState/SubscriberContext';
+import React from 'react';
+
 // Components
+import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import Bus from './Bus/Bus';
-//import Tram from './Tram/Tram';
 
 const RemoveTile = () => {
-  const [subscriberState] = useContext(SubscriberContext);
-  const allServices = subscriberState.user.lineId;
-  const busServices = allServices.filter(service => service.id !== '4546');
-  const tramServices = allServices.filter(service => service.id === '4546');
+  const { allServices, busServices, tramServices } = useFilterSubscribedServices();
 
   let buses;
   if (busServices && busServices.length > 0) {
@@ -17,7 +14,7 @@ const RemoveTile = () => {
         <h3>Bus services added</h3>
         <div className={`${tramServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {busServices &&
-            busServices.map(serviceRoute => {
+            busServices.map((serviceRoute) => {
               return (
                 <Bus
                   lineId={serviceRoute.id}
@@ -39,7 +36,7 @@ const RemoveTile = () => {
         <h3>Tram services added</h3>
         <div className="wmnds-m-b-xl">
           {tramServices &&
-            tramServices.map(serviceRoute => {
+            tramServices.map((serviceRoute) => {
               return (
                 <Bus
                   lineId={serviceRoute.id}

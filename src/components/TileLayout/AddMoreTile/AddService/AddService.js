@@ -1,24 +1,21 @@
-import React, { useState, useContext } from 'react';
-import { SubscriberContext } from 'globalState/SubscriberContext';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Components
+import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import Button from 'components/shared/Button/Button';
 import BusSummary from './BusSummary/BusSummary';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
   /* Check the services that are already assigned */
-  const [subscriberState] = useContext(SubscriberContext);
-  const allServices = subscriberState.user.lineId;
-  const busServices = allServices.filter(service => service.id !== '4546');
-  const tramServices = allServices.filter(service => service.id === '4546');
+  const { tramServices } = useFilterSubscribedServices();
 
   const [mode, setMode] = useState(null);
   let trams = [];
   let buses = [];
   if (selectedServices && selectedServices.length > 0) {
-    buses = selectedServices.filter(service => service.lineId !== '4546');
-    trams = selectedServices.filter(service => service.lineId === '4546');
+    buses = selectedServices.filter((service) => service.lineId !== '4546');
+    trams = selectedServices.filter((service) => service.lineId === '4546');
   }
 
   return (
@@ -28,13 +25,12 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
       {/* Show bus autocomplete if we want to add more bus services */}
       {mode === 'bus' && (
         <>
-          <AutoComplete
-            mode="bus"
-            setSelectedServices={setSelectedServices}
-            setMode={setMode}
-            existingBusServices={busServices}
+          <AutoComplete mode="bus" setSelectedServices={setSelectedServices} setMode={setMode} />
+          <Button
+            className="wmnds-btn--secondary wmnds-m-t-md"
+            text="Cancel"
+            onClick={() => setMode(null)}
           />
-          <Button className="wmnds-btn--secondary wmnds-m-t-md" text="Cancel" onClick={() => setMode(null)} />
         </>
       )}
       {/* If bus array exists then we have some services, so show them when autocomplete isn't visible */}
@@ -42,7 +38,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
         <>
           <div className={` ${selectedServices.length ? 'wmnds-m-t-md' : ''}`}>
             {buses.length > 0 && <h4>Buses you want to add</h4>}
-            {buses.map(busRoute => {
+            {buses.map((busRoute) => {
               return (
                 <BusSummary
                   showRemove
@@ -57,7 +53,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
             {trams.length > 0 && <h4>Trams you want to add</h4>}
             {trams.length > 0 &&
-              trams.map(tramRoute => {
+              trams.map((tramRoute) => {
                 return (
                   <BusSummary
                     showRemove
@@ -81,16 +77,19 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
             onClick={() => setMode('bus')}
             iconRight="general-expand"
           />
-          <span className="wmnds-m-r-md wmnds-hide-mobile"></span>
+          <span className="wmnds-m-r-md wmnds-hide-mobile" />
           <Button
             className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
             text="Add tram service"
-            disabled={(selectedServices && selectedServices.length > 0 && trams.length > 0) || tramServices.length > 0}
+            disabled={
+              (selectedServices && selectedServices.length > 0 && trams.length > 0) ||
+              tramServices.length > 0
+            }
             onClick={() => {
               setMode('tram');
-              setSelectedServices(prevState => [
+              setSelectedServices((prevState) => [
                 ...prevState,
-                { lineId: '4546', routeName: 'Birmingham to Wolverhampton', serviceNumber: 'mm1' }
+                { lineId: '4546', routeName: 'Birmingham to Wolverhampton', serviceNumber: 'mm1' },
               ]);
             }}
             iconRight="general-expand"
@@ -119,11 +118,11 @@ AddService.propTypes = {
     PropTypes.shape({
       lineId: PropTypes.string.isRequired,
       routeName: PropTypes.string.isRequired,
-      serviceNumber: PropTypes.string.isRequired
+      serviceNumber: PropTypes.string.isRequired,
     })
   ).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
-  addRoutes: PropTypes.func.isRequired
+  addRoutes: PropTypes.func.isRequired,
 };
 
 export default AddService;

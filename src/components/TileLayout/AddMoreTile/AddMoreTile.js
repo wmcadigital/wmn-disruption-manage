@@ -21,9 +21,13 @@ const AddMoreTile = () => {
         />
       )}
 
-      {isFetchSuccessful && <p>We have sent you an email asking you to confirm your subscription.</p>}
+      {isFetchSuccessful && (
+        <p>We have sent you an email asking you to confirm your subscription.</p>
+      )}
 
-      {isFetchSuccessful === false && <p>Apologies, we are having technical difficulties. Try again later.</p>}
+      {isFetchSuccessful === false && (
+        <p>Apologies, we are having technical difficulties. Try again later.</p>
+      )}
     </div>
   );
 };

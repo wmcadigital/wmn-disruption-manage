@@ -5,24 +5,19 @@ import { DebounceInput } from 'react-debounce-input'; // https://www.npmjs.com/p
 // Components
 import Message from 'components/shared/Message/Message';
 import Icon from 'components/shared/Icon/Icon';
+import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import BusAutoCompleteResult from './BusAutoCompleteResult';
 
-const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServices }) => {
+const BusAutoComplete = ({ mode, setSelectedServices, setMode }) => {
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
   const [searchResults, setSearchResults] = useState();
   const [lineNumber, setLineNumber] = useState();
   const resultsList = useRef(null);
   const debounceInput = useRef(null);
-  const existingBusIds = [];
-  existingBusServices.forEach(bus => {
-    existingBusIds.push(bus.id);
-  });
+  const { busServices } = useFilterSubscribedServices();
 
-  // const [formDataState] = useContext(FormDataContext);
-  // const busId = formDataState.formData.LineId;
-
-  const updateQuery = query => {
+  const updateQuery = (query) => {
     setErrorInfo(null);
     setLineNumber(query);
   };
@@ -38,29 +33,29 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServic
       axios
         .get(`${REACT_APP_AUTOCOMPLETE_API}/bus/v1/service?q=${encodeURI(lineNumber)}`, {
           headers: {
-            'Ocp-Apim-Subscription-Key': REACT_APP_AUTOCOMPLETE_API_KEY
+            'Ocp-Apim-Subscription-Key': REACT_APP_AUTOCOMPLETE_API_KEY,
           },
-          cancelToken: source.token // Set token with API call, so we can cancel this call on unmount
+          cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
-        .then(bus => {
+        .then((bus) => {
           setLoading(false); // Set loading state to false after data is received
           // If bus.data.services isn't there, then we can't map the results to it, so return null
           if (bus.data.services.length === 0) {
             setErrorInfo({
               title: 'No results found',
-              message: 'Apologies, could not find the service.'
+              message: 'Apologies, could not find the service.',
             });
           } else {
             setSearchResults(bus.data.services);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (!axios.isCancel(error)) {
             setLoading(false); // Set loading state to false after data is received
             // Update error message
             setErrorInfo({
               title: 'Please try again',
-              message: 'Apologies, we are having technical difficulties.'
+              message: 'Apologies, we are having technical difficulties.',
             });
             // eslint-disable-next-line no-console
             console.log({ error });
@@ -124,10 +119,10 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServic
               placeholder="Search for a bus number"
               className="wmnds-fe-input wmnds-autocomplete__input"
               value={lineNumber || ''}
-              onChange={e => updateQuery(e.target.value)}
+              onChange={(e) => updateQuery(e.target.value)}
               aria-label="Search for a bus number"
               debounceTimeout={600}
-              onKeyDown={e => handleKeyDown(e)}
+              onKeyDown={(e) => handleKeyDown(e)}
               inputRef={debounceInput}
             />
           </div>
@@ -135,13 +130,18 @@ const BusAutoComplete = ({ mode, setSelectedServices, setMode, existingBusServic
 
         {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
         {!loading && errorInfo ? (
-          <Message type="error" title={errorInfo.title} message={errorInfo.message} className="wmnds-m-t-md" />
+          <Message
+            type="error"
+            title={errorInfo.title}
+            message={errorInfo.message}
+            className="wmnds-m-t-md"
+          />
         ) : (
           searchResults && (
             <ul className="wmnds-autocomplete-suggestions" ref={resultsList}>
               {searchResults
-                .filter(result => existingBusIds.indexOf(result.id) === -1)
-                .map(result => {
+                .filter((result) => !busServices.some((el) => el.id === result.id))
+                .map((result) => {
                   // eslint-disable-next-line no-unused-expressions
                   return (
                     <BusAutoCompleteResult
@@ -166,7 +166,6 @@ BusAutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setSelectedServices: PropTypes.func.isRequired,
   setMode: PropTypes.func.isRequired,
-  existingBusIds: PropTypes.array
 };
 
 export default BusAutoComplete;
