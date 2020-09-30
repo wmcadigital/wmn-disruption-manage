@@ -41,7 +41,7 @@ const RemoveTile = () => {
                 <Bus
                   lineId={serviceRoute.id}
                   serviceNumber={serviceRoute.name}
-                  routeName={serviceRoute.idName}
+                  routeName="Birmingham - Wolverhampton - Birmingham"
                   key={serviceRoute.id}
                 />
               );

@@ -89,7 +89,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
                   ...prevState,
                   {
                     lineId: '4546',
-                    routeName: 'Birmingham to Wolverhampton',
+                    routeName: 'Birmingham - Wolverhampton - Birmingham',
                     serviceNumber: 'mm1',
                   },
                 ]);
