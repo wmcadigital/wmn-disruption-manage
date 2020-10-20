@@ -6,7 +6,8 @@ const SummaryTile = () => {
   const [subscriberState] = useContext(SubscriberContext);
   // const portalURL = `${window.location.protocol}//${window.location.host}/?user=${subscriberState.query.user}`;
 
-  const { name, email } = subscriberState.user;
+  const { name } = subscriberState.user;
+  console.log(subscriberState);
 
   // const handleClick = () => {
   // //   const createBookmark = browser.bookmarks.create({
@@ -17,17 +18,16 @@ const SummaryTile = () => {
 
   return (
     <div className="wmnds-content-tile wmnds-col-1">
-      <p>
-        Hi <strong>{name}</strong>!
-      </p>
-      <p>You can use this page to manage your disruption alerts.</p>
-      <p>
-        Bookmark this page to visit it again in future. Do not share the link as it is unique to
-        you.
-      </p>
-      <p>
-        Your alerts are sent to <strong>{email}</strong>
-      </p>
+      <div className="wmnds-col-1 wmnds-col-lg-4-5">
+        <p>
+          Hi <strong>{name}</strong>!
+        </p>
+        <p>You can use this page to manage your service disruption alerts. </p>
+        <p>
+          Bookmark this page so you can visit it again in future. Do not share the link with anyone
+          as it is unique to you.
+        </p>
+      </div>
     </div>
   );
 };
