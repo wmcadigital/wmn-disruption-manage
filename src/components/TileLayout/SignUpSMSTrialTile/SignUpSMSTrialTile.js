@@ -7,6 +7,14 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { name, email } = subscriberState.user;
 
+  let signUpPageUrl;
+  if (process.env.NODE_ENV === 'development') {
+    signUpPageUrl = 'https://deploy-preview-102--wmn-disruption-sign-up.netlify.app/';
+  } else if (process.env.NODE_ENV === 'production') {
+    //signUpPageUrl = 'https://disruption-sign-up.wmnetwork.co.uk/'; {/* TODO : UPDATE LINK before go live */}
+    signUpPageUrl = 'https://deploy-preview-102--wmn-disruption-sign-up.netlify.app/'; // for testing only
+  }
+
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <div className="wmnds-col-1 wmnds-col-lg-4-5">
@@ -16,9 +24,10 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
         </p>
       </div>
       {/* TODO : Fix group butons with spacing */}
-      <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-lg-2-lg">
+
+      <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-lg-2-lg  wmnds-grid--spacing-3-xs">
         <a
-          href={`https://disruption-sign-up.wmnetwork.co.uk/?name=${name}&email=${email}`}
+          href={`${signUpPageUrl}?name=${encodeURI(name)}&email=${email}`}
           title="Sign up to text message trial"
           target="_blank"
           rel="noopener noreferrer"
