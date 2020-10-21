@@ -2,19 +2,22 @@ import { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchConfirmMobile = () => {
+const useFetchConfirmMobile = (resend = false) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
 
   const [confirmMobileIsFinished, setConfirmMobileIsFinished] = useState(false); // Track if fetch request is currently fetching
 
-  const { user, mobileNumber } = subscriberState.query;
+  const { user } = subscriberState.query;
+  const { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
 
   // resetting variables
   const dataToSend = {
-    mobileNumber: `+${mobileNumber.substr(1)}`,
+    mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
   }; // Strucutre the data before sending
   useEffect(() => {
-    if (!confirmMobileIsFinished && user && mobileNumber) {
+    if (resend || (!confirmMobileIsFinished && user && subscriberState.query.mobileNumber)) {
+      console.log('running resend')
+
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -45,7 +48,14 @@ const useFetchConfirmMobile = () => {
     } else {
       setConfirmMobileIsFinished(true);
     }
-  }, [confirmMobileIsFinished, dataToSend, mobileNumber, user]);
+  }, [
+    confirmMobileIsFinished,
+    dataToSend,
+    mobileNumber,
+    resend,
+    subscriberState.query.mobileNumber,
+    user,
+  ]);
 
   return { confirmMobileIsFinished };
 };
