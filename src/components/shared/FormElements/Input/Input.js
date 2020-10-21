@@ -1,10 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import dompurify from 'dompurify';
-// Import contexts
-import { useForm } from 'react-hook-form';
-
-const { sanitize } = dompurify;
 
 const Input = ({
   autocomplete,
@@ -17,8 +12,10 @@ const Input = ({
   type,
   value,
   onChange,
+  isRequired,
+  errors,
 }) => {
-  const { errors } = useForm();
+  console.log('errors:' + errors);
   // Set input to render below
   const input = (
     <>
@@ -26,37 +23,29 @@ const Input = ({
         onChange={onChange}
         value={value}
         autoComplete={autocomplete}
-        className={`wmnds-fe-input ${errors[name] ? 'wmnds-fe-input--error' : ''}`}
+        className={`wmnds-fe-input ${errors ? 'wmnds-fe-input--error' : ''}`}
         id={name}
         inputMode={inputmode}
         name={name}
         ref={fieldValidation}
         spellCheck={spellcheck}
         type={type}
+        required={isRequired}
       />
     </>
   );
 
   return (
-    <div className={`wmnds-fe-group ${errors[name] ? 'wmnds-fe-group--error' : ''}`}>
+    <div className={`wmnds-fe-group ${errors ? 'wmnds-fe-group--error' : ''}`}>
       {label && (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label
-          className="wmnds-fe-label"
-          htmlFor={name}
-          dangerouslySetInnerHTML={{ __html: sanitize(label) }}
-        />
+        <label className="wmnds-fe-label" htmlFor={name}>
+          {label}
+        </label>
       )}
 
       {/* If there is an error, show here */}
-      {errors[name] && (
-        <span
-          className="wmnds-fe-error-message"
-          dangerouslySetInnerHTML={{
-            __html: sanitize(errors[name].message),
-          }}
-        />
-      )}
+      {errors && <span className="wmnds-fe-error-message">{errors}</span>}
 
       {/* If className then wrap just input with the className else, just show input as usual */}
       {className ? <div className={className}>{input}</div> : input}
@@ -75,6 +64,8 @@ Input.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  isRequired: PropTypes.bool,
+  errors: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -86,6 +77,8 @@ Input.defaultProps = {
   type: 'text',
   value: '',
   onChange: null,
+  isRequired: false,
+  errors: '',
 };
 
 export default Input;
