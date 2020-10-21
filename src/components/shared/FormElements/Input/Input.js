@@ -15,12 +15,16 @@ const Input = ({
   name,
   spellcheck,
   type,
+  value,
+  onChange,
 }) => {
   const { errors } = useForm();
   // Set input to render below
   const input = (
     <>
       <input
+        onChange={onChange}
+        value={value}
         autoComplete={autocomplete}
         className={`wmnds-fe-input ${errors[name] ? 'wmnds-fe-input--error' : ''}`}
         id={name}
@@ -69,6 +73,8 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   spellcheck: PropTypes.bool,
   type: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 Input.defaultProps = {
@@ -78,6 +84,8 @@ Input.defaultProps = {
   inputmode: 'text',
   spellcheck: false,
   type: 'text',
+  value: '',
+  onChange: null,
 };
 
 export default Input;

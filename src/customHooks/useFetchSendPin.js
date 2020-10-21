@@ -2,22 +2,18 @@ import { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchConfirmMobile = (resend = false) => {
+const useFetchSendPin = (resend = false) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-
-  const [confirmMobileIsFinished, setConfirmMobileIsFinished] = useState(false); // Track if fetch request is currently fetching
+  const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
 
   const { user } = subscriberState.query;
   const { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
 
-  // resetting variables
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
   }; // Strucutre the data before sending
   useEffect(() => {
-    if (resend || (!confirmMobileIsFinished && user && subscriberState.query.mobileNumber)) {
-      console.log('running resend')
-
+    if (resend || (!sendPinIsFinished && user && subscriberState.query.mobileNumber)) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -37,19 +33,19 @@ const useFetchConfirmMobile = (resend = false) => {
           delSearchParam('mobi');
           delSearchParam('nomail');
 
-          setConfirmMobileIsFinished(true);
+          setSendPinIsFinished(true);
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
 
-          setConfirmMobileIsFinished(true);
+          setSendPinIsFinished(true);
         });
     } else {
-      setConfirmMobileIsFinished(true);
+      setSendPinIsFinished(true);
     }
   }, [
-    confirmMobileIsFinished,
+    sendPinIsFinished,
     dataToSend,
     mobileNumber,
     resend,
@@ -57,7 +53,7 @@ const useFetchConfirmMobile = (resend = false) => {
     user,
   ]);
 
-  return { confirmMobileIsFinished };
+  return { sendPinIsFinished };
 };
 
-export default useFetchConfirmMobile;
+export default useFetchSendPin;
