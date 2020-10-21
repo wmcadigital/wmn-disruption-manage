@@ -1,34 +1,42 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { SubscriberContext } from 'globalState/SubscriberContext';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+
+// Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
+import useFetchSendPin from 'customHooks/useFetchSendPin';
 
-const ResetPhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber }) => {
-  const { register } = useForm();
+const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
+  const [subscriberState] = useContext(SubscriberContext);
+  const currentMobileNumber = subscriberState.user.mobileNumber;
+  const [newMobilePhone, setNewMobilePhone] = useState('');
+
+  /* CHANGE NUMBER and SEND CODE */
+  /* useFetchSendPin(false, "") initial state - does nothing */
+  /* useFetchSendPin(true, "07700900090") saves the new number and send a new message */
+  /* useFetchSendPin(false, "") using useEffect we can set the function back to do nothing - right after sending the message */
+  const [submittedMobileNumber, setSubmittedMobileNumber] = useState(''); // Used to track if a user has saved the new phone number
+  useFetchSendPin(submittedMobileNumber.length > 0, submittedMobileNumber); // Send the current resend status to our fetch so we can send a new text if the user hits resend
+  // if the submit button has been pressed, we need to map it back to false so the user can click it again (send it true again)
+  useEffect(() => {
+    if (submittedMobileNumber) setSubmittedMobileNumber('');
+  }, [submittedMobileNumber]);
 
   const handleSendNewPINCode = () => {
-    console.log('Reset Phone and send a new pin code');
-
-    // save new phone number
-
-    // send new message
+    // activates the custom hook in order to save new phone number & send new message
+    setSubmittedMobileNumber(newMobilePhone);
 
     // set reset mode to false
     setWrongPhoneNumber(false);
   };
 
-  // Labels used on inputs and for validation
   const phoneLabel = 'Mobile phone number';
-  // Logic used to validate the phone field
-  const phoneRegex = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/; // Regex expression only for uk mobile numbers found in this website (2nd reply) - https://community.dynamics.com/crm/f/microsoft-dynamics-crm-forum/119483/javascript-regex-uk-phone-number
-  const phoneValidation = register({
-    required: `${phoneLabel} is required`,
-    pattern: {
-      value: phoneRegex,
-      message: `Enter an ${phoneLabel.toLowerCase()} in the correct format`,
-    },
-  });
+  const isValidMobileNumber = (p) => {
+    p = p.replace(/\s/g, '');
+    const mobileRegEx = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
+    return mobileRegEx.test(p);
+  };
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -40,7 +48,7 @@ const ResetPhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber }) => {
           <h2>Reset your mobile phone number</h2>
           <p>
             You requested to receive text message disruption alerts to{' '}
-            <strong>{mobilePhoneNumber}</strong>.{' '}
+            <strong>{currentMobileNumber}</strong>.{' '}
           </p>
           <p>
             If this mobile phone number is incorrect, please enter the correct mobile phone number
@@ -51,15 +59,22 @@ const ResetPhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber }) => {
         <Input
           className="wmnds-col-1 wmnds-col-lg-4-5"
           name="Phone"
+          value={newMobilePhone}
+          onChange={(e) => setNewMobilePhone(e.target.value)}
           label={`${phoneLabel}, for example: 07700900090`}
           type="tel"
-          fieldValidation={phoneValidation}
+          errors={
+            newMobilePhone.length > 0 && !isValidMobileNumber(newMobilePhone)
+              ? 'Enter an mobile phone number in the correct format'
+              : ''
+          }
         />
       </fieldset>
 
       <div className="wmnds-grid">
         <Button
           className="wmnds-btn wmnds-col-1 wmnds-col-md-1-2"
+          disabled={!isValidMobileNumber(newMobilePhone) || newMobilePhone.length === 0}
           onClick={() => handleSendNewPINCode()}
           text="Send new PIN code"
         />
@@ -69,7 +84,6 @@ const ResetPhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber }) => {
 };
 
 ResetPhoneTile.propTypes = {
-  mobilePhoneNumber: PropTypes.string.isRequired,
   setWrongPhoneNumber: PropTypes.func.isRequired,
 };
 

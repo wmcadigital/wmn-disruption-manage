@@ -2,12 +2,16 @@ import { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchSendPin = (resend = false) => {
+const useFetchSendPin = (resend = false, newMobilePhone = '') => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
 
   const { user } = subscriberState.query;
-  const { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
+
+  let { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
+  if (newMobilePhone !== '') {
+    mobileNumber = newMobilePhone;
+  }
 
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
