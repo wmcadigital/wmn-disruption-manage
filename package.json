@@ -22,7 +22,7 @@
     "react-app-polyfill": "^1.0.6",
     "react-debounce-input": "^3.2.2",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.4"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
