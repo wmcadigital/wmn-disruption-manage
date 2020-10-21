@@ -16,8 +16,6 @@ const useFetchConfirmMobile = (resend = false) => {
   }; // Strucutre the data before sending
   useEffect(() => {
     if (resend || (!confirmMobileIsFinished && user && subscriberState.query.mobileNumber)) {
-      console.log('running resend')
-
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
