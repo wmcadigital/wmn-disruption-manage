@@ -72,16 +72,15 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
       {mode !== 'bus' && (
         <>
           <Button
-            className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
+            className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
             text="Add bus service"
             onClick={() => setMode('bus')}
             iconRight="general-expand"
           />
-          <span className="wmnds-m-r-md wmnds-hide-mobile" />
 
           {trams.length === 0 && tramServices.length === 0 && (
             <Button
-              className="wmnds-btn--primary wmnds-col-1 wmnds-col-sm-1 wmnds-col-md-2-5 wmnds-col-lg-1-3 wmnds-m-b-sm"
+              className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
               text="Add tram service"
               onClick={() => {
                 setMode('tram');

@@ -13,6 +13,10 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
       iconName = 'warning-circle';
       break;
 
+    case 'info':
+      iconName = 'info';
+      break;
+
     default:
       iconName = 'success';
       break;

@@ -22,7 +22,7 @@ const AddMoreTile = () => {
       )}
 
       {isFetchSuccessful && (
-        <p>We have sent you an email asking you to confirm your subscription.</p>
+        <p>We’ll send an automatic disruption alert for each service you add.</p>
       )}
 
       {isFetchSuccessful === false && (
