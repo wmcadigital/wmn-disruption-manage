@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
 
-const ResetPhoneTile = ({ mobilePhoneNumber, setResetMode }) => {
+const ResetPhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber }) => {
   const { register } = useForm();
 
   const handleSendNewPINCode = () => {
@@ -15,7 +15,7 @@ const ResetPhoneTile = ({ mobilePhoneNumber, setResetMode }) => {
     // send new message
 
     // set reset mode to false
-    setResetMode(false);
+    setWrongPhoneNumber(false);
   };
 
   // Labels used on inputs and for validation
@@ -70,7 +70,7 @@ const ResetPhoneTile = ({ mobilePhoneNumber, setResetMode }) => {
 
 ResetPhoneTile.propTypes = {
   mobilePhoneNumber: PropTypes.string.isRequired,
-  setResetMode: PropTypes.func.isRequired,
+  setWrongPhoneNumber: PropTypes.func.isRequired,
 };
 
 export default ResetPhoneTile;

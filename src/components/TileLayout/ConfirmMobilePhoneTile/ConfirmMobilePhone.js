@@ -12,7 +12,7 @@ import GenericError from 'components/shared/Errors/GenericError';
 import useFetchMobileNumber from 'customHooks/useFetchMobileNumber';
 import useFormLogic from 'customHooks/useFormLogic';
 
-const ConfirmMobilePhone = ({ mobilePhoneNumber, setResetMode, setHasMobileActive }) => {
+const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobileActive }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { register, triggerValidation, submitButton, errors, getValues } = useFormLogic(); // Custom hook for handling submit button (validation, errors etc)
   const [isSubmitPressed, setIsSubmitPressed] = useState(false); // State for tracking if continue has been pressed
@@ -63,7 +63,7 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setResetMode, setHasMobileActiv
 
   const enteredWrongNumber = () => {
     console.log('Reset number');
-    setResetMode(true);
+    setWrongPhoneNumber((x) => !x);
   };
 
   // Labels used on inputs and for validation
@@ -175,7 +175,7 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setResetMode, setHasMobileActiv
 
 ConfirmMobilePhone.propTypes = {
   mobilePhoneNumber: PropTypes.string.isRequired,
-  setResetMode: PropTypes.func.isRequired,
+  setWrongPhoneNumber: PropTypes.func.isRequired,
   setHasMobileActive: PropTypes.func.isRequired,
 };
 

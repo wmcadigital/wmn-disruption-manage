@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 // Components
 import ConfirmMobilePhone from './ConfirmMobilePhone';
 
-const ConfirmMobilePhoneTile = ({ mobilePhoneNumber, setResetMode, setHasMobileActive }) => {
+const ConfirmMobilePhoneTile = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobileActive }) => {
   return (
     <ConfirmMobilePhone
       mobilePhoneNumber={mobilePhoneNumber}
-      setResetMode={setResetMode}
+      setWrongPhoneNumber={setWrongPhoneNumber}
       setHasMobileActive={setHasMobileActive}
     />
   );
@@ -15,7 +15,7 @@ const ConfirmMobilePhoneTile = ({ mobilePhoneNumber, setResetMode, setHasMobileA
 
 ConfirmMobilePhoneTile.propTypes = {
   mobilePhoneNumber: PropTypes.string.isRequired,
-  setResetMode: PropTypes.func.isRequired,
+  setWrongPhoneNumber: PropTypes.func.isRequired,
   setHasMobileActive: PropTypes.func.isRequired,
 };
 

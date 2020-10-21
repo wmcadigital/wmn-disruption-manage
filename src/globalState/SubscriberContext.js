@@ -14,6 +14,7 @@ export const SubscriberProvider = (props) => {
       lnames: getSearchParam('lnames') ? JSON.parse(atob(getSearchParam('lnames'))) : [],
       secret: getSearchParam('secret') || '',
       user: getSearchParam('user') || '',
+      mobileNumber: getSearchParam('mobi') || '',
     },
     user: {
       name: '',
