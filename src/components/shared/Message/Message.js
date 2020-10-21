@@ -22,10 +22,21 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
       break;
   }
 
+  const closeMessage = (e) => {
+    e.preventDefault();
+    e.target.parentNode.parentNode.parentNode.parentNode.querySelector(
+      '.wmnds-msg-summary'
+    ).style.display = 'none';
+  };
+
   return (
     <div className={`wmnds-msg-summary wmnds-msg-summary--${type} ${className}`}>
       {hasCloseButton && (
-        <button type="button" className="wmnds-msg-summary__close wmnds-link">
+        <button
+          type="button"
+          className="wmnds-msg-summary__close wmnds-link"
+          onClick={(e) => closeMessage(e)}
+        >
           Close
           <Icon iconName="general-cross" className="" />
         </button>
@@ -49,11 +60,11 @@ Message.propTypes = {
 };
 
 Message.defaultProps = {
-  hasCloseButton: false,
   className: null,
   type: 'success',
   title: 'Good service',
   message: 'No incidents reported.',
+  hasCloseButton: false,
 };
 
 export default Message;
