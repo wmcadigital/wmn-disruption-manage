@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 // Custom hooks
 import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
-import useFetchConfirmMobile from 'customHooks/useFetchConfirmMobile';
-import useFetchMobileNumber from 'customHooks/useFetchMobileNumber';
+import useFetchSendPin from 'customHooks/useFetchSendPin';
 // Components
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
 import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
@@ -21,16 +20,16 @@ import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
 
-  const { confirmMobileIsFinished } = useFetchConfirmMobile();
-  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, confirmMobileIsFinished); // Then fetch the user
+  const { sendPinIsFinished } = useFetchSendPin();
+  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
 
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
 
-  // const [isDismissTrialActive, setIsDismissTrialActive] = useState(
-  //   localStorage.getItem('dismissTrial') ? true : false
-  // );
+  const [isDismissTrialActive, setIsDismissTrialActive] = useState(
+    localStorage.getItem('dismissTrial') ? true : false
+  );
 
   return (
     <>
@@ -47,7 +46,7 @@ const TileLayout = () => {
               {/* To ALL: Intro */}
               <SummaryTile />
               {/* User access to his dashboard as usual, url is not the same from the ones who click on the SMS trial email CTA */}
-              {<SignUpSMSTrialTile />}
+              {<SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />}
               {/* User clicked on the SMS trial email CTA */}
               {<ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
               {/* URL from email && Reset Mode */}
