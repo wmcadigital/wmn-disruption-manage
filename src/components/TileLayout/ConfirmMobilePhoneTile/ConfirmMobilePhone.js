@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import PropTypes from 'prop-types';
 
@@ -11,6 +11,7 @@ import GenericError from 'components/shared/Errors/GenericError';
 // Custom Hooks
 import useFetchMobileNumber from 'customHooks/useFetchMobileNumber';
 import useFormLogic from 'customHooks/useFormLogic';
+import useFetchConfirmMobile from 'customHooks/useFetchConfirmMobile';
 
 const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobileActive }) => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -20,7 +21,15 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
   const [isConfirmed, setIsConfirmed] = useState(false);
   const { activatePhone, addPhone, isFetchSuccessful } = useFetchMobileNumber();
 
-  console.log('active' + isActivationSuccessful);
+  const [resendPressed, setResendPressed] = useState(false); // Used to track if a user has hit the resend button
+  useFetchConfirmMobile(resendPressed); // Send the current resend status to our fetch so we can send a new text if the user hits resend
+
+  // if the resend has been pressed, we need to map it back to false so the user can click it again (send it true again)
+  useEffect(() => {
+    if (resendPressed) setResendPressed(false);
+  }, [resendPressed]);
+
+  console.log(`active${isActivationSuccessful}`);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,14 +39,14 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
     if (result) {
       if (activatePhone(getValues().PINCode)) {
         setIsActivationSuccessful(true);
-        console.log('isActive?' + subscriberState.user.mobileActive);
+        console.log(`isActive?${subscriberState.user.mobileActive}`);
         setHasMobileActive(true);
         if (subscriberState.user.mobileActive === true) {
           console.log('Activation done');
-          //setIsActivationSuccessful(true);
+          // setIsActivationSuccessful(true);
         } else {
           console.log('Activation failed');
-          //setIsActivationSuccessful(false);
+          // setIsActivationSuccessful(false);
         }
       }
     }
@@ -46,7 +55,7 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
       console.log('errors');
       // window.scrollTo(0, formRef.current.offsetTop); // Scroll to top of form
     }
-    console.log('active?' + isActivationSuccessful);
+    console.log(`active?${isActivationSuccessful}`);
   };
 
   const showGenericError = Object.keys(errors).length > 0 && isSubmitPressed && (
@@ -56,10 +65,10 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
     />
   );
 
-  const resendPINCode = () => {
-    console.log('resend pin code');
-    addPhone(mobilePhoneNumber);
-  };
+  // const resendPINCode = () => {
+  //   console.log('resend pin code');
+  //   h();
+  // };
 
   const enteredWrongNumber = () => {
     console.log('Reset number');
@@ -124,20 +133,20 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
             </fieldset>
 
             <div className="wmnds-grid wmnds-grid--justify-between">
-              {/*submitButton('Confirm your PIN Code')*/}
+              {/* submitButton('Confirm your PIN Code') */}
 
               <Button
                 type="submit"
                 className="wmnds-btn wmnds-col-1 wmnds-col-md-1-2"
-                //disabled={isFetching}
-                //isFetching={isFetching}
+                // disabled={isFetching}
+                // isFetching={isFetching}
                 text="Confirm your PIN Code"
                 onClick={(e) => handleSubmit(e)}
               />
 
               <Button
                 className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2 "
-                onClick={() => resendPINCode()}
+                onClick={() => setResendPressed(true)}
                 text="Resend PIN Code"
               />
             </div>
@@ -166,7 +175,7 @@ const ConfirmMobilePhone = ({ mobilePhoneNumber, setWrongPhoneNumber, setHasMobi
           title="Mobile phone number confirmed"
           message={['We’ll send disruption alerts to ', <strong>{mobilePhoneNumber}</strong>, '.']}
           className="wmnds-col-1 wmnds-m-t-lg"
-          hasCloseButton={true}
+          hasCloseButton
         />
       )}
     </>

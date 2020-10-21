@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Custom hooks
 import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
@@ -17,9 +17,6 @@ import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
 import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 // Helpers
-// import { getSearchParam } from '../../helpers/URLSearchParams';
-
-// let flag = false;
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
