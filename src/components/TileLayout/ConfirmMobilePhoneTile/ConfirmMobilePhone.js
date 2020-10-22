@@ -21,12 +21,14 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
 
   /* RESEND CODE */
   const [resendPressed, setResendPressed] = useState(false); // Used to track if a user has hit the resend button
+  const [resendSuccessful, setResendSuccessful] = useState(false);
   useFetchSendPin(resendPressed); // Send the current resend status to our fetch so we can send a new text if the user hits resend
   // if the resend has been pressed, we need to map it back to false so the user can click it again (send it true again)
   useEffect(() => {
-    if (resendPressed) setResendPressed(false);
-    // if (subscriberState.user.mobileActive) setIsActivationSuccessful(true);
-    // else setIsActivationSuccessful(false);
+    if (resendPressed) {
+      setResendPressed(false);
+      setResendSuccessful(true);
+    }
   }, [resendPressed]);
 
   /* WRONG NUMBER? */
@@ -49,7 +51,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
         <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
           <div className="wmnds-col-1 wmnds-col-lg-4-5">
             <h2>Confirm your mobile phone number</h2>
-            {/* Show generic error message */}
+            
             {errors && (
               <GenericError
                 title="Invalid PIN Code"
@@ -69,12 +71,14 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
                   PIN code after 5 minutes, you can choose to resend the PIN code. Your PIN code
                   will expire at midnight.
                 </p>
-                {resendPressed && (
-                <p className="wmnds-msg-summary--success"> 
-                  <Icon iconName="general-success" className="wmnds-msg-summary__icon" />
-                  <strong>We have resent the PIN code to your mobile phone</strong>
-                </p>
+
+                {resendSuccessful && (
+                  <p className="wmnds-msg-summary--success">
+                    <Icon iconName="general-success" className="wmnds-msg-summary__icon" />
+                    <strong>We have resent the PIN code to your mobile phone</strong>
+                  </p>
                 )}
+                
               </legend>
 
               <Input

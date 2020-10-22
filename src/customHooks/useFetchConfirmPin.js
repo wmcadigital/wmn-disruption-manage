@@ -7,14 +7,13 @@ const useFetchConfirmPin = () => {
   const [confirmPinIsFinished, setConfirmPinIsFinished] = useState(false); // Track if fetch request is currently fetching
 
   const { user } = subscriberState.query;
-
   const [errors, setErrors] = useState(false);
 
   const confirmPin = (pin) => {
     const dataToSend = {
       PinNumber: pin,
     }; // Strucutre the data before sending
-
+    setErrors(false);
     if (pin && user) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
