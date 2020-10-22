@@ -7,7 +7,7 @@ const useFetchConfirmPin = () => {
   const [confirmPinIsFinished, setConfirmPinIsFinished] = useState(false); // Track if fetch request is currently fetching
 
   const { user } = subscriberState.query;
-  const [errors, setErrors] = useState(false);
+  const [errors, setErrors] = useState(null);
 
   const confirmPin = (pin) => {
     const dataToSend = {

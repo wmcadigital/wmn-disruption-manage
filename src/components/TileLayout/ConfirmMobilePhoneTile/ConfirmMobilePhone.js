@@ -18,6 +18,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [pin, setPin] = useState('');
   const { errors, confirmPin, isFetching } = useFetchConfirmPin();
+  const [validateErrors, setValidateErrors] = useState('');
 
   /* RESEND CODE */
   const [resendPressed, setResendPressed] = useState(false); // Used to track if a user has hit the resend button
@@ -38,20 +39,30 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
 
   /* LIVE PIN ERRORS GENERATOR BEFORE SUBMISSION */
   const generateErrors = () => {
-    // do not show errors when input is empty
-    if (pin.length < 4 || pin.length > 7) {
+    if (pin && (pin.length < 4 || pin.length > 7)) {
       return 'The PIN code should be between 4 to 7 digits long';
     }
-    return null;
+    return '';
+  };
+
+  /* VALIDATE AND CONFIRM PIN */
+  const validateAndConfirmPin = () => {
+    if (!generateErrors()) {
+      confirmPin(pin);
+    } else {
+      setValidateErrors(generateErrors());
+    }
+    setIsSubmitPressed(true);
   };
 
   return (
     <>
-      {((!isSubmitPressed && !errors) || (isSubmitPressed && errors)) && (
+      {((!isSubmitPressed && !errors) ||
+        (isSubmitPressed && (errors || errors === null || validateErrors )) ) && (
         <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
           <div className="wmnds-col-1 wmnds-col-lg-4-5">
             <h2>Confirm your mobile phone number</h2>
-            
+
             {errors && (
               <GenericError
                 title="Invalid PIN Code"
@@ -78,7 +89,6 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
                     <strong>We have resent the PIN code to your mobile phone</strong>
                   </p>
                 )}
-                
               </legend>
 
               <Input
@@ -97,14 +107,11 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
               <div className="wmnds-col-1 wmnds-col-md-1-2">
                 <Button
                   className="wmnds-btn wmnds-col-1"
-                  disabled={!(pin.length >= 4 && pin.length <= 7) || isFetching}
+                  disabled={isFetching}
                   isFetching={isFetching}
                   text="Confirm your PIN Code"
                   iconRight="general-chevron-right"
-                  onClick={() => {
-                    confirmPin(pin);
-                    setIsSubmitPressed(true);
-                  }}
+                  onClick={() => validateAndConfirmPin()}
                 />
               </div>
               <div className="wmnds-col-1 wmnds-col-md-1-2">
@@ -134,7 +141,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
         </div>
       )}
 
-      {isSubmitPressed && !errors && (
+      {errors === false && isSubmitPressed && !validateErrors && (
         <Message
           type="success"
           title="Mobile phone number confirmed"
