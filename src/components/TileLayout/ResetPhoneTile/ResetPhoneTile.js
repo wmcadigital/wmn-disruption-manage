@@ -42,42 +42,53 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       {/* Show generic error message */}
       {/* showGenericError  */}
+      <div className="wmnds-col-1 wmnds-col-lg-4-5">
+        <fieldset className="wmnds-fe-fieldset">
+          <legend className="wmnds-fe-fieldset__legend">
+            <h2>Reset your mobile phone number</h2>
+            <p>
+              You requested to receive text message disruption alerts to{' '}
+              <strong>{currentMobileNumber}</strong>.{' '}
+            </p>
+            <p>
+              If this mobile phone number is incorrect, please enter the correct mobile phone number
+              below.
+            </p>
+          </legend>
 
-      <fieldset className="wmnds-fe-fieldset wmnds-col-1 wmnds-col-lg-4-5">
-        <legend className="wmnds-fe-fieldset__legend">
-          <h2>Reset your mobile phone number</h2>
-          <p>
-            You requested to receive text message disruption alerts to{' '}
-            <strong>{currentMobileNumber}</strong>.{' '}
-          </p>
-          <p>
-            If this mobile phone number is incorrect, please enter the correct mobile phone number
-            below.
-          </p>
-        </legend>
+          <Input
+            className="wmnds-col-1 wmnds-col-lg-3-4"
+            name="Phone"
+            value={newMobilePhone}
+            onChange={(e) => setNewMobilePhone(e.target.value)}
+            label={`${phoneLabel}, for example: 07700900090`}
+            type="tel"
+            errors={
+              newMobilePhone.length > 0 && !isValidMobileNumber(newMobilePhone)
+                ? 'Enter an mobile phone number in the correct format'
+                : ''
+            }
+          />
+        </fieldset>
 
-        <Input
-          className="wmnds-col-1 wmnds-col-lg-4-5"
-          name="Phone"
-          value={newMobilePhone}
-          onChange={(e) => setNewMobilePhone(e.target.value)}
-          label={`${phoneLabel}, for example: 07700900090`}
-          type="tel"
-          errors={
-            newMobilePhone.length > 0 && !isValidMobileNumber(newMobilePhone)
-              ? 'Enter an mobile phone number in the correct format'
-              : ''
-          }
-        />
-      </fieldset>
-
-      <div className="wmnds-grid">
-        <Button
-          className="wmnds-btn wmnds-col-1 wmnds-col-md-1-2"
-          disabled={!isValidMobileNumber(newMobilePhone) || newMobilePhone.length === 0}
-          onClick={() => handleSendNewPINCode()}
-          text="Send new PIN code"
-        />
+        <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
+          <div className="wmnds-col-1 wmnds-col-md-1-2">
+            <Button
+              className="wmnds-btn wmnds-col-1"
+              disabled={!isValidMobileNumber(newMobilePhone) || newMobilePhone.length === 0}
+              onClick={() => handleSendNewPINCode()}
+              text="Send new PIN code"
+              iconRight="general-chevron-right"
+            />
+          </div>
+          <div className="wmnds-col-1 wmnds-col-md-1-2">
+            <Button
+              className="wmnds-btn--secondary wmnds-col-1 wmnds-m-b-sm"
+              onClick={() => setWrongPhoneNumber(false)}
+              text="Cancel"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
