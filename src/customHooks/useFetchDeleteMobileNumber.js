@@ -5,14 +5,15 @@ const useFetchDeleteMobileNumber = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { user } = subscriberState.query;
 
-  const [isFetching, setIsFetching] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isNumberDeleted, setIsNumberDeleted]= useState(false);
   const [errors, setErrors] = useState(false);
 
   const deletePhoneNumber = () => {
     const dataToSend = {
       RemoveMobile: '',
     }; // Strucutre the data before sending
-
+    setIsDeleting(true);
     if (user) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'DELETE',
@@ -30,18 +31,19 @@ const useFetchDeleteMobileNumber = () => {
         })
         // If fetch is successful
         .then(() => {
-          setIsFetching(false);
+          setIsDeleting(false);
+          setIsNumberDeleted(true);
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
-          setIsFetching(false);
+          setIsDeleting(false);
           setErrors(true);
         });
     }
   };
 
-  return { errors, deletePhoneNumber, isFetching };
+  return { errors, deletePhoneNumber, isDeleting, isNumberDeleted };
 };
 
 export default useFetchDeleteMobileNumber;

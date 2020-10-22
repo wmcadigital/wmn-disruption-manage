@@ -5,7 +5,7 @@ import { delSearchParam } from 'helpers/URLSearchParams';
 const useFetchSendPin = (resend = false, newMobilePhone = '') => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
-
+  const [sendPinSuccessful, setPinSuccessful] = useState(false);
   const { user } = subscriberState.query;
 
   let { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
@@ -36,13 +36,13 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
         .then(() => {
           delSearchParam('mobi');
           delSearchParam('nomail');
-
+          setPinSuccessful(true);
           setSendPinIsFinished(true);
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
-
+          setPinSuccessful(false);
           setSendPinIsFinished(true);
         });
     } else {
@@ -57,7 +57,7 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
     user,
   ]);
 
-  return { sendPinIsFinished };
+  return { sendPinIsFinished, sendPinSuccessful };
 };
 
 export default useFetchSendPin;
