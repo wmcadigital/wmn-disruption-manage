@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
+import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 
 const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const currentMobileNumber = subscriberState.user.mobileNumber;
   const [newMobilePhone, setNewMobilePhone] = useState('');
+  const { deletePhoneNumber, isFetching, errors } = useFetchDeleteMobileNumber();
 
   /* CHANGE NUMBER and SEND CODE */
   /* useFetchSendPin(false, "") initial state - does nothing */
@@ -20,15 +22,20 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   useFetchSendPin(submittedMobileNumber.length > 0, submittedMobileNumber); // Send the current resend status to our fetch so we can send a new text if the user hits resend
   // if the submit button has been pressed, we need to map it back to false so the user can click it again (send it true again)
   useEffect(() => {
-    if (submittedMobileNumber) setSubmittedMobileNumber('');
-  }, [submittedMobileNumber]);
+    if (submittedMobileNumber) {
+      setSubmittedMobileNumber('');
+      setWrongPhoneNumber(false); // set reset mode to false
+    }
+  }, [setWrongPhoneNumber, submittedMobileNumber]);
 
   const handleSendNewPINCode = () => {
+    // delete Phone
+    deletePhoneNumber();
+    console.log(isFetching);
+    console.log(errors);
+
     // activates the custom hook in order to save new phone number & send new message
     setSubmittedMobileNumber(newMobilePhone);
-
-    // set reset mode to false
-    setWrongPhoneNumber(false);
   };
 
   const phoneLabel = 'Mobile phone number';

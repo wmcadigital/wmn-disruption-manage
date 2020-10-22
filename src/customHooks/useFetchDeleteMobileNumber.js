@@ -5,7 +5,7 @@ const useFetchDeleteMobileNumber = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { user } = subscriberState.query;
 
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [errors, setErrors] = useState(false);
 
   const deletePhoneNumber = () => {
