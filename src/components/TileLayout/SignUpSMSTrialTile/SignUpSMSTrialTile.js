@@ -37,7 +37,7 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
           </div>
           <div className="wmnds-col-1 wmnds-col-md-1-2">
             <Button
-              className="wmnds-btn wmnds-btn--secondary wmnds-col-1  wmnds-m-b-sm"
+              className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-b-sm"
               onClick={() => {
                 setIsDismissTrialActive(true);
                 localStorage.setItem('dismissTrial', 'true');
