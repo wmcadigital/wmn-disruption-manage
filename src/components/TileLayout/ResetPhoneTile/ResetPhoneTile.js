@@ -13,7 +13,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const currentMobileNumber = subscriberState.user.mobileNumber;
   const [newMobilePhone, setNewMobilePhone] = useState('');
-  const { deletePhoneNumber, isDeleting, isNumberDeleted } = useFetchDeleteMobileNumber();
+  const { deletePhoneNumber, isDeleting } = useFetchDeleteMobileNumber();
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [resetWithErrors, setResetWithErrors] = useState(false);
 
@@ -22,7 +22,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   /* useFetchSendPin(true, "07700900090") saves the new number and send a new message */
   /* useFetchSendPin(false, "") using useEffect we can set the function back to do nothing - right after sending the message */
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState(''); // Used to track if a user has saved the new phone number
-  const { sendPinIsFinished, sendPinSuccessful } = useFetchSendPin(
+  const { sendPinIsFinished } = useFetchSendPin(
     submittedMobileNumber.length > 0,
     submittedMobileNumber
   ); // Send the current resend status to our fetch so we can send a new text if the user hits resend
@@ -56,6 +56,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
       deletePhoneNumber();
       // activates the custom hook in order to save new phone number & send new message
       setSubmittedMobileNumber(newMobilePhone);
+      setResetWithErrors(true);
 
       /* LOGIC to fallback
       console.log("isNumberDeleted? "+isNumberDeleted);

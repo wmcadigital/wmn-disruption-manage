@@ -58,7 +58,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
   return (
     <>
       {((!isSubmitPressed && !errors) ||
-        (isSubmitPressed && (errors || errors === null || validateErrors )) ) && (
+        (isSubmitPressed && (errors || errors === null || validateErrors))) && (
         <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
           <div className="wmnds-col-1 wmnds-col-lg-4-5">
             <h2>Confirm your mobile phone number</h2>
@@ -66,7 +66,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
             {errors && (
               <GenericError
                 title="Invalid PIN Code"
-                desc="Please check your PIN code (4 - 7 digits number)."
+                desc="Please check your PIN code. It should be between 4-7 digits long."
               />
             )}
 

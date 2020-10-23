@@ -28,7 +28,7 @@ const TileLayout = () => {
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
 
   const [isDismissTrialActive, setIsDismissTrialActive] = useState(
-    localStorage.getItem('dismissTrial') ? true : false
+    !!localStorage.getItem('dismissTrial')
   );
 
   return (
@@ -46,7 +46,9 @@ const TileLayout = () => {
               {/* To ALL: Intro */}
               <SummaryTile />
               {/* User access to his dashboard as usual, url is not the same from the ones who click on the SMS trial email CTA */}
-              {<SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />}
+              {!isDismissTrialActive && (
+                <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
+              )}
               {/* User clicked on the SMS trial email CTA */}
               {<ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
               {/* URL from email && Reset Mode */}
