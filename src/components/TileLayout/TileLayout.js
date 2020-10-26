@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { SubscriberContext } from 'globalState/SubscriberContext';
 // Custom hooks
 import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
@@ -15,14 +16,14 @@ import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
 import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
-// Helpers
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
-
   const { sendPinIsFinished } = useFetchSendPin();
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
 
+  const [subscriberState] = useContext(SubscriberContext);
+  const { mobileNumber, mobileActive } = subscriberState.user;
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
@@ -46,11 +47,13 @@ const TileLayout = () => {
               {/* To ALL: Intro */}
               <SummaryTile />
               {/* User access to his dashboard as usual, url is not the same from the ones who click on the SMS trial email CTA */}
-              {!isDismissTrialActive && (
+              {!isDismissTrialActive && !mobileNumber && (
                 <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
               )}
               {/* User clicked on the SMS trial email CTA */}
-              {<ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
+              {mobileNumber && !mobileActive && (
+                <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
+              )}
               {/* URL from email && Reset Mode */}
               {wrongPhoneNumber && <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
               {/* To ALL: Add services */}
@@ -58,7 +61,7 @@ const TileLayout = () => {
               {/* To ALL: Remove services */}
               <RemoveTile />
               {/* Mobile introduced and Active */}
-              {<ManageContactPreferencesTile />}
+              {/*<ManageContactPreferencesTile />*/}
               {/* To ALL: Delete Subscription */}
               <DeleteTile setIsUnsubscribed={setIsUnsubscribed} />
             </div>
