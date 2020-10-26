@@ -37,7 +37,6 @@ const Input = ({
   return (
     <div className={`wmnds-fe-group ${errors ? 'wmnds-fe-group--error' : ''}`}>
       {label && (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label className="wmnds-fe-label" htmlFor={name}>
           {label}
         </label>

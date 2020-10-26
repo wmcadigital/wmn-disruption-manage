@@ -6,7 +6,7 @@ const useFetchDeleteMobileNumber = () => {
   const { user } = subscriberState.query;
 
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isNumberDeleted, setIsNumberDeleted]= useState(false);
+  const [isNumberDeleted, setIsNumberDeleted] = useState(false);
   const [errors, setErrors] = useState(false);
 
   const deletePhoneNumber = () => {
