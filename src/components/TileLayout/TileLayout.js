@@ -51,7 +51,7 @@ const TileLayout = () => {
                 <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
               )}
               {/* User clicked on the SMS trial email CTA */}
-              {mobileNumber && !mobileActive && (
+              {mobileNumber && !mobileActive && !wrongPhoneNumber && (
                 <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
               )}
               {/* URL from email && Reset Mode */}
