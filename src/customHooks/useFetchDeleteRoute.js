@@ -6,7 +6,7 @@ const useFetchDeleteRoute = (lineId) => {
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const { secret, user } = subscriberState.query; // Destructure state
 
-  const confirmData = { lineId: [lineId], secret }; // Strucutre the data before sending
+  const confirmData = { lineId: [lineId], secret }; // Structure the data before sending
 
   const removeRoute = () => {
     if (lineId) {

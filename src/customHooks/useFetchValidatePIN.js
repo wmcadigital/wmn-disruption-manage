@@ -11,7 +11,7 @@ const useFetchValidatePIN = (pin) => {
     Name: name,
     Email: email,
     PinNumber: pin,
-  }; // Strucutre the data before sending
+  }; // Structure the data before sending
 
   const validatePIN = () => {
     if (pin) {

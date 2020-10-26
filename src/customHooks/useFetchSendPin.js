@@ -15,7 +15,7 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
 
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
-  }; // Strucutre the data before sending
+  }; // Structure the data before sending
   useEffect(() => {
     if (resend || (!sendPinIsFinished && user && subscriberState.query.mobileNumber)) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {

@@ -12,7 +12,7 @@ const useFetchConfirmPin = () => {
   const confirmPin = (pin) => {
     const dataToSend = {
       PinNumber: pin,
-    }; // Strucutre the data before sending
+    }; // Structure the data before sending
     setErrors(false);
     if (pin && user) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {

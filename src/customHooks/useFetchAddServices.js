@@ -11,7 +11,7 @@ const useFetchAddServices = (selectedServices) => {
     Name: name,
     Email: email,
     LineId: selectedServices.map((item) => +item.lineId),
-  }; // Strucutre the data before sending
+  }; // Structure the data before sending
 
   const addRoutes = () => {
     if (selectedServices) {

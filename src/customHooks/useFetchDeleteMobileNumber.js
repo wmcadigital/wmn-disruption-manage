@@ -12,7 +12,7 @@ const useFetchDeleteMobileNumber = () => {
   const deletePhoneNumber = () => {
     const dataToSend = {
       RemoveMobile: '',
-    }; // Strucutre the data before sending
+    }; // Structure the data before sending
     setIsDeleting(true);
     if (user) {
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
