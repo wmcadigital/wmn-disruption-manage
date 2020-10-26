@@ -33,82 +33,87 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           />
         </>
       )}
-      {/* If bus array exists then we have some services, so show them when autocomplete isn't visible */}
-      {mode !== 'bus' && selectedServices && selectedServices.length > 0 && (
-        <>
-          <div className={` ${selectedServices.length ? 'wmnds-m-t-md' : ''}`}>
-            {buses.length > 0 && <h4>Buses you want to add</h4>}
-            {buses.map((busRoute) => {
-              return (
-                <BusSummary
-                  showRemove
-                  lineId={busRoute.lineId}
-                  serviceNumber={busRoute.serviceNumber}
-                  routeName={busRoute.routeName}
-                  setSelectedServices={setSelectedServices}
-                  key={busRoute.lineId}
-                />
-              );
-            })}
 
-            {trams.length > 0 && <h4>Trams you want to add</h4>}
-            {trams.length > 0 &&
-              trams.map((tramRoute) => {
-                return (
-                  <BusSummary
-                    showRemove
-                    lineId={tramRoute.lineId}
-                    serviceNumber={tramRoute.serviceNumber}
-                    routeName={tramRoute.routeName}
-                    setSelectedServices={setSelectedServices}
-                    key={tramRoute.lineId}
-                  />
-                );
-              })}
-          </div>
-        </>
-      )}
-      {/* Add more services buttons */}
+      {/* Add bus service button */}
       {mode !== 'bus' && (
-        <>
-          <Button
-            className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-            text="Add bus service"
-            onClick={() => setMode('bus')}
-            iconRight="general-expand"
-          />
+        <Button
+          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
+          text="Add bus service"
+          onClick={() => setMode('bus')}
+          iconRight="general-expand"
+        />
+      )}
 
-          {trams.length === 0 && tramServices.length === 0 && (
-            <Button
-              className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-              text="Add tram service"
-              onClick={() => {
-                setMode('tram');
-                setSelectedServices((prevState) => [
-                  ...prevState,
-                  {
-                    lineId: '4546',
-                    routeName: 'Birmingham - Wolverhampton - Birmingham',
-                    serviceNumber: 'mm1',
-                  },
-                ]);
-              }}
-              iconRight="general-expand"
-            />
-          )}
-
-          {/* Add button to confirm new subscriptions */}
-          {selectedServices && selectedServices.length > 0 && (
-            <div className="wmnds-col-1 wmnds-m-t-lg">
-              <Button
-                disabled={isFetching}
-                isFetching={isFetching}
-                text="Confirm new subscriptions"
-                onClick={addRoutes}
+      {/* Add choosen bus services */}
+      {mode !== 'bus' && buses && buses.length > 0 && (
+        <div className="wmnds-m-t-md">
+          <h4>Buses you want to add</h4>
+          {buses.map((busRoute) => {
+            return (
+              <BusSummary
+                showRemove
+                lineId={busRoute.lineId}
+                serviceNumber={busRoute.serviceNumber}
+                routeName={busRoute.routeName}
+                setSelectedServices={setSelectedServices}
+                key={busRoute.lineId}
               />
-            </div>
-          )}
-        </>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Add tram service button */}
+      {mode !== 'bus' && trams.length === 0 && tramServices.length === 0 && (
+        <Button
+          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
+          text="Add tram service"
+          onClick={() => {
+            setMode('tram');
+            setSelectedServices((prevState) => [
+              ...prevState,
+              {
+                lineId: '4546',
+                routeName: 'Birmingham - Wolverhampton - Birmingham',
+                serviceNumber: 'mm1',
+              },
+            ]);
+          }}
+          iconRight="general-expand"
+        />
+      )}
+
+      {/* Add choosen tram services */}
+      {mode !== 'bus' && trams && trams.length > 0 && (
+        <div className="wmnds-m-t-md">
+          <h4>Trams you want to add</h4>
+          {trams.map((tramRoute) => {
+            return (
+              <BusSummary
+                showRemove
+                lineId={tramRoute.lineId}
+                serviceNumber={tramRoute.serviceNumber}
+                routeName={tramRoute.routeName}
+                setSelectedServices={setSelectedServices}
+                key={tramRoute.lineId}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Add more services buttons */}
+      {mode !== 'bus' && selectedServices && selectedServices.length > 0 && (
+        <div className="wmnds-col-1 wmnds-m-t-lg">
+          {/* Add button to confirm new subscriptions */}
+          <Button
+            disabled={isFetching}
+            isFetching={isFetching}
+            text="Confirm new subscriptions"
+            onClick={addRoutes}
+            iconRight="general-chevron-right"
+          />
+        </div>
       )}
     </>
   );
