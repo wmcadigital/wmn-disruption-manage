@@ -1,23 +1,22 @@
-import React, { useRef, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import Button from 'components/shared/Button/Button';
 import Message from 'components/shared/Message/Message';
-import Input from 'components/shared/FormElements/Input/Input';
-import InputCheckbox from 'components/shared/FormElements/Input/InputCheckbox';
+// import Input from 'components/shared/FormElements/Input/Input';
+// import InputCheckbox from 'components/shared/FormElements/Input/InputCheckbox';
 
 const ManageContactPreferencesTile = () => {
-  const formRef = useRef();
   const [editingMode, setEditingMode] = useState(false);
   const [subscriberState] = useContext(SubscriberContext);
   const { MobileNumber } = subscriberState.user;
 
   const editContactPreferences = () => {
-    console.log('edit contact preferences mode');
+    // console.log('edit contact preferences mode');
     setEditingMode(true);
   };
 
   const handleSubmitChanges = () => {
-    console.log('Save new user information');
+    // console.log('Save new user information');
     // show confirm number tile
   };
 

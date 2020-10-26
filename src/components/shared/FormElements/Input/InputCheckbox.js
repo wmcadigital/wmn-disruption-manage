@@ -1,17 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
-import dompurify from 'dompurify';
-
-// Import contexts
-import { useForm } from 'react-hook-form';
-
 import Icon from '../../Icon/Icon';
 
-const { sanitize } = dompurify;
-
 const InputCheckbox = ({ fieldValidation, name, labelValue, classes }) => {
-  //const { errors } = useForm() || {};
+  // const { errors } = useForm() || {};
   // Set input to render below
 
   return (
@@ -27,11 +20,7 @@ const InputCheckbox = ({ fieldValidation, name, labelValue, classes }) => {
 
     <div className={`wmnds-fe-group ${classes}`}>
       <label className="wmnds-fe-checkboxes__container">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: sanitize(labelValue),
-          }}
-        />
+        {labelValue}
         <input
           ref={fieldValidation}
           className="wmnds-fe-checkboxes__input"

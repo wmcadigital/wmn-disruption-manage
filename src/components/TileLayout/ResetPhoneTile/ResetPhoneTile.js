@@ -36,9 +36,9 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
 
   const phoneLabel = 'Mobile phone number';
   const isValidMobileNumber = (p) => {
-    p = p.replace(/\s/g, '');
+    const number = p.replace(/\s/g, '');
     const mobileRegEx = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
-    return mobileRegEx.test(p);
+    return mobileRegEx.test(number);
   };
 
   /* LIVE PIN ERRORS GENERATOR BEFORE SUBMISSION */

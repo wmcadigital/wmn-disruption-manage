@@ -15,7 +15,6 @@ const Input = ({
   isRequired,
   errors,
 }) => {
-  console.log('errors:' + errors);
   // Set input to render below
   const input = (
     <>
