@@ -107,6 +107,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
         <div className="wmnds-col-1 wmnds-m-t-lg">
           {/* Add button to confirm new subscriptions */}
           <Button
+            className="wmnds-col-1 wmnds-col-md-1-2"
             disabled={isFetching}
             isFetching={isFetching}
             text="Confirm new subscriptions"

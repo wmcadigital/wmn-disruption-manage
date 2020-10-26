@@ -8,28 +8,31 @@ import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 import s from './Bus.module.scss';
 
 const Bus = ({ lineId, serviceNumber, routeName }) => {
-  // const  = service; // Grab the id, name, routeName from the service passed in
+  // eslint-disable-next-line no-unused-vars
   const { removeRoute, isFetching } = useFetchDeleteRoute(lineId); // Use a custom hook to assist with deleting a route
 
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
         {/* Left side (service number and route name) */}
-        <div className="wmnds-col-1 wmnds-col-sm-auto">
-          <div className="wmnds-disruption-indicator-medium wmnds-m-r-md">{serviceNumber}</div>
-          <strong>{routeName}</strong>
+        <div className="wmnds-col-1 wmnds-col-sm-3-5 wmnds-col-lg-3-5 wmnds-grid wmnds-m-t-sm wmnds-grid--align-center">
+          <div className="wmnds-disruption-indicator-medium wmnds-m-r-md wmnds-col-auto">
+            {serviceNumber}
+          </div>
+          <div className="wmnds-col-2-3">
+            <strong>{routeName}</strong>
+          </div>
         </div>
-
-        {/* Right side for remove route button */}
-        <Button
-          className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${s.removeBtn}`}
-          disabled={isFetching}
-          isFetching={isFetching}
-          text="Remove service"
-          iconRight="general-trash"
-          title={`Remove service ${serviceNumber}: ${routeName}`}
-          onClick={removeRoute}
-        />
+        {/* Right side for remove service button */}
+        <div className="wmnds-col-1 wmnds-col-sm-2-5 wmnds-col-lg-auto wmnds-grid wmnds-m-t-sm wmnds-grid--align-center wmnds-grid--justify-end">
+          <Button
+            className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-lg-auto wmnds-m-t-sm ${s.removeRoute}`}
+            text="Remove service"
+            iconRight="general-trash"
+            title={`Remove service ${serviceNumber}: ${routeName}`}
+            onClick={removeRoute}
+          />
+        </div>
       </div>
       <hr className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md" />
     </>
