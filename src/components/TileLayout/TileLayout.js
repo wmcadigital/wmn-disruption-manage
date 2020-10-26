@@ -11,7 +11,7 @@ import ConfirmMobilePhoneTile from './ConfirmMobilePhoneTile/ConfirmMobilePhoneT
 import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
 import AddMoreTile from './AddMoreTile/AddMoreTile';
 import RemoveTile from './RemoveTile/RemoveTile';
-import ManageContactPreferencesTile from './ManageContactPreferencesTile/ManageContactPreferencesTile';
+// import ManageContactPreferencesTile from './ManageContactPreferencesTile/ManageContactPreferencesTile';
 import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
@@ -61,7 +61,7 @@ const TileLayout = () => {
               {/* To ALL: Remove services */}
               <RemoveTile />
               {/* Mobile introduced and Active */}
-              {/*<ManageContactPreferencesTile />*/}
+              {/* <ManageContactPreferencesTile /> */}
               {/* To ALL: Delete Subscription */}
               <DeleteTile setIsUnsubscribed={setIsUnsubscribed} />
             </div>
