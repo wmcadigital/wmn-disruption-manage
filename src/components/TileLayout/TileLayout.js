@@ -11,7 +11,7 @@ import ConfirmMobilePhoneTile from './ConfirmMobilePhoneTile/ConfirmMobilePhoneT
 import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
 import AddMoreTile from './AddMoreTile/AddMoreTile';
 import RemoveTile from './RemoveTile/RemoveTile';
-// import ManageContactPreferencesTile from './ManageContactPreferencesTile/ManageContactPreferencesTile';
+import ManageContactPreferencesTile from './ManageContactPreferencesTile/ManagePreferencesTile';
 import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
@@ -25,7 +25,7 @@ const TileLayout = () => {
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, mobileActive } = subscriberState.user;
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
-
+  
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
 
   const [isDismissTrialActive, setIsDismissTrialActive] = useState(
@@ -40,28 +40,37 @@ const TileLayout = () => {
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-2-3">
             <div className="wmnds-grid">
+
               {/* To ALL: Title */}
               <div className="wmnds-col-1">
                 <h1 className="wmnds-col-1 wmnds-col-lg-4-5">Disruption alerts dashboard</h1>
               </div>
+
               {/* To ALL: Intro */}
               <SummaryTile />
+
               {/* User access to his dashboard as usual, url is not the same from the ones who click on the SMS trial email CTA */}
               {!isDismissTrialActive && !mobileNumber && (
                 <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
               )}
+
               {/* User clicked on the SMS trial email CTA */}
               {mobileNumber && !mobileActive && !wrongPhoneNumber && (
                 <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
               )}
+
               {/* URL from email && Reset Mode */}
               {wrongPhoneNumber && <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
+
               {/* To ALL: Add services */}
               <AddMoreTile />
+
               {/* To ALL: Remove services */}
               <RemoveTile />
+
               {/* Mobile introduced and Active */}
-              {/* <ManageContactPreferencesTile /> */}
+              {mobileNumber && mobileActive && <ManageContactPreferencesTile />}
+
               {/* To ALL: Delete Subscription */}
               <DeleteTile setIsUnsubscribed={setIsUnsubscribed} />
             </div>

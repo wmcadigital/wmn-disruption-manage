@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 
-const Message = ({ type, title, message, className, hasCloseButton }) => {
+const Message = ({ type, title, message, className, hasCloseButton, key }) => {
   let iconName;
   switch (type) {
     case 'error':
@@ -30,7 +30,7 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
   };
 
   return (
-    <div className={`wmnds-msg-summary wmnds-msg-summary--${type} ${className}`}>
+    <div className={`wmnds-msg-summary wmnds-msg-summary--${type} ${className}`} key={key}>
       {hasCloseButton && (
         <button
           type="button"
@@ -57,6 +57,7 @@ Message.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
   hasCloseButton: PropTypes.bool,
+  key: PropTypes.string,
 };
 
 Message.defaultProps = {
@@ -65,6 +66,7 @@ Message.defaultProps = {
   title: 'Good service',
   message: 'No incidents reported.',
   hasCloseButton: false,
+  key: null,
 };
 
 export default Message;

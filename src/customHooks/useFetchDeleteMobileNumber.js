@@ -10,6 +10,7 @@ const useFetchDeleteMobileNumber = () => {
   const [errors, setErrors] = useState(false);
 
   const deletePhoneNumber = () => {
+    console.log('is deleting...');
     const dataToSend = {
       RemoveMobile: '',
     }; // Structure the data before sending
@@ -30,15 +31,21 @@ const useFetchDeleteMobileNumber = () => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then(() => {
+        .then((payload) => {
+          // if (payload === 'deleted')
+          console.log(payload);
           setIsDeleting(false);
           setIsNumberDeleted(true);
+          console.log('is deleted....');
+          return isNumberDeleted;
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
           setIsDeleting(false);
           setErrors(true);
+          console.log("it's not deleted....");
+          return isNumberDeleted;
         });
     }
   };
