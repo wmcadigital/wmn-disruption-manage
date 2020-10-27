@@ -32,7 +32,6 @@ export const SubscriberProvider = (props) => {
     switch (action.type) {
       // Add favourite
       case 'MAP_USER_DETAILS':
-        console.log(action.payload);
         return {
           ...state,
           user: action.payload,
