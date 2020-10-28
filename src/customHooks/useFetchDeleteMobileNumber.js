@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchDeleteMobileNumber = () => {
-  const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { user } = subscriberState.query;
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,8 +31,7 @@ const useFetchDeleteMobileNumber = () => {
         })
         // If fetch is successful
         .then((payload) => {
-          // if (payload === 'deleted')
-          console.log(payload);
+          subscriberDispatch({ type: 'REMOVE_MOBILE', payload: "" });
           setIsDeleting(false);
           setIsNumberDeleted(true);
         }) // If fetch errors

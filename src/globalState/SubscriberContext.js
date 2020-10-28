@@ -46,6 +46,16 @@ export const SubscriberProvider = (props) => {
           },
         };
 
+      case 'REMOVE_MOBILE':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            mobileNumber: action.payload,
+            mobileActive: false,
+          },
+        };
+
       // Default should return intial state if error
       default:
         return initialState;
