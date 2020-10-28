@@ -8,7 +8,9 @@ import EditingManagePreferences from 'components/TileLayout/ManageContactPrefere
 const ManageContactPreferencesTile = () => {
   const [editingMode, setEditingMode] = useState(false);
   const [confirmMobileMode, setConfirmMobileMode] = useState(false);
+  const [changeMobileMode, setChangeMobileMode] =  useState(false);
   const [messages, setMessages] = useState([]);
+  
 
   return (
     <>
@@ -27,7 +29,7 @@ const ManageContactPreferencesTile = () => {
           setConfirmMobileMode={setConfirmMobileMode}
         />
       )}
-      {confirmMobileMode && <ConfirmMobilePhone />}
+      {confirmMobileMode && <ConfirmMobilePhone setWrongPhoneNumber={setChangeMobileMode} />}
     </>
   );
 };

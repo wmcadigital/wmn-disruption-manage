@@ -5,13 +5,13 @@ const useFetchToggleEmailAlerts = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { user } = subscriberState.query;
   const [isFetching, setIsFetching] = useState(false);
-  const [isFetchSuccessful, setIsFetchSuccessful] = useState(false);
+  const [isToggleDone, setToggleDone] = useState(false);
 
   const toggleEmailAlerts = (isEmailEnabled) => {
     const dataToSend = {
       emailDisabled: !isEmailEnabled,
     }; // Structure the data before sending
-    
+
     fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
       method: 'PUT',
       body: JSON.stringify(dataToSend),
@@ -28,22 +28,21 @@ const useFetchToggleEmailAlerts = () => {
       })
       // If fetch is successful
       .then((payload) => {
-        
         subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
         setIsFetching(false); // set to false as we are done fetching now
-        setIsFetchSuccessful(true);
+        setToggleDone(true);
       }) // If fetch errors
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error({ error });
 
         setIsFetching(false); // set to false as we are done fetching now
-        setIsFetchSuccessful(false);
+        setToggleDone(false);
       });
   };
 
   // Return function and isFetching state to be used outside of custom hook
-  return { toggleEmailAlerts, isFetching, isFetchSuccessful };
+  return { toggleEmailAlerts, isFetching, isToggleDone };
 };
 
 export default useFetchToggleEmailAlerts;

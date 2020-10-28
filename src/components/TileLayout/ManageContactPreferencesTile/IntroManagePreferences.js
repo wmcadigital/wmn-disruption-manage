@@ -22,7 +22,7 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
               type={message.type}
               title={message.title}
               message={message.text}
-              className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-lg"
+              className="wmnds-col-1 wmnds-m-b-md"
               hasCloseButton
             />
           );

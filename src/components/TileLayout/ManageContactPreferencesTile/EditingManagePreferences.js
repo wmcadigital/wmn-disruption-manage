@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 // Components
@@ -10,7 +10,9 @@ import WarningText from 'components/shared/WarningText/WarningText';
 // Custom Hooks
 import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 import useFetchToggleEmailAlerts from 'customHooks/useFetchToggleEmailAlerts';
-import useFetchChangeMobilePhone from 'customHooks/useFetchChangeMobilePhone';
+// import useFetchChangeMobilePhone from 'customHooks/useFetchChangeMobilePhone';
+import useFetchReplacePhone from 'customHooks/useFetchReplacePhone';
+import useFetchSendPin from 'customHooks/useFetchSendPin';
 
 const EditingManagePreferences = ({
   setMessages,
@@ -23,12 +25,102 @@ const EditingManagePreferences = ({
   const [phone, setPhone] = useState(mobileNumber);
   const [preferences, setPreferences] = useState({ phone: mobileActive, email: !emailDisabled });
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-
-  const { deletePhoneNumber } = useFetchDeleteMobileNumber();
-  const { toggleEmailAlerts } = useFetchToggleEmailAlerts();
-  const { changeMobileNumber } = useFetchChangeMobilePhone();
-
+  const [newPhone, setNewPhone] = useState('');
   const newMessages = [];
+
+  const [doesPhonePrefChanged, setDoesPhonePrefChanged] = useState(false);
+  const [doesEmailPrefChanged, setDoesEmailPrefChanged] = useState(false);
+  const [isEmailEnabled, setIsEmailEnabled] = useState(false);
+  const [doesPhoneNumberChanged, setDoesPhoneNumberChanged] = useState(false);
+
+  const { isNumberDeleted, deletePhoneNumber } = useFetchDeleteMobileNumber();
+  const { isToggleDone, toggleEmailAlerts } = useFetchToggleEmailAlerts();
+
+  const { sendPinSuccessful } = useFetchSendPin(newPhone.length > 0 && isNumberDeleted, newPhone);
+  useEffect(() => {
+    if (doesEmailPrefChanged) {
+      if (isEmailEnabled && isToggleDone) {
+        newMessages.push({
+          key: `email_${new Date().getTime()}`,
+          title: 'Subscribed from email alerts',
+          text: ["We'll send disruption alerts to ", <strong>{email}</strong>, '.'],
+          type: 'success',
+        });
+        setEditingMode(false);
+      } else if (!isEmailEnabled && isToggleDone) {
+        newMessages.push({
+          key: `email_${new Date().getTime()}`,
+          title: 'Unsubscribed from email alerts',
+          text: ["We'll no longer send disruption alerts to ", <strong>{email}</strong>, '.'],
+          type: 'success',
+        });
+        setEditingMode(false);
+      }
+      setMessages([...newMessages]);
+    }
+    if (doesPhonePrefChanged && isNumberDeleted) {
+      newMessages.push({
+        key: `phone_${new Date().getTime()}`,
+        title: 'Unsubscribed from text message alerts',
+        text: ["We'll no longer send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+        type: 'success',
+      });
+      setEditingMode(false);
+      setMessages([...newMessages]);
+    }
+
+    if (doesPhoneNumberChanged && sendPinSuccessful) {
+      newMessages.push({
+        key: `phone-change_${new Date().getTime()}`,
+        title: 'We have updated your phone number',
+        text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+        type: 'success',
+      });
+      setEditingMode(false);
+      setMessages([...newMessages]);
+    }
+
+    
+    if (doesPhoneNumberChanged && newPhone && isNumberDeleted) {
+      
+      setNewPhone('');
+      setConfirmMobileMode(true);
+      /* newMessages.push({
+        key: `change-phone_${new Date().getTime()}`,
+        title: 'Your phone number was changed with success',
+        text: ['We will send you a pin code to', <strong>{phone}</strong>, '.'],
+        type: 'success',
+      }); */
+      // setEditingMode(false);
+    }
+    /*
+    if (doesPhonePrefChanged && isNumberDeleted) {
+      newMessages.push({
+        key: `phone_${new Date().getTime()}`,
+        title: 'Unsubscribed from text message alerts',
+        text: ["We'll no longer send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+        type: 'success',
+      });
+      setEditingMode(false);
+    }
+    */
+
+    // setMessages([...newMessages]);
+  }, [
+    doesEmailPrefChanged,
+    doesPhoneNumberChanged,
+    doesPhonePrefChanged,
+    email,
+    isEmailEnabled,
+    isNumberDeleted,
+    isToggleDone,
+    mobileNumber,
+    newMessages,
+    newPhone,
+    setConfirmMobileMode,
+    setEditingMode,
+    setMessages,
+  ]);
 
   const isValidMobileNumber = (p) => {
     const number = p.replace(/\s/g, '');
@@ -47,76 +139,36 @@ const EditingManagePreferences = ({
     setIsSubmitPressed(true);
     // if phone option is selected, only proceed if phone number is valid
     if ((preferences.phone && !generateErrors()) || !preferences.phone) {
-      // check if there a change in phone preferences
+      // Check if there a change in phone preferences
       if (preferences.phone !== mobileActive) {
-        if (preferences.phone) {
-          // delete phone
-          // add new phone and send pin
-          // show confirm pin tile
-          // exit edit mode
-          // success message
-          newMessages.push({
-            key: `phone_${new Date().getTime()}`,
-            title: 'Mobile phone number confirmed',
-            text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-            type: 'success',
-          });
-        } else {
-          deletePhoneNumber(); // Delete Phone
-          console.log('Delete number here');
-          newMessages.push({
-            key: `phone_${new Date().getTime()}`,
-            title: 'Unsubscribed from text message alerts',
-            text: [
-              "We'll no longer send disruption alerts to ",
-              <strong>{mobileNumber}</strong>,
-              '.',
-            ],
-            type: 'success',
-          });
+        if (!preferences.phone) {
+          setDoesPhonePrefChanged(true);
+          deletePhoneNumber();
         }
       }
-
+      // If user did change his email preferences
       if (preferences.email !== !emailDisabled) {
-        // disable or enable email
+        setDoesEmailPrefChanged(true);
+        setIsEmailEnabled(preferences.email);
         toggleEmailAlerts(preferences.email);
-        if (preferences.email) {
-          console.log('subscribed to email alerts...');
-          newMessages.push({
-            key: `email_${new Date().getTime()}`,
-            title: 'Subscribed to email alerts',
-            text: ["We'll send disruption alerts to ", <strong>{email}</strong>, '.'],
-            type: 'success',
-          });
-        } else {
-          newMessages.push({
-            key: `email_${new Date().getTime()}`,
-            title: 'Unsubscribed from email alerts',
-            text: ["We'll no longer send disruption alerts to ", <strong>{email}</strong>, '.'],
-            type: 'success',
-          });
-        }
       }
-
       // If user did change phone number and phone option is choosen
       if (preferences.phone && phone !== mobileNumber) {
-        console.log('user changed mobile phone number');
-        changeMobileNumber(phone);
-        setConfirmMobileMode(true);
-        newMessages.push({
-          key: `change-phone_${new Date().getTime()}`,
-          title: 'Your phone number was changed with success',
-          text: ['We will send you a pin code to', <strong>{phone}</strong>, '.'],
-          type: 'success',
-        });
+        setDoesPhoneNumberChanged(true);
+        deletePhoneNumber();
+        if (phone && phone.substr(0, 1) === '0') {
+          setNewPhone(`+44${phone.substr(1)}`);
+        } else {
+          setNewPhone(phone);
+        }
       }
 
-      if (!confirmMobileMode) {
+      if (!confirmMobileMode && !newPhone) {
         setMessages([...newMessages]);
         newMessages.length = 0; // clear newMessages array
-        setEditingMode(false);
-        setPreferences({ phone: mobileActive, email: !emailDisabled });
-        setPhone(mobileNumber);
+        // setEditingMode(false);
+        // setPreferences({ phone: mobileActive, email: !emailDisabled });
+        // setPhone(mobileNumber);
       }
     }
   };
