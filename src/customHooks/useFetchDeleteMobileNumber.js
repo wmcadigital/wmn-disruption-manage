@@ -9,7 +9,7 @@ const useFetchDeleteMobileNumber = () => {
   const [isNumberDeleted, setIsNumberDeleted] = useState(false);
   const [errors, setErrors] = useState(false);
 
-  const deletePhoneNumber = () => {
+  const deletePhoneNumber = (updateUser = true) => {
     const dataToSend = {
       RemoveMobile: 'any text',
     }; // Structure the data before sending
@@ -31,7 +31,9 @@ const useFetchDeleteMobileNumber = () => {
         })
         // If fetch is successful
         .then((payload) => {
-          subscriberDispatch({ type: 'REMOVE_MOBILE', payload: "" });
+          if(updateUser) {
+            subscriberDispatch({ type: 'REMOVE_MOBILE', payload: "" });
+          }
           setIsDeleting(false);
           setIsNumberDeleted(true);
         }) // If fetch errors

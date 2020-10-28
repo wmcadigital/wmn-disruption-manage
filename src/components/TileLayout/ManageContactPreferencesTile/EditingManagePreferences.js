@@ -155,7 +155,7 @@ const EditingManagePreferences = ({
       // If user did change phone number and phone option is choosen
       if (preferences.phone && phone !== mobileNumber) {
         setDoesPhoneNumberChanged(true);
-        deletePhoneNumber();
+        deletePhoneNumber(false);
         if (phone && phone.substr(0, 1) === '0') {
           setNewPhone(`+44${phone.substr(1)}`);
         } else {

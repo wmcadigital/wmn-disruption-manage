@@ -53,7 +53,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
     setIsSubmitPressed(true);
     if (!generateErrors()) {
       // delete Phone
-      deletePhoneNumber();
+      deletePhoneNumber(false);
       // check if number has +44
       if (newMobilePhone && newMobilePhone.substr(0, 1) === '0') {
         // activates the custom hook in order to save new phone number & send new message
