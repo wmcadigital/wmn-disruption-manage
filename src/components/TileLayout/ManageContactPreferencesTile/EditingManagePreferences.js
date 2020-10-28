@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import PropTypes, { objectOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 // Components
 import Button from 'components/shared/Button/Button';
@@ -13,7 +13,6 @@ import useFetchToggleEmailAlerts from 'customHooks/useFetchToggleEmailAlerts';
 import useFetchChangeMobilePhone from 'customHooks/useFetchChangeMobilePhone';
 
 const EditingManagePreferences = ({
-  messages,
   setMessages,
   setEditingMode,
   confirmMobileMode,
@@ -28,6 +27,8 @@ const EditingManagePreferences = ({
   const { deletePhoneNumber } = useFetchDeleteMobileNumber();
   const { toggleEmailAlerts } = useFetchToggleEmailAlerts();
   const { changeMobileNumber } = useFetchChangeMobilePhone();
+
+  const newMessages = [];
 
   const isValidMobileNumber = (p) => {
     const number = p.replace(/\s/g, '');
@@ -54,55 +55,46 @@ const EditingManagePreferences = ({
           // show confirm pin tile
           // exit edit mode
           // success message
-          setMessages([
-            ...messages,
-            {
-              title: 'Mobile phone number confirmed',
-              text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-              type: 'success',
-            },
-          ]);
+          newMessages.push({
+            key: `phone_${new Date().getTime()}`,
+            title: 'Mobile phone number confirmed',
+            text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+            type: 'success',
+          });
         } else {
-          // Delete Phone
-          if (deletePhoneNumber()) {
-            console.log('Deleted phone number');
-          }
-          // success message
-          setMessages([
-            ...messages,
-            {
-              title: 'Unsubscribed from text message alerts',
-              text: ["We won't send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-              type: 'success',
-            },
-          ]);
+          deletePhoneNumber(); // Delete Phone
+          console.log('Delete number here');
+          newMessages.push({
+            key: `phone_${new Date().getTime()}`,
+            title: 'Unsubscribed from text message alerts',
+            text: [
+              "We'll no longer send disruption alerts to ",
+              <strong>{mobileNumber}</strong>,
+              '.',
+            ],
+            type: 'success',
+          });
         }
       }
 
       if (preferences.email !== !emailDisabled) {
-        console.log(`is Email disabled? ${emailDisabled}`);
         // disable or enable email
         toggleEmailAlerts(preferences.email);
-
         if (preferences.email) {
-          setMessages([
-            ...messages,
-            {
-              title: 'Subscribed to email alerts',
-              text: ["We'll send disruption alerts to ", <strong>{email}</strong>, '.'],
-              type: 'success',
-            },
-          ]);
+          console.log('subscribed to email alerts...');
+          newMessages.push({
+            key: `email_${new Date().getTime()}`,
+            title: 'Subscribed to email alerts',
+            text: ["We'll send disruption alerts to ", <strong>{email}</strong>, '.'],
+            type: 'success',
+          });
         } else {
-          console.log('Unsubscribe email');
-          setMessages([
-            ...messages,
-            {
-              title: 'Unsubscribed to email alerts',
-              text: ["We won't send disruption alerts to ", <strong>{email}</strong>, '.'],
-              type: 'success',
-            },
-          ]);
+          newMessages.push({
+            key: `email_${new Date().getTime()}`,
+            title: 'Unsubscribed from email alerts',
+            text: ["We'll no longer send disruption alerts to ", <strong>{email}</strong>, '.'],
+            type: 'success',
+          });
         }
       }
 
@@ -111,17 +103,17 @@ const EditingManagePreferences = ({
         console.log('user changed mobile phone number');
         changeMobileNumber(phone);
         setConfirmMobileMode(true);
-        setMessages([
-          ...messages,
-          {
-            title: 'Your phone number was changed with success',
-            text: ['We will send you a pin code to', <strong>{phone}</strong>, '.'],
-            type: 'success',
-          },
-        ]);
+        newMessages.push({
+          key: `change-phone_${new Date().getTime()}`,
+          title: 'Your phone number was changed with success',
+          text: ['We will send you a pin code to', <strong>{phone}</strong>, '.'],
+          type: 'success',
+        });
       }
 
       if (!confirmMobileMode) {
+        setMessages([...newMessages]);
+        newMessages.length = 0; // clear newMessages array
         setEditingMode(false);
         setPreferences({ phone: mobileActive, email: !emailDisabled });
         setPhone(mobileNumber);
@@ -197,7 +189,6 @@ const EditingManagePreferences = ({
       />
 
       <Message
-        key="Do you want to change your email address?"
         type="info"
         title="Do you want to change your email address?"
         message="If you want to change your current email address, you will have to unsubscribe from all alerts and sign up again with a new email."
@@ -209,7 +200,6 @@ const EditingManagePreferences = ({
 
 // Set props
 EditingManagePreferences.propTypes = {
-  messages: PropTypes.arrayOf(objectOf(PropTypes.string)).isRequired,
   setMessages: PropTypes.func.isRequired,
   setEditingMode: PropTypes.func.isRequired,
   confirmMobileMode: PropTypes.bool.isRequired,

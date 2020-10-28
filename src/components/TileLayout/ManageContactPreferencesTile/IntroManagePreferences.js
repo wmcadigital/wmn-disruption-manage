@@ -18,7 +18,7 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
         messages.map((message) => {
           return (
             <Message
-              key={`${message.title} ${message.type} `}
+              key={message.key}
               type={message.type}
               title={message.title}
               message={message.text}
@@ -29,7 +29,9 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
         })}
       {mobileActive && (
         <>
-          <p>We are sending text message disruption alerts to {mobileNumber}.</p>
+          <p>
+            We are sending text message disruption alerts to <strong>{mobileNumber}</strong>.
+          </p>
           <p>You’re participating in the text message service disruption trial.</p>
           <p>
             {/* TODO: update survey link */}
@@ -45,7 +47,11 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
           </p>
         </>
       )}
-      {!emailDisabled && <p>We are sending email alerts to {email}.</p>}
+      {!emailDisabled && (
+        <p>
+          We are sending email alerts to <strong>{email}</strong>.
+        </p>
+      )}
       <Button
         className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2"
         onClick={() => {

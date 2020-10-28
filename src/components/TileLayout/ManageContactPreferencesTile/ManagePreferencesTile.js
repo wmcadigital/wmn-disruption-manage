@@ -21,9 +21,9 @@ const ManageContactPreferencesTile = () => {
       )}
       {!confirmMobileMode && editingMode && (
         <EditingManagePreferences
-          messages={messages}
           setMessages={setMessages}
           setEditingMode={setEditingMode}
+          confirmMobileMode = {confirmMobileMode}
           setConfirmMobileMode={setConfirmMobileMode}
         />
       )}
