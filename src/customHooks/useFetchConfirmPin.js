@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchConfirmPin = () => {
-  const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false);
   const [confirmPinIsFinished, setConfirmPinIsFinished] = useState(false); // Track if fetch request is currently fetching
 
@@ -30,7 +30,8 @@ const useFetchConfirmPin = () => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then(() => {
+        .then((payload) => {
+          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
           setIsFetching(false);
           setConfirmPinIsFinished(true);
         }) // If fetch errors

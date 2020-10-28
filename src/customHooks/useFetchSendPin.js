@@ -33,15 +33,14 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then(() => {
+        .then((payload) => {
           delSearchParam('mobi');
           delSearchParam('nomail');
           setPinSuccessful(true);
           setSendPinIsFinished(true);
+          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
         }) // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
           setPinSuccessful(false);
           setSendPinIsFinished(true);
         });
