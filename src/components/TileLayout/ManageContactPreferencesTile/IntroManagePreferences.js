@@ -34,9 +34,8 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
           </p>
           <p>You’re participating in the text message service disruption trial.</p>
           <p>
-            {/* TODO: update survey link */}
             <a
-              href="#survey"
+              href="https://surveys.hotjar.com/b9f7936e-ae08-44a9-83f6-7bc392754dda"
               title="Please complete a survey."
               target="_blank"
               rel="noopener noreferrer"
