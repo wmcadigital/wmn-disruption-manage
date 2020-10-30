@@ -3,21 +3,30 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
 const useFetchSendPin = (resend = false, newMobilePhone = '') => {
-  const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
   const [sendPinSuccessful, setPinSuccessful] = useState(false);
   const { user } = subscriberState.query;
+  const [flagToAvoidMultipleMessages, setFlagToAvoidMultipleMessages] = useState(false);
 
   let { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
   if (newMobilePhone !== '') {
     mobileNumber = newMobilePhone;
   }
-
+  
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
   }; // Structure the data before sending
   useEffect(() => {
-    if (resend || (!sendPinIsFinished && user && subscriberState.query.mobileNumber)) {
+    if (
+      (resend) ||
+      (!flagToAvoidMultipleMessages &&
+        !sendPinIsFinished &&
+        user &&
+        subscriberState.query.mobileNumber)
+    ) {
+      setFlagToAvoidMultipleMessages(true);
+      console.log("waiting for adding phone... "+mobileNumber);
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -54,6 +63,7 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
     resend,
     subscriberState.query.mobileNumber,
     user,
+    flagToAvoidMultipleMessages,
   ]);
 
   return { sendPinIsFinished, sendPinSuccessful };

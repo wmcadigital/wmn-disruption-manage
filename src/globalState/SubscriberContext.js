@@ -56,6 +56,15 @@ export const SubscriberProvider = (props) => {
           },
         };
 
+      case 'ADD_PIN_CONFIRMATION_MESSAGE':
+          return {
+            ...state,
+            user: {
+              ...state.user,
+              smsMessageSuccess: action.payload,
+            },
+          };
+
       // Default should return intial state if error
       default:
         return initialState;

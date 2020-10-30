@@ -30,9 +30,9 @@ const useFetchDeleteMobileNumber = () => {
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
-        .then((payload) => {
-          if(updateUser) {
-            subscriberDispatch({ type: 'REMOVE_MOBILE', payload: "" });
+        .then(() => {
+          if (updateUser) {
+            subscriberDispatch({ type: 'REMOVE_MOBILE', payload: '' });
           }
           setIsDeleting(false);
           setIsNumberDeleted(true);

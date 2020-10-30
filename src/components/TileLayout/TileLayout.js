@@ -7,6 +7,7 @@ import useFetchSendPin from 'customHooks/useFetchSendPin';
 // Components
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
 import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
+import Message from 'components/shared/Message/Message';
 import ConfirmMobilePhoneTile from './ConfirmMobilePhoneTile/ConfirmMobilePhoneTile';
 import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
 import AddMoreTile from './AddMoreTile/AddMoreTile';
@@ -23,14 +24,15 @@ const TileLayout = () => {
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
 
   const [subscriberState] = useContext(SubscriberContext);
-  const { mobileNumber, mobileActive } = subscriberState.user;
+  const { mobileNumber, mobileActive, smsMessageSuccess } = subscriberState.user;
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
-  
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
-
   const [isDismissTrialActive, setIsDismissTrialActive] = useState(
     !!localStorage.getItem('dismissTrial')
   );
+
+  const [isEditingManagePreferences, setIsEditingManagerPreferences] = useState(false);
+  console.log("is Editing Manage Preferences: "+isEditingManagePreferences);
 
   return (
     <>
@@ -40,7 +42,6 @@ const TileLayout = () => {
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-2-3">
             <div className="wmnds-grid">
-
               {/* To ALL: Title */}
               <div className="wmnds-col-1">
                 <h1 className="wmnds-col-1 wmnds-col-lg-4-5">Disruption alerts dashboard</h1>
@@ -55,8 +56,25 @@ const TileLayout = () => {
               )}
 
               {/* User clicked on the SMS trial email CTA */}
-              {mobileNumber && !mobileActive && !wrongPhoneNumber && (
-                <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
+              {mobileNumber &&
+                !mobileActive &&
+                !wrongPhoneNumber &&
+                !isEditingManagePreferences && (
+                  <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
+                )}
+
+              {smsMessageSuccess && !isEditingManagePreferences && (
+                <Message
+                  type="success"
+                  title="Mobile phone number confirmed"
+                  message={[
+                    'We’ll send disruption alerts to ',
+                    <strong>{mobileNumber}</strong>,
+                    '.',
+                  ]}
+                  className="wmnds-col-1 wmnds-m-t-lg"
+                  hasCloseButton
+                />
               )}
 
               {/* URL from email && Reset Mode */}
@@ -69,7 +87,11 @@ const TileLayout = () => {
               <RemoveTile />
 
               {/* Mobile introduced and Active */}
-              {mobileNumber && mobileActive && <ManageContactPreferencesTile />}
+              {((mobileNumber && mobileActive) || (isEditingManagePreferences)) && (
+                <ManageContactPreferencesTile
+                  setIsEditingManagerPreferences={setIsEditingManagerPreferences}
+                />
+              )}
 
               {/* To ALL: Delete Subscription */}
               <DeleteTile setIsUnsubscribed={setIsUnsubscribed} />

@@ -5,7 +5,7 @@ const useFetchConfirmPin = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false);
   const [confirmPinIsFinished, setConfirmPinIsFinished] = useState(false); // Track if fetch request is currently fetching
-
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const { user } = subscriberState.query;
   const [errors, setErrors] = useState(null);
 
@@ -32,6 +32,8 @@ const useFetchConfirmPin = () => {
         // If fetch is successful
         .then((payload) => {
           subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
+          subscriberDispatch({type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: true });
+          setShowSuccessMessage(true);
           setIsFetching(false);
           setConfirmPinIsFinished(true);
         }) // If fetch errors
@@ -45,7 +47,7 @@ const useFetchConfirmPin = () => {
     }
   };
 
-  return { confirmPinIsFinished, errors, confirmPin, isFetching };
+  return { confirmPinIsFinished, errors, confirmPin, isFetching, showSuccessMessage };
 };
 
 export default useFetchConfirmPin;

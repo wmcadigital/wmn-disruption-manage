@@ -10,8 +10,6 @@ import WarningText from 'components/shared/WarningText/WarningText';
 // Custom Hooks
 import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 import useFetchToggleEmailAlerts from 'customHooks/useFetchToggleEmailAlerts';
-// import useFetchChangeMobilePhone from 'customHooks/useFetchChangeMobilePhone';
-import useFetchReplacePhone from 'customHooks/useFetchReplacePhone';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 
 const EditingManagePreferences = ({
@@ -38,6 +36,11 @@ const EditingManagePreferences = ({
 
   const { sendPinSuccessful } = useFetchSendPin(newPhone.length > 0 && isNumberDeleted, newPhone);
   useEffect(() => {
+    if (doesPhoneNumberChanged && newPhone && isNumberDeleted) {
+      setNewPhone('');
+      setConfirmMobileMode(true);
+    }
+
     if (doesEmailPrefChanged) {
       if (isEmailEnabled && isToggleDone) {
         newMessages.push({
@@ -46,6 +49,7 @@ const EditingManagePreferences = ({
           text: ["We'll send disruption alerts to ", <strong>{email}</strong>, '.'],
           type: 'success',
         });
+        setPreferences({ phone: mobileActive, email: !emailDisabled });
         setEditingMode(false);
       } else if (!isEmailEnabled && isToggleDone) {
         newMessages.push({
@@ -54,6 +58,7 @@ const EditingManagePreferences = ({
           text: ["We'll no longer send disruption alerts to ", <strong>{email}</strong>, '.'],
           type: 'success',
         });
+        setPreferences({ phone: mobileActive, email: !emailDisabled });
         setEditingMode(false);
       }
       setMessages([...newMessages]);
@@ -65,58 +70,34 @@ const EditingManagePreferences = ({
         text: ["We'll no longer send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
         type: 'success',
       });
-      setEditingMode(false);
       setMessages([...newMessages]);
+      setEditingMode(false);
     }
 
-    if (doesPhoneNumberChanged && sendPinSuccessful) {
+    if (doesPhoneNumberChanged && !newPhone && sendPinSuccessful) {
       newMessages.push({
         key: `phone-change_${new Date().getTime()}`,
         title: 'We have updated your phone number',
         text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
         type: 'success',
       });
-      setEditingMode(false);
       setMessages([...newMessages]);
-    }
-
-    
-    if (doesPhoneNumberChanged && newPhone && isNumberDeleted) {
-      
-      setNewPhone('');
-      setConfirmMobileMode(true);
-      /* newMessages.push({
-        key: `change-phone_${new Date().getTime()}`,
-        title: 'Your phone number was changed with success',
-        text: ['We will send you a pin code to', <strong>{phone}</strong>, '.'],
-        type: 'success',
-      }); */
-      // setEditingMode(false);
-    }
-    /*
-    if (doesPhonePrefChanged && isNumberDeleted) {
-      newMessages.push({
-        key: `phone_${new Date().getTime()}`,
-        title: 'Unsubscribed from text message alerts',
-        text: ["We'll no longer send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-        type: 'success',
-      });
       setEditingMode(false);
     }
-    */
-
-    // setMessages([...newMessages]);
   }, [
     doesEmailPrefChanged,
     doesPhoneNumberChanged,
     doesPhonePrefChanged,
     email,
+    emailDisabled,
     isEmailEnabled,
     isNumberDeleted,
     isToggleDone,
+    mobileActive,
     mobileNumber,
     newMessages,
     newPhone,
+    sendPinSuccessful,
     setConfirmMobileMode,
     setEditingMode,
     setMessages,
@@ -161,14 +142,6 @@ const EditingManagePreferences = ({
         } else {
           setNewPhone(phone);
         }
-      }
-
-      if (!confirmMobileMode && !newPhone) {
-        setMessages([...newMessages]);
-        newMessages.length = 0; // clear newMessages array
-        // setEditingMode(false);
-        // setPreferences({ phone: mobileActive, email: !emailDisabled });
-        // setPhone(mobileNumber);
       }
     }
   };

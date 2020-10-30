@@ -6,9 +6,36 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 import Button from 'components/shared/Button/Button';
 import Message from 'components/shared/Message/Message';
 
-const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
-  const [subscriberState] = useContext(SubscriberContext);
-  const { mobileNumber, email, mobileActive, emailDisabled } = subscriberState.user;
+const IntroManagePreferences = ({
+  messages,
+  setMessages,
+  setEditingMode,
+  setIsEditingManagerPreferences,
+  confirmMobileMode,
+  setConfirmMobileMode,
+}) => {
+  const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
+  const {
+    mobileNumber,
+    email,
+    mobileActive,
+    emailDisabled,
+    smsMessageSuccess,
+  } = subscriberState.user;
+
+  console.log(`show success message:${smsMessageSuccess}`);
+  if (smsMessageSuccess && confirmMobileMode) {
+    setMessages([
+      ...messages,
+      {
+        key: `change-phone_${new Date().getTime()}`,
+        title: 'Mobile phone number confirmed',
+        text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+        type: 'success',
+      },
+    ]);
+    setConfirmMobileMode(false);
+  }
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -55,6 +82,7 @@ const IntroManagePreferences = ({ messages, setMessages, setEditingMode }) => {
         className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2"
         onClick={() => {
           setEditingMode(true);
+          subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: false });
           setMessages([]);
         }}
         text="Edit your contact Preferences"
@@ -68,6 +96,9 @@ IntroManagePreferences.propTypes = {
   messages: PropTypes.arrayOf(objectOf(PropTypes.string)).isRequired,
   setMessages: PropTypes.func.isRequired,
   setEditingMode: PropTypes.func.isRequired,
+  setIsEditingManagerPreferences: PropTypes.func.isRequired,
+  confirmMobileMode: PropTypes.bool.isRequired,
+  setConfirmMobileMode: PropTypes.func.isRequired,
 };
 
 export default IntroManagePreferences;

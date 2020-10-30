@@ -13,7 +13,11 @@ import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchConfirmPin from 'customHooks/useFetchConfirmPin';
 import Icon from 'components/shared/Icon/Icon';
 
-const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
+const ConfirmMobilePhone = ({
+  setWrongPhoneNumber,
+  confirmMobileMode,
+  setEditingMode,
+}) => {
   const [subscriberState] = useContext(SubscriberContext);
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [pin, setPin] = useState('');
@@ -30,7 +34,10 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
       setResendPressed(false);
       setResendSuccessful(true);
     }
-  }, [resendPressed]);
+    if (subscriberState.user.smsMessageSuccess && confirmMobileMode) {
+      setEditingMode(false);
+    }
+  }, [confirmMobileMode, resendPressed, setEditingMode, subscriberState.user.smsMessageSuccess]);
 
   /* WRONG NUMBER? */
   const enteredWrongNumber = () => {
@@ -140,26 +147,19 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber }) => {
           </div>
         </div>
       )}
-
-      {errors === false && isSubmitPressed && !validateErrors && (
-        <Message
-          type="success"
-          title="Mobile phone number confirmed"
-          message={[
-            'We’ll send disruption alerts to ',
-            <strong>{subscriberState.user.mobileNumber}</strong>,
-            '.',
-          ]}
-          className="wmnds-col-1 wmnds-m-t-lg"
-          hasCloseButton
-        />
-      )}
     </>
   );
 };
 
 ConfirmMobilePhone.propTypes = {
   setWrongPhoneNumber: PropTypes.func.isRequired,
+  confirmMobileMode: PropTypes.bool,
+  setConfirmMobileMode: PropTypes.func,
+  setEditingMode: PropTypes.func,
+};
+ConfirmMobilePhone.defaultProps = {
+  confirmMobileMode: false,
+  setEditingMode: null,
 };
 
 export default ConfirmMobilePhone;
