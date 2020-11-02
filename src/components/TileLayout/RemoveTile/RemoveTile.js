@@ -14,7 +14,7 @@ const RemoveTile = () => {
         <h3>Bus services</h3>
         <div className={`${tramServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {busServices &&
-            busServices.map((serviceRoute) => {
+            busServices.reverse().map((serviceRoute) => {
               return (
                 <Bus
                   lineId={serviceRoute.id}

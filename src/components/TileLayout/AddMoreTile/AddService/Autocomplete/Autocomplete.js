@@ -10,14 +10,14 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
     const autoCompleteTitle = (text) => {
       return (
         <label className="wmnds-fe-label wmnds-col-1" htmlFor={`${mode}Search`}>
-          {text}
+          <strong>{text}</strong>
         </label>
       );
     };
 
     return (
       <div className="wmnds-grid">
-        {autoCompleteTitle(`Search for a ${mode} number`)}
+        {autoCompleteTitle(`Search for a ${mode} service`)}
         <BusAutoComplete mode={mode} setMode={setMode} setSelectedServices={setSelectedServices} />
       </div>
     );
