@@ -39,7 +39,7 @@ const IntroManagePreferences = ({
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
-      <h2 className="wmnds-col-1 wmnds-col-lg-4-5">Manage your contact preferences</h2>
+      <h2>Manage your contact preferences</h2>
       {messages &&
         messages.length > 0 &&
         messages.map((message) => {

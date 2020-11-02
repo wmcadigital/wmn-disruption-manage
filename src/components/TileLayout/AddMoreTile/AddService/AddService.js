@@ -36,12 +36,14 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
       {/* Add bus service button */}
       {mode !== 'bus' && (
-        <Button
-          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-          text="Add bus service"
-          onClick={() => setMode('bus')}
-          iconRight="general-expand"
-        />
+        <div>
+          <Button
+            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
+            text="Add bus service"
+            onClick={() => setMode('bus')}
+            iconRight="general-expand"
+          />
+        </div>
       )}
 
       {/* Add choosen bus services */}
@@ -65,22 +67,24 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
       {/* Add tram service button */}
       {mode !== 'bus' && trams.length === 0 && tramServices.length === 0 && (
-        <Button
-          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-          text="Add tram service"
-          onClick={() => {
-            setMode('tram');
-            setSelectedServices((prevState) => [
-              ...prevState,
-              {
-                lineId: '4546',
-                routeName: 'Birmingham - Wolverhampton - Birmingham',
-                serviceNumber: 'mm1',
-              },
-            ]);
-          }}
-          iconRight="general-expand"
-        />
+        <div>
+          <Button
+            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
+            text="Add tram service"
+            onClick={() => {
+              setMode('tram');
+              setSelectedServices((prevState) => [
+                ...prevState,
+                {
+                  lineId: '4546',
+                  routeName: 'Birmingham - Wolverhampton - Birmingham',
+                  serviceNumber: 'mm1',
+                },
+              ]);
+            }}
+            iconRight="general-expand"
+          />
+        </div>
       )}
 
       {/* Add choosen tram services */}

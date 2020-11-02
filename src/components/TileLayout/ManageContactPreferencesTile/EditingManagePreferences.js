@@ -148,7 +148,7 @@ const EditingManagePreferences = ({
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
-      <h2 className="wmnds-col-1 wmnds-col-lg-4-5">Manage your contact preferences</h2>
+      <h2>Manage your contact preferences</h2>
       <p>Choose how you would like to receive disruption alerts.</p>
 
       <div className="wmnds-grid wmnds-grid--spacing-2-md">

@@ -8,7 +8,7 @@ import useFetchSendPin from 'customHooks/useFetchSendPin';
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
 import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
 import Message from 'components/shared/Message/Message';
-import ConfirmMobilePhoneTile from './ConfirmMobilePhoneTile/ConfirmMobilePhoneTile';
+import ConfirmMobilePhone from './ConfirmMobilePhoneTile/ConfirmMobilePhone';
 import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
 import AddMoreTile from './AddMoreTile/AddMoreTile';
 import RemoveTile from './RemoveTile/RemoveTile';
@@ -32,7 +32,6 @@ const TileLayout = () => {
   );
 
   const [isEditingManagePreferences, setIsEditingManagerPreferences] = useState(false);
-  console.log("is Editing Manage Preferences: "+isEditingManagePreferences);
 
   return (
     <>
@@ -60,7 +59,7 @@ const TileLayout = () => {
                 !mobileActive &&
                 !wrongPhoneNumber &&
                 !isEditingManagePreferences && (
-                  <ConfirmMobilePhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
+                  <ConfirmMobilePhone setWrongPhoneNumber={setWrongPhoneNumber} />
                 )}
 
               {smsMessageSuccess && !isEditingManagePreferences && (
@@ -87,7 +86,7 @@ const TileLayout = () => {
               <RemoveTile />
 
               {/* Mobile introduced and Active */}
-              {((mobileNumber && mobileActive) || (isEditingManagePreferences)) && (
+              {((mobileNumber && mobileActive) || isEditingManagePreferences) && (
                 <ManageContactPreferencesTile
                   setIsEditingManagerPreferences={setIsEditingManagerPreferences}
                 />

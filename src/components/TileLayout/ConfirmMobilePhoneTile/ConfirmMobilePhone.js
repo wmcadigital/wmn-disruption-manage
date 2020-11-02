@@ -13,11 +13,7 @@ import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchConfirmPin from 'customHooks/useFetchConfirmPin';
 import Icon from 'components/shared/Icon/Icon';
 
-const ConfirmMobilePhone = ({
-  setWrongPhoneNumber,
-  confirmMobileMode,
-  setEditingMode,
-}) => {
+const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditingMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [pin, setPin] = useState('');
@@ -67,83 +63,81 @@ const ConfirmMobilePhone = ({
       {((!isSubmitPressed && !errors) ||
         (isSubmitPressed && (errors || errors === null || validateErrors))) && (
         <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
-          <div className="wmnds-col-1 wmnds-col-lg-4-5">
-            <h2>Confirm your mobile phone number</h2>
+          <h2>Confirm your mobile phone number</h2>
 
-            {errors && (
-              <GenericError
-                title="Invalid PIN Code"
-                desc="Please check your PIN code. It should be between 4-7 digits long."
-              />
-            )}
+          {errors && (
+            <GenericError
+              title="Invalid PIN Code"
+              desc="Please check your PIN code. It should be between 4-7 digits long."
+            />
+          )}
 
-            <fieldset className="wmnds-fe-fieldset">
-              <legend className="wmnds-fe-fieldset__legend">
-                <p>
-                  We’ll send text message disruption alerts to{' '}
-                  <strong>{subscriberState.user.mobileNumber}</strong>. You’ll need to confirm your
-                  mobile phone number before you can receive text message alerts.
+          <fieldset className="wmnds-fe-fieldset">
+            <legend className="wmnds-fe-fieldset__legend">
+              <p>
+                We’ll send text message disruption alerts to{' '}
+                <strong>{subscriberState.user.mobileNumber}</strong>. You’ll need to confirm your
+                mobile phone number before you can receive text message alerts.
+              </p>
+              <p>
+                You’ll receive your PIN code within the next 5 minutes. If you do not receive a PIN
+                code after 5 minutes, you can choose to resend the PIN code. Your PIN code will
+                expire at midnight.
+              </p>
+
+              {resendSuccessful && (
+                <p className="wmnds-msg-summary--success">
+                  <Icon iconName="general-success" className="wmnds-msg-summary__icon" />
+                  <strong>We have resent the PIN code to your mobile phone</strong>
                 </p>
-                <p>
-                  You’ll receive your PIN code within the next 5 minutes. If you do not receive a
-                  PIN code after 5 minutes, you can choose to resend the PIN code. Your PIN code
-                  will expire at midnight.
-                </p>
+              )}
+            </legend>
 
-                {resendSuccessful && (
-                  <p className="wmnds-msg-summary--success">
-                    <Icon iconName="general-success" className="wmnds-msg-summary__icon" />
-                    <strong>We have resent the PIN code to your mobile phone</strong>
-                  </p>
-                )}
-              </legend>
+            <Input
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              className="wmnds-col-1 wmnds-col-md-1-2"
+              name="PINCode"
+              label="Enter your PIN code"
+              type="number"
+              isRequired
+              errors={isSubmitPressed ? generateErrors() : null}
+            />
+          </fieldset>
 
-              <Input
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
-                className="wmnds-col-1 wmnds-col-md-1-2"
-                name="PINCode"
-                label="Enter your PIN code"
-                type="number"
-                isRequired
-                errors={isSubmitPressed ? generateErrors() : null}
+          <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm">
+            <div className="wmnds-col-1 wmnds-col-md-1-2">
+              <Button
+                className="wmnds-btn wmnds-col-1"
+                disabled={isFetching}
+                isFetching={isFetching}
+                text="Confirm your PIN Code"
+                iconRight="general-chevron-right"
+                onClick={() => validateAndConfirmPin()}
               />
-            </fieldset>
-
-            <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm">
-              <div className="wmnds-col-1 wmnds-col-md-1-2">
-                <Button
-                  className="wmnds-btn wmnds-col-1"
-                  disabled={isFetching}
-                  isFetching={isFetching}
-                  text="Confirm your PIN Code"
-                  iconRight="general-chevron-right"
-                  onClick={() => validateAndConfirmPin()}
-                />
-              </div>
-              <div className="wmnds-col-1 wmnds-col-md-1-2">
-                <Button
-                  className="wmnds-btn wmnds-btn--secondary wmnds-col-1"
-                  onClick={() => setResendPressed(true)}
-                  text="Resend PIN Code"
-                />
-              </div>
             </div>
-
-            <div>
-              <a
-                href="#resetnumber"
-                onClick={() => {
-                  enteredWrongNumber();
-                  return false;
-                }}
-                title="Entered the wrong mobile number?"
-                target="_self"
-                className="wmnds-link wmnds-float-right wmnds-m-t-md"
-              >
-                Entered the wrong mobile number?
-              </a>
+            <div className="wmnds-col-1 wmnds-col-md-1-2">
+              <Button
+                className="wmnds-btn wmnds-btn--secondary wmnds-col-1"
+                onClick={() => setResendPressed(true)}
+                text="Resend PIN Code"
+              />
             </div>
+          </div>
+
+          <div>
+            <a
+              href="#resetnumber"
+              onClick={() => {
+                enteredWrongNumber();
+                return false;
+              }}
+              title="Entered the wrong mobile number?"
+              target="_self"
+              className="wmnds-link wmnds-float-right wmnds-m-t-md"
+            >
+              Entered the wrong mobile number?
+            </a>
           </div>
         </div>
       )}
@@ -154,7 +148,6 @@ const ConfirmMobilePhone = ({
 ConfirmMobilePhone.propTypes = {
   setWrongPhoneNumber: PropTypes.func.isRequired,
   confirmMobileMode: PropTypes.bool,
-  setConfirmMobileMode: PropTypes.func,
   setEditingMode: PropTypes.func,
 };
 ConfirmMobilePhone.defaultProps = {
