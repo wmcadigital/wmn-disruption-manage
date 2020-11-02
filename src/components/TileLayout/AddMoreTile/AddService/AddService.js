@@ -52,6 +52,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           {buses.map((busRoute) => {
             return (
               <Bus
+                lineId={busRoute.lineId}
                 handleRemove={() => handleRemoveBus(busRoute.lineId)}
                 serviceNumber={busRoute.serviceNumber}
                 routeName={busRoute.routeName}
@@ -92,6 +93,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           {trams.map((tramRoute) => {
             return (
               <Bus
+                lineId={tramRoute.lineId}
                 handleRemove={() => handleRemoveBus(tramRoute.lineId)}
                 serviceNumber={tramRoute.serviceNumber}
                 routeName={tramRoute.routeName}
