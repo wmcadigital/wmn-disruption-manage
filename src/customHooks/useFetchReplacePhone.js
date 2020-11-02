@@ -4,11 +4,11 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 const useFetchReplacePhone = (mobileNumber) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { user } = subscriberState.query;
-  console.log("replacing...");
+  console.log('replacing...');
 
   useEffect(() => {
     if (mobileNumber && user) {
-        console.log("replacing... now...");
+      console.log('replacing... now...');
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'DELETE',
         body: JSON.stringify({

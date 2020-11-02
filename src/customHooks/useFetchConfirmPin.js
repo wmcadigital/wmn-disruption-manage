@@ -32,7 +32,7 @@ const useFetchConfirmPin = () => {
         // If fetch is successful
         .then((payload) => {
           subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
-          subscriberDispatch({type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: true });
+          subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: true });
           setShowSuccessMessage(true);
           setIsFetching(false);
           setConfirmPinIsFinished(true);

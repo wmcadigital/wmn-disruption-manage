@@ -51,7 +51,7 @@ InputCheckbox.defaultProps = {
   fieldValidation: null,
   classes: null,
   checked: false,
-  onChange: null
+  onChange: null,
 };
 
 export default InputCheckbox;

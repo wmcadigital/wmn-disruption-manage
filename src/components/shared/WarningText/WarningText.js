@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 
-const WarningText = ({ type,  message, className }) => {
+const WarningText = ({ type, message, className }) => {
   let iconName;
   switch (type) {
     case 'error':
@@ -24,8 +24,8 @@ const WarningText = ({ type,  message, className }) => {
 
   return (
     <div className={`wmnds-warning-text wmnds-warning-text--${type} ${className}`}>
-        <Icon iconName={`general-${iconName}`} className="wmnds-warning-text__icon" />
-        {message}
+      <Icon iconName={`general-${iconName}`} className="wmnds-warning-text__icon" />
+      {message}
     </div>
   );
 };
