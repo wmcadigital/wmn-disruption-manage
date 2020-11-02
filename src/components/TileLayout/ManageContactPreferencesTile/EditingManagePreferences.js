@@ -12,12 +12,7 @@ import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 import useFetchToggleEmailAlerts from 'customHooks/useFetchToggleEmailAlerts';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 
-const EditingManagePreferences = ({
-  setMessages,
-  setEditingMode,
-  confirmMobileMode,
-  setConfirmMobileMode,
-}) => {
+const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobileMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, email, mobileActive, emailDisabled } = subscriberState.user;
   const [phone, setPhone] = useState(mobileNumber);
@@ -227,7 +222,6 @@ const EditingManagePreferences = ({
 EditingManagePreferences.propTypes = {
   setMessages: PropTypes.func.isRequired,
   setEditingMode: PropTypes.func.isRequired,
-  confirmMobileMode: PropTypes.bool.isRequired,
   setConfirmMobileMode: PropTypes.func.isRequired,
 };
 

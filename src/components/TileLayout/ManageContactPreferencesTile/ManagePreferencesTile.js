@@ -9,6 +9,7 @@ import EditingManagePreferences from 'components/TileLayout/ManageContactPrefere
 const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
   const [editingMode, setEditingMode] = useState(false);
   const [confirmMobileMode, setConfirmMobileMode] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [changeMobileMode, setChangeMobileMode] = useState(false);
   const [messages, setMessages] = useState([]);
 

@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 // Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
-import Message from 'components/shared/Message/Message';
 import GenericError from 'components/shared/Errors/GenericError';
+import WarningText from 'components/shared/WarningText/WarningText';
 
 // Custom Hooks
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchConfirmPin from 'customHooks/useFetchConfirmPin';
-import Icon from 'components/shared/Icon/Icon';
 
 const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditingMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -40,7 +39,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
     setWrongPhoneNumber((x) => !x);
   };
 
-  /* LIVE PIN ERRORS GENERATOR BEFORE SUBMISSION */
+  /* LIVE PIN ERRORS GENERATOR after first SUBMISSION */
   const generateErrors = () => {
     if (pin && (pin.length < 4 || pin.length > 7)) {
       return 'The PIN code should be between 4 to 7 digits long';
@@ -86,10 +85,10 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               </p>
 
               {resendSuccessful && (
-                <p className="wmnds-msg-summary--success">
-                  <Icon iconName="general-success" className="wmnds-msg-summary__icon" />
-                  <strong>We have resent the PIN code to your mobile phone</strong>
-                </p>
+                <WarningText
+                  className="wmnds-m-b-md"
+                  message="We have resent the PIN code to your mobile phone"
+                />
               )}
             </legend>
 

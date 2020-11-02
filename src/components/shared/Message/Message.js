@@ -57,7 +57,6 @@ Message.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
   hasCloseButton: PropTypes.bool,
-  key: PropTypes.string,
 };
 
 Message.defaultProps = {

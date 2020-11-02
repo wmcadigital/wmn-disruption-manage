@@ -26,7 +26,6 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
         subscriberState.query.mobileNumber)
     ) {
       setFlagToAvoidMultipleMessages(true);
-      console.log('waiting for adding phone... ' + mobileNumber);
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -50,6 +49,8 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
           subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
         }) // If fetch errors
         .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error({ error });
           setPinSuccessful(false);
           setSendPinIsFinished(true);
         });
@@ -64,6 +65,7 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
     subscriberState.query.mobileNumber,
     user,
     flagToAvoidMultipleMessages,
+    subscriberDispatch,
   ]);
 
   return { sendPinIsFinished, sendPinSuccessful };

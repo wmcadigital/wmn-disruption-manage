@@ -10,7 +10,7 @@ const IntroManagePreferences = ({
   messages,
   setMessages,
   setEditingMode,
-  setIsEditingManagerPreferences,
+  //  setIsEditingManagerPreferences,
   confirmMobileMode,
   setConfirmMobileMode,
 }) => {
@@ -23,7 +23,6 @@ const IntroManagePreferences = ({
     smsMessageSuccess,
   } = subscriberState.user;
 
-  console.log(`show success message:${smsMessageSuccess}`);
   if (smsMessageSuccess && confirmMobileMode) {
     setMessages([
       ...messages,
@@ -96,7 +95,7 @@ IntroManagePreferences.propTypes = {
   messages: PropTypes.arrayOf(objectOf(PropTypes.string)).isRequired,
   setMessages: PropTypes.func.isRequired,
   setEditingMode: PropTypes.func.isRequired,
-  setIsEditingManagerPreferences: PropTypes.func.isRequired,
+  // setIsEditingManagerPreferences: PropTypes.func.isRequired,
   confirmMobileMode: PropTypes.bool.isRequired,
   setConfirmMobileMode: PropTypes.func.isRequired,
 };
