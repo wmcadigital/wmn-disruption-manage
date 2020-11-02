@@ -13,20 +13,20 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
   if (newMobilePhone !== '') {
     mobileNumber = newMobilePhone;
   }
-  
+
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
   }; // Structure the data before sending
   useEffect(() => {
     if (
-      (resend) ||
+      resend ||
       (!flagToAvoidMultipleMessages &&
         !sendPinIsFinished &&
         user &&
         subscriberState.query.mobileNumber)
     ) {
       setFlagToAvoidMultipleMessages(true);
-      console.log("waiting for adding phone... "+mobileNumber);
+      console.log('waiting for adding phone... ' + mobileNumber);
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
