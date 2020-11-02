@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon/Icon';
 
-const InputCheckbox = ({ fieldValidation, name, labelValue, classes }) => {
+const InputCheckbox = ({ fieldValidation, name, labelValue, classes, checked, onChange }) => {
   // const { errors } = useForm() || {};
   // Set input to render below
 
@@ -26,6 +26,8 @@ const InputCheckbox = ({ fieldValidation, name, labelValue, classes }) => {
           className="wmnds-fe-checkboxes__input"
           name={name}
           type="checkbox"
+          defaultChecked={checked}
+          onChange={onChange}
         />
         <span className="wmnds-fe-checkboxes__checkmark">
           <Icon className="wmnds-fe-checkboxes__icon" iconName="general-checkmark" />
@@ -40,12 +42,16 @@ InputCheckbox.propTypes = {
   fieldValidation: PropTypes.func,
   name: PropTypes.string.isRequired,
   classes: PropTypes.string,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 InputCheckbox.defaultProps = {
   labelValue: null,
   fieldValidation: null,
   classes: null,
+  checked: false,
+  onChange: null
 };
 
 export default InputCheckbox;

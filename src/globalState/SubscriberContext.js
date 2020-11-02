@@ -46,6 +46,25 @@ export const SubscriberProvider = (props) => {
           },
         };
 
+      case 'REMOVE_MOBILE':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            mobileNumber: action.payload,
+            mobileActive: false,
+          },
+        };
+
+      case 'ADD_PIN_CONFIRMATION_MESSAGE':
+          return {
+            ...state,
+            user: {
+              ...state.user,
+              smsMessageSuccess: action.payload,
+            },
+          };
+
       // Default should return intial state if error
       default:
         return initialState;

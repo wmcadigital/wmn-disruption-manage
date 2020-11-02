@@ -14,6 +14,8 @@ const Input = ({
   onChange,
   isRequired,
   errors,
+  hiddenLabel,
+  groupClassName,
 }) => {
   // Set input to render below
   const input = (
@@ -35,9 +37,9 @@ const Input = ({
   );
 
   return (
-    <div className={`wmnds-fe-group ${errors ? 'wmnds-fe-group--error' : ''}`}>
+    <div className={`wmnds-fe-group ${groupClassName} ${errors ? 'wmnds-fe-group--error' : ''}`}>
       {label && (
-        <label className="wmnds-fe-label" htmlFor={name}>
+        <label className={`wmnds-fe-label ${hiddenLabel ? "wmnds-loader__content" : ""}`} htmlFor={name}>
           {label}
         </label>
       )}
@@ -64,6 +66,8 @@ Input.propTypes = {
   onChange: PropTypes.func,
   isRequired: PropTypes.bool,
   errors: PropTypes.string,
+  hiddenLabel: PropTypes.bool,
+  groupClassName: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -77,6 +81,8 @@ Input.defaultProps = {
   onChange: null,
   isRequired: false,
   errors: '',
+  hiddenLabel: false,
+  groupClassName: null,
 };
 
 export default Input;

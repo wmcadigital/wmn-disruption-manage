@@ -16,35 +16,31 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
   }
 
   return (
-    <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
-      <div className="wmnds-col-1 wmnds-col-lg-4-5">
-        <h2> Sign up to the text message service disruption trial</h2>
-        <p>
-          We’ll automatically send text message disruption alerts straight to your mobile phone.
-        </p>
+    <div className="wmnds-content-tile wmnds-m-t-lg wmnds-col-1">
+      <h2> Sign up to the text message service disruption trial</h2>
+      <p>We’ll automatically send text message disruption alerts straight to your mobile phone.</p>
 
-        <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
-          <div className="wmnds-col-1 wmnds-col-md-1-2">
-            <a
-              href={`${signUpPageUrl}?name=${encodeURI(name)}&email=${email}`}
-              title="Sign up to text message trial"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wmnds-btn wmnds-col-1 wmnds-m-b-sm"
-            >
-              Sign up to text message trial
-            </a>
-          </div>
-          <div className="wmnds-col-1 wmnds-col-md-1-2">
-            <Button
-              className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-b-sm"
-              onClick={() => {
-                setIsDismissTrialActive(true);
-                localStorage.setItem('dismissTrial', 'true');
-              }}
-              text="Dismiss"
-            />
-          </div>
+      <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
+        <div className="wmnds-col-1 wmnds-col-md-1-2">
+          <a
+            href={`${signUpPageUrl}?name=${encodeURI(name)}&email=${email}`}
+            title="Sign up to text message trial"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="wmnds-btn wmnds-col-1 wmnds-m-b-sm"
+          >
+            Sign up to text message trial
+          </a>
+        </div>
+        <div className="wmnds-col-1 wmnds-col-md-1-2">
+          <Button
+            className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-b-sm"
+            onClick={() => {
+              setIsDismissTrialActive(true);
+              localStorage.setItem('dismissTrial', 'true');
+            }}
+            text="Dismiss"
+          />
         </div>
       </div>
     </div>

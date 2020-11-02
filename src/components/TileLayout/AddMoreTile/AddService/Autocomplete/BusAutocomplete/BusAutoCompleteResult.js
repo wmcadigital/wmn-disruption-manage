@@ -22,16 +22,19 @@ const BusAutoCompleteResult = (props) => {
         updateSelectedService(result.id, result.routes[0].routeName, result.serviceNumber)
       }
     >
-      {/* Right section */}
-      <div
-        className="
-        wmnds-disruption-indicator-medium
-        wmnds-col-auto wmnds-m-r-md
-        "
-      >
-        {result.serviceNumber}
+      <div className="wmnds-col-auto">
+        <div
+          className="
+          wmnds-disruption-indicator-medium
+          wmnds-col-auto 
+          "
+        >
+          {result.serviceNumber}
+        </div>
       </div>
-      <strong className="wmnds-col-auto">{result.routes[0].routeName}</strong>
+      <div className="wmnds-col-3-4 wmnds-col-lg-4-5">
+        <strong>{result.routes[0].routeName}</strong>
+      </div>
     </li>
   );
 };

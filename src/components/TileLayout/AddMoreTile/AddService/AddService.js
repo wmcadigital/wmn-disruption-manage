@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import Button from 'components/shared/Button/Button';
-import BusSummary from './BusSummary/BusSummary';
+import Bus from 'components/shared/Bus/Bus';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
@@ -18,6 +18,10 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
     trams = selectedServices.filter((service) => service.lineId === '4546');
   }
 
+  const handleRemoveBus = (lineId) => {
+    setSelectedServices((prevState) => prevState.filter((item) => item.lineId !== lineId));
+  };
+
   return (
     <>
       <p>You can add as many services as you would like.</p>
@@ -26,37 +30,34 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
       {mode === 'bus' && (
         <>
           <AutoComplete mode="bus" setSelectedServices={setSelectedServices} setMode={setMode} />
-          <Button
-            className="wmnds-btn--secondary wmnds-m-t-md"
-            text="Cancel"
-            onClick={() => setMode(null)}
-          />
         </>
       )}
 
       {/* Add bus service button */}
       {mode !== 'bus' && (
-        <Button
-          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-          text="Add bus service"
-          onClick={() => setMode('bus')}
-          iconRight="general-expand"
-        />
+        <div>
+          <Button
+            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
+            text="Add bus service"
+            onClick={() => setMode('bus')}
+            iconRight="general-expand"
+          />
+        </div>
       )}
 
       {/* Add choosen bus services */}
       {mode !== 'bus' && buses && buses.length > 0 && (
         <div className="wmnds-m-t-md">
-          <h4>Buses you want to add</h4>
+          <h4>Bus services that you want to add</h4>
           {buses.map((busRoute) => {
             return (
-              <BusSummary
-                showRemove
+              <Bus
                 lineId={busRoute.lineId}
+                handleRemove={() => handleRemoveBus(busRoute.lineId)}
                 serviceNumber={busRoute.serviceNumber}
                 routeName={busRoute.routeName}
-                setSelectedServices={setSelectedServices}
-                key={busRoute.lineId}
+                id={busRoute.lineId}
+                key={`${busRoute.lineId}`}
               />
             );
           })}
@@ -65,22 +66,24 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
       {/* Add tram service button */}
       {mode !== 'bus' && trams.length === 0 && tramServices.length === 0 && (
-        <Button
-          className="wmnds-btn--primary wmnds-col-1 wmnds-m-b-sm"
-          text="Add tram service"
-          onClick={() => {
-            setMode('tram');
-            setSelectedServices((prevState) => [
-              ...prevState,
-              {
-                lineId: '4546',
-                routeName: 'Birmingham - Wolverhampton - Birmingham',
-                serviceNumber: 'mm1',
-              },
-            ]);
-          }}
-          iconRight="general-expand"
-        />
+        <div>
+          <Button
+            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
+            text="Add tram service"
+            onClick={() => {
+              setMode('tram');
+              setSelectedServices((prevState) => [
+                ...prevState,
+                {
+                  lineId: '4546',
+                  routeName: 'Birmingham - Wolverhampton - Birmingham',
+                  serviceNumber: 'mm1',
+                },
+              ]);
+            }}
+            iconRight="general-expand"
+          />
+        </div>
       )}
 
       {/* Add choosen tram services */}
@@ -89,13 +92,13 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           <h4>Trams you want to add</h4>
           {trams.map((tramRoute) => {
             return (
-              <BusSummary
-                showRemove
+              <Bus
                 lineId={tramRoute.lineId}
+                handleRemove={() => handleRemoveBus(tramRoute.lineId)}
                 serviceNumber={tramRoute.serviceNumber}
                 routeName={tramRoute.routeName}
-                setSelectedServices={setSelectedServices}
-                key={tramRoute.lineId}
+                id={tramRoute.lineId}
+                key={`${tramRoute.lineId}`}
               />
             );
           })}
