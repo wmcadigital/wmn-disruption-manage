@@ -20,7 +20,7 @@ const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
 
   return (
     <>
-      { !editingMode && (
+      {!editingMode && (
         <IntroManagePreferences
           messages={messages}
           setMessages={setMessages}

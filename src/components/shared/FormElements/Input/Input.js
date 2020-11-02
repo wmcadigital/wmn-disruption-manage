@@ -39,7 +39,10 @@ const Input = ({
   return (
     <div className={`wmnds-fe-group ${groupClassName} ${errors ? 'wmnds-fe-group--error' : ''}`}>
       {label && (
-        <label className={`wmnds-fe-label ${hiddenLabel ? "wmnds-loader__content" : ""}`} htmlFor={name}>
+        <label
+          className={`wmnds-fe-label ${hiddenLabel ? 'wmnds-loader__content' : ''}`}
+          htmlFor={name}
+        >
           {label}
         </label>
       )}
