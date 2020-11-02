@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
-import Bus from './Bus/Bus';
+import Bus from '../../shared/Bus/Bus';
 
 const RemoveTile = () => {
   const { allServices, busServices, tramServices } = useFilterSubscribedServices();
@@ -11,7 +11,7 @@ const RemoveTile = () => {
   if (busServices && busServices.length > 0) {
     buses = (
       <>
-        <h3>Bus services added</h3>
+        <h3>Bus services</h3>
         <div className={`${tramServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {busServices &&
             busServices.map((serviceRoute) => {
@@ -33,7 +33,7 @@ const RemoveTile = () => {
   if (tramServices && tramServices.length > 0) {
     trams = (
       <>
-        <h3>Tram services added</h3>
+        <h3>Tram services</h3>
         <div className="wmnds-m-b-xl">
           {tramServices &&
             tramServices.map((serviceRoute) => {
