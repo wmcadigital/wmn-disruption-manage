@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 // Custom hooks
 import useFetchUser from 'customHooks/useFetchUser';
@@ -20,18 +20,22 @@ import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
-  const { sendPinIsFinished } = useFetchSendPin();
+  const [isFirstTime, setIsFirstTime] = useState(true);
+  const { sendPinIsFinished } = useFetchSendPin(isFirstTime);
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
+
+  useEffect(() => {
+    setIsFirstTime(false);
+  }, []);
 
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, mobileActive, smsMessageSuccess } = subscriberState.user;
-  const [isUnsubscribed, setIsUnsubscribed] = useState(false);
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
   const [isDismissTrialActive, setIsDismissTrialActive] = useState(
     !!localStorage.getItem('dismissTrial')
   );
-
   const [isEditingManagePreferences, setIsEditingManagerPreferences] = useState(false);
+  const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   return (
     <>
@@ -43,18 +47,19 @@ const TileLayout = () => {
             <div className="wmnds-grid">
               {/* To ALL: Title */}
               <div className="wmnds-col-1">
-                <h1 className="wmnds-col-1 wmnds-col-lg-4-5">Disruption alerts dashboard</h1>
+                <h1>Disruption alerts dashboard</h1>
               </div>
 
               {/* To ALL: Intro */}
               <SummaryTile />
 
-              {/* User access to his dashboard as usual, url is not the same from the ones who click on the SMS trial email CTA */}
+              {/* To users that has not mobilePhone in the system or in the url - User has access to his dashboard as usual */}
+              {/* It won't show to users that pressed "dismiss" previously */}
               {!isDismissTrialActive && !mobileNumber && (
                 <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
               )}
 
-              {/* User clicked on the SMS trial email CTA */}
+              {/* To Users that clicked to confirm the text message trial email's CTA */}
               {mobileNumber &&
                 !mobileActive &&
                 !wrongPhoneNumber &&
@@ -62,6 +67,10 @@ const TileLayout = () => {
                   <ConfirmMobilePhone setWrongPhoneNumber={setWrongPhoneNumber} />
                 )}
 
+              {/* To users that wants to reset Phone number and clicked on "Wrong phone number" link on confirm Pin tile  */}
+              {wrongPhoneNumber && <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
+
+              {/* To Users that have completed the phone activation by submiting the correct pin number */}
               {smsMessageSuccess && !isEditingManagePreferences && (
                 <Message
                   type="success"
@@ -76,16 +85,13 @@ const TileLayout = () => {
                 />
               )}
 
-              {/* URL from email && Reset Mode */}
-              {wrongPhoneNumber && <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
-
               {/* To ALL: Add services */}
               <AddMoreTile />
 
               {/* To ALL: Remove services */}
               <RemoveTile />
 
-              {/* Mobile introduced and Active */}
+              {/* Only for users that are in the trial (= whoever has mobile number active) */}
               {((mobileNumber && mobileActive) || isEditingManagePreferences) && (
                 <ManageContactPreferencesTile
                   setIsEditingManagerPreferences={setIsEditingManagerPreferences}
