@@ -96,6 +96,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               className="wmnds-col-1 wmnds-col-md-1-2"
+              groupClassName="wmnds-m-b-md"
               name="PINCode"
               label="Enter your PIN code"
               type="number"
@@ -107,7 +108,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
           <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm">
             <div className="wmnds-col-1 wmnds-col-md-1-2">
               <Button
-                className="wmnds-btn wmnds-col-1"
+                className="wmnds-btn wmnds-col-1 wmnds-m-t-sm"
                 disabled={isFetching}
                 isFetching={isFetching}
                 text="Confirm your PIN Code"
@@ -117,7 +118,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
             </div>
             <div className="wmnds-col-1 wmnds-col-md-1-2">
               <Button
-                className="wmnds-btn wmnds-btn--secondary wmnds-col-1"
+                className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-t-sm"
                 onClick={() => setResendPressed(true)}
                 text="Resend PIN Code"
               />
