@@ -138,6 +138,11 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
           setNewPhone(phone);
         }
       }
+
+      // it there is no change at all, go back to Intro
+      if (!doesPhoneNumberChanged && !doesPhonePrefChanged && !doesEmailPrefChanged) {
+        setEditingMode(false);
+      }
     }
   };
 
