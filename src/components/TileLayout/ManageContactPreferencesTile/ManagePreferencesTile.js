@@ -16,8 +16,10 @@ const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
   useEffect(() => {
     if (editingMode) {
       setIsEditingManagerPreferences(true);
+    } else if (editingMode === false && confirmMobileMode === false && messages.length === 0) {
+      setIsEditingManagerPreferences(false);
     }
-  }, [editingMode, setIsEditingManagerPreferences]);
+  }, [confirmMobileMode, editingMode, messages.length, setIsEditingManagerPreferences]);
 
   return (
     <>
@@ -26,7 +28,7 @@ const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
           messages={messages}
           setMessages={setMessages}
           setEditingMode={setEditingMode}
-          setIsEditingManagerPreferences={setIsEditingManagerPreferences}
+          // setIsEditingManagerPreferences={setIsEditingManagerPreferences}
           confirmMobileMode={confirmMobileMode}
           setConfirmMobileMode={setConfirmMobileMode}
         />

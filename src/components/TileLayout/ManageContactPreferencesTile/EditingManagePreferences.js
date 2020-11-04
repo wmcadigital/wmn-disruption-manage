@@ -25,11 +25,13 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
   const [doesEmailPrefChanged, setDoesEmailPrefChanged] = useState(false);
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
   const [doesPhoneNumberChanged, setDoesPhoneNumberChanged] = useState(false);
+  const [readyToShowMessages, setReadyToShowMessages] = useState(false);
 
   const { isNumberDeleted, deletePhoneNumber } = useFetchDeleteMobileNumber();
   const { isToggleDone, toggleEmailAlerts } = useFetchToggleEmailAlerts();
 
   const { sendPinSuccessful } = useFetchSendPin(newPhone.length > 0 && isNumberDeleted, newPhone);
+
   useEffect(() => {
     if (doesPhoneNumberChanged && newPhone && isNumberDeleted) {
       setNewPhone('');
@@ -37,6 +39,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
     }
 
     if (doesEmailPrefChanged) {
+      setReadyToShowMessages(false);
       if (isEmailEnabled && isToggleDone) {
         newMessages.push({
           key: `email_${new Date().getTime()}`,
@@ -45,7 +48,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
           type: 'success',
         });
         setPreferences({ phone: mobileActive, email: !emailDisabled });
-        setEditingMode(false);
+        setReadyToShowMessages(true);
       } else if (!isEmailEnabled && isToggleDone) {
         newMessages.push({
           key: `email_${new Date().getTime()}`,
@@ -54,30 +57,42 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
           type: 'success',
         });
         setPreferences({ phone: mobileActive, email: !emailDisabled });
-        setEditingMode(false);
+        setReadyToShowMessages(true);
       }
       setMessages([...newMessages]);
     }
-    if (doesPhonePrefChanged && isNumberDeleted) {
-      newMessages.push({
-        key: `phone_${new Date().getTime()}`,
-        title: 'Unsubscribed from text message alerts',
-        text: ["We'll no longer send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-        type: 'success',
-      });
-      setMessages([...newMessages]);
-      setEditingMode(false);
+
+    if (doesPhoneNumberChanged) {
+      setReadyToShowMessages(false);
+      if (!newPhone && sendPinSuccessful) {
+        newMessages.push({
+          key: `phone-change_${new Date().getTime()}`,
+          title: 'We have updated your phone number',
+          text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+          type: 'success',
+        });
+        setMessages([...newMessages]);
+        setReadyToShowMessages(true);
+      }
     }
 
-    if (doesPhoneNumberChanged && !newPhone && sendPinSuccessful) {
-      newMessages.push({
-        key: `phone-change_${new Date().getTime()}`,
-        title: 'We have updated your phone number',
-        text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-        type: 'success',
-      });
-      setMessages([...newMessages]);
+    if (doesPhonePrefChanged) {
+      setReadyToShowMessages(false);
+      if (isNumberDeleted) {
+        newMessages.push({
+          key: `phone_${new Date().getTime()}`,
+          title: 'Unsubscribed from text message alerts',
+          text: ["We'll no longer send disruption alerts to ", <strong>{phone}</strong>, '.'],
+          type: 'success',
+        });
+        setMessages([...newMessages]);
+        setReadyToShowMessages(true);
+      }
+    }
+
+    if (readyToShowMessages) {
       setEditingMode(false);
+      setReadyToShowMessages(false);
     }
   }, [
     doesEmailPrefChanged,
@@ -92,6 +107,8 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
     mobileNumber,
     newMessages,
     newPhone,
+    phone,
+    readyToShowMessages,
     sendPinSuccessful,
     setConfirmMobileMode,
     setEditingMode,
@@ -140,7 +157,11 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
       }
 
       // it there is no change at all, go back to Intro
-      if (!doesPhoneNumberChanged && !doesPhonePrefChanged && !doesEmailPrefChanged) {
+      if (
+        preferences.phone === mobileActive &&
+        phone === mobileNumber &&
+        preferences.email === !emailDisabled
+      ) {
         setEditingMode(false);
       }
     }

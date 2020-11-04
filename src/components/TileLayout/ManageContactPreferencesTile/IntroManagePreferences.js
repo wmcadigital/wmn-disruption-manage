@@ -10,7 +10,7 @@ const IntroManagePreferences = ({
   messages,
   setMessages,
   setEditingMode,
-  //  setIsEditingManagerPreferences,
+  // setIsEditingManagerPreferences,
   confirmMobileMode,
   setConfirmMobileMode,
 }) => {
@@ -33,8 +33,19 @@ const IntroManagePreferences = ({
         type: 'success',
       },
     ]);
+    console.log('entrou dentro desta funcao');
     setConfirmMobileMode(false);
   }
+
+  const handleEditPreferences = () => {
+    setEditingMode(true);
+    if (smsMessageSuccess) {
+      console.log('show success message');
+      subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: false }); // reset confirmation message
+      console.log('not showing success message anymore');
+    }
+    setMessages([]); // reset messages
+  };
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -79,11 +90,7 @@ const IntroManagePreferences = ({
       )}
       <Button
         className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2"
-        onClick={() => {
-          setEditingMode(true);
-          subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: false });
-          setMessages([]);
-        }}
+        onClick={() => handleEditPreferences()}
         text="Edit your contact Preferences"
       />
     </div>
