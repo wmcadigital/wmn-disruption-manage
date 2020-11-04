@@ -5,7 +5,7 @@ import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices
 import RemoveService from '../../shared/RemoveService/RemoveService';
 
 const RemoveTile = () => {
-  const { allServices, busServices, tramServices } = useFilterSubscribedServices();
+  const { allServices, busServices, tramServices, trainServices } = useFilterSubscribedServices();
 
   let buses;
   if (busServices && busServices.length > 0) {
@@ -50,6 +50,41 @@ const RemoveTile = () => {
                 />
               );
             })}
+        </div>
+      </>
+    );
+  }
+
+  /* const handleRemoveTrain = (id) => {
+    // If there is just one line left, then we reset the trains object as there is nothing else to remove so we may as well get rid of all train state (all stations user has built up)
+    if (formDataState.formData.Trains[0].LineIds.length === 1) {
+      formDataDispatch({ type: 'UPDATE_FORM_DATA', payload: { Trains: [] } });
+    }
+    // Else, remove individual train line
+    else {
+      formDataDispatch({ type: 'REMOVE_TRAIN', payload: id });
+    }
+  }; */
+
+  let trains;
+  console.log(trainServices);
+  if (trainServices && trainServices.length > 0) {
+    trains = (
+      <>
+        <h3>Train lines</h3>
+        <div className={`${trainServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
+          {trainServices[0].LineIds.map((line) => {
+            return (
+              <RemoveService
+                showRemove
+                // onClick={() => handleRemoveTrain(line)}
+                serviceNumber={line}
+                id={line}
+                key={line}
+                mode="train"
+              />
+            );
+          })}
         </div>
       </>
     );
