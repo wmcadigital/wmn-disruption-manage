@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import Button from 'components/shared/Button/Button';
-import Bus from 'components/shared/Bus/Bus';
+import RemoveService from 'components/shared/RemoveService/RemoveService';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
@@ -51,13 +51,14 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           <h4>Bus services that you want to add</h4>
           {buses.map((busRoute) => {
             return (
-              <Bus
-                lineId={busRoute.lineId}
-                handleRemove={() => handleRemoveBus(busRoute.lineId)}
+              <RemoveService
+                showRemove
+                mode="bus"
+                id={busRoute.lineId}
                 serviceNumber={busRoute.serviceNumber}
                 routeName={busRoute.routeName}
-                id={busRoute.lineId}
-                key={`${busRoute.lineId}`}
+                key={busRoute.lineId}
+                onClick={() => handleRemoveBus(busRoute.lineId)}
               />
             );
           })}
@@ -92,12 +93,13 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           <h4>Trams you want to add</h4>
           {trams.map((tramRoute) => {
             return (
-              <Bus
-                lineId={tramRoute.lineId}
-                handleRemove={() => handleRemoveBus(tramRoute.lineId)}
+              <RemoveService
+                showRemove
+                mode="tram"
+                id={tramRoute.lineId}
+                onClick={() => handleRemoveBus(tramRoute.lineId)}
                 serviceNumber={tramRoute.serviceNumber}
                 routeName={tramRoute.routeName}
-                id={tramRoute.lineId}
                 key={`${tramRoute.lineId}`}
               />
             );

@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
-import Bus from '../../shared/Bus/Bus';
+import RemoveService from '../../shared/RemoveService/RemoveService';
 
 const RemoveTile = () => {
   const { allServices, busServices, tramServices } = useFilterSubscribedServices();
@@ -16,8 +16,10 @@ const RemoveTile = () => {
           {busServices &&
             busServices.reverse().map((serviceRoute) => {
               return (
-                <Bus
-                  lineId={serviceRoute.id}
+                <RemoveService
+                  showRemove
+                  mode="bus"
+                  id={serviceRoute.id}
                   serviceNumber={serviceRoute.name}
                   routeName={serviceRoute.idName}
                   key={serviceRoute.id}
@@ -38,8 +40,10 @@ const RemoveTile = () => {
           {tramServices &&
             tramServices.map((serviceRoute) => {
               return (
-                <Bus
-                  lineId={serviceRoute.id}
+                <RemoveService
+                  showRemove
+                  mode="tram"
+                  id={serviceRoute.id}
                   serviceNumber={serviceRoute.name}
                   routeName="Birmingham - Wolverhampton - Birmingham"
                   key={serviceRoute.id}
@@ -61,6 +65,7 @@ const RemoveTile = () => {
         <>
           {buses}
           {trams}
+          {trains}
         </>
       ) : (
         <span>You are not subscribed to any services</span>
