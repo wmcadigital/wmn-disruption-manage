@@ -111,7 +111,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
                 className="wmnds-btn wmnds-col-1 wmnds-m-t-sm"
                 disabled={isFetching}
                 isFetching={isFetching}
-                text="Confirm your authentication code"
+                text="Confirm code"
                 iconRight="general-chevron-right"
                 onClick={() => validateAndConfirmPin()}
               />
@@ -120,7 +120,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               <Button
                 className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-t-sm"
                 onClick={() => setResendPressed(true)}
-                text="Resend authentication code"
+                text="Resend code"
               />
             </div>
           </div>
