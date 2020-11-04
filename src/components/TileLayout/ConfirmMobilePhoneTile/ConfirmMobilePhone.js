@@ -42,7 +42,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
   /* LIVE PIN ERRORS GENERATOR after first SUBMISSION */
   const generateErrors = () => {
     if (pin && (pin.length < 4 || pin.length > 7)) {
-      return 'The PIN code should be between 4 to 7 digits long';
+      return 'The authentication code should be between 4 to 7 digits long';
     }
     return '';
   };
@@ -66,8 +66,8 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
 
           {errors && (
             <GenericError
-              title="Invalid PIN Code"
-              desc="Please check your PIN code. It should be between 4-7 digits long."
+              title="Invalid authentication code"
+              desc="Please check your authentication code. It should be between 4-7 digits long."
             />
           )}
 
@@ -75,19 +75,19 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
             <legend className="wmnds-fe-fieldset__legend">
               <p>
                 We’ll send text message disruption alerts to{' '}
-                <strong>{subscriberState.user.mobileNumber}</strong>. You’ll need to confirm your
+                <strong>{subscriberState.user.mobileNumber}</strong>. You need to confirm your
                 mobile phone number before you can receive text message alerts.
               </p>
               <p>
-                You’ll receive your PIN code within the next 5 minutes. If you do not receive a PIN
-                code after 5 minutes, you can choose to resend the PIN code. Your PIN code will
-                expire at midnight.
+                We've sent you a text with your authentication code. If you do not receive the text
+                message after 5 minutes, you can resend the authentication code. Your authentication
+                code expires at midnight.
               </p>
 
               {resendSuccessful && (
                 <WarningText
                   className="wmnds-m-b-md"
-                  message="We have resent the PIN code to your mobile phone"
+                  message="We have resent the authentication code to your mobile phone"
                 />
               )}
             </legend>
@@ -95,10 +95,10 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
             <Input
               value={pin}
               onChange={(e) => setPin(e.target.value)}
-              className="wmnds-col-1 wmnds-col-md-1-2"
+              className="wmnds-col-1-2 wmnds-col-md-1-4"
               groupClassName="wmnds-m-b-md"
               name="PINCode"
-              label="Enter your PIN code"
+              label="Enter your authentication code"
               type="number"
               isRequired
               errors={isSubmitPressed ? generateErrors() : null}
@@ -111,7 +111,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
                 className="wmnds-btn wmnds-col-1 wmnds-m-t-sm"
                 disabled={isFetching}
                 isFetching={isFetching}
-                text="Confirm your PIN Code"
+                text="Confirm your authentication code"
                 iconRight="general-chevron-right"
                 onClick={() => validateAndConfirmPin()}
               />
@@ -120,7 +120,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               <Button
                 className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-t-sm"
                 onClick={() => setResendPressed(true)}
-                text="Resend PIN Code"
+                text="Resend authentication code"
               />
             </div>
           </div>
