@@ -67,7 +67,9 @@ const TileLayout = () => {
                 )}
 
               {/* To users that wants to reset Phone number and clicked on "Wrong phone number" link on confirm Pin tile  */}
-              {wrongPhoneNumber && <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />}
+              {wrongPhoneNumber && !isEditingManagePreferences && (
+                <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
+              )}
 
               {/* To Users that have completed the phone activation by submiting the correct pin number */}
               {smsMessageSuccess && !isEditingManagePreferences && (
@@ -94,6 +96,8 @@ const TileLayout = () => {
               {((mobileNumber && mobileActive) || isEditingManagePreferences) && (
                 <ManageContactPreferencesTile
                   setIsEditingManagerPreferences={setIsEditingManagerPreferences}
+                  setWrongPhoneNumber={setWrongPhoneNumber}
+                  wrongPhoneNumber={wrongPhoneNumber}
                 />
               )}
 

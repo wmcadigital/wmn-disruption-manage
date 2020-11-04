@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import ConfirmMobilePhone from 'components/TileLayout/ConfirmMobilePhoneTile/ConfirmMobilePhone';
 import IntroManagePreferences from 'components/TileLayout/ManageContactPreferencesTile/IntroManagePreferences';
 import EditingManagePreferences from 'components/TileLayout/ManageContactPreferencesTile/EditingManagePreferences';
+import ResetPhoneTile from '../ResetPhoneTile/ResetPhoneTile';
 
-const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
+const ManageContactPreferencesTile = ({
+  setIsEditingManagerPreferences,
+  setWrongPhoneNumber,
+  wrongPhoneNumber,
+}) => {
   const [editingMode, setEditingMode] = useState(false);
   const [confirmMobileMode, setConfirmMobileMode] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [changeMobileMode, setChangeMobileMode] = useState(false);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -41,12 +44,15 @@ const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
           setConfirmMobileMode={setConfirmMobileMode}
         />
       )}
-      {confirmMobileMode && (
+      {confirmMobileMode && !wrongPhoneNumber && (
         <ConfirmMobilePhone
-          setWrongPhoneNumber={setChangeMobileMode}
+          setWrongPhoneNumber={setWrongPhoneNumber}
           confirmMobileMode={confirmMobileMode}
           setEditingMode={setEditingMode}
         />
+      )}
+      {confirmMobileMode && wrongPhoneNumber && (
+        <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
       )}
     </>
   );
@@ -55,6 +61,8 @@ const ManageContactPreferencesTile = ({ setIsEditingManagerPreferences }) => {
 // Set props
 ManageContactPreferencesTile.propTypes = {
   setIsEditingManagerPreferences: PropTypes.func.isRequired,
+  setWrongPhoneNumber: PropTypes.func.isRequired,
+  wrongPhoneNumber: PropTypes.bool.isRequired,
 };
 
 export default ManageContactPreferencesTile;

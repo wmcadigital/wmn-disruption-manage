@@ -33,7 +33,6 @@ const IntroManagePreferences = ({
         type: 'success',
       },
     ]);
-    console.log('entrou dentro desta funcao');
     setConfirmMobileMode(false);
   }
 
