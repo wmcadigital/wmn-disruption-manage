@@ -8,7 +8,7 @@ import style from './RemoveService.module.scss';
 import Button from '../Button/Button';
 
 const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode }) => {
-  const { removeRoute } = useFetchDeleteRoute(id);
+  const { removeRoute, removeLine } = useFetchDeleteRoute(id);
 
   return (
     <>
@@ -31,7 +31,9 @@ const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode
             text={mode === 'train' ? 'Remove line' : 'Remove service'}
             iconRight="general-trash"
             title={`Remove ${serviceNumber}${mode !== 'train' ? `: ${routeName}` : ' line'}`}
-            onClick={onClick || removeRoute}
+            onClick={
+              onClick || (mode === 'train' && removeLine) || (mode !== 'train' && removeRoute)
+            }
           />
         )}
       </div>

@@ -4,6 +4,7 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
+import useFetchAddTrains from 'customHooks/useFetchAddTrains';
 // Components
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
 import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
@@ -20,9 +21,13 @@ import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
+  const { addTrainsIsFinished } = useFetchAddTrains(); // Add trains if they exist on the URL
   const [isFirstTime, setIsFirstTime] = useState(null);
   const { sendPinIsFinished } = useFetchSendPin(isFirstTime);
-  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
+  const { isFetching, hasError } = useFetchUser(
+    confirmServiceIsFinished && addTrainsIsFinished,
+    sendPinIsFinished
+  ); // Then fetch the user
   useEffect(() => {
     setIsFirstTime(false);
   }, []);

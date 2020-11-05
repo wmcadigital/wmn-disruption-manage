@@ -7,7 +7,7 @@ const useFilterSubscribedServices = () => {
   const allServices = subscriberState.user.lineId;
   const busServices = allServices ? allServices.filter((service) => service.id !== '4546') : [];
   const tramServices = allServices ? allServices.filter((service) => service.id === '4546') : [];
-  const trainServices = subscriberState.query.trains;
+  const trainServices = subscriberState.user.trainLines;
 
   return { allServices, busServices, tramServices, trainServices, user };
 };

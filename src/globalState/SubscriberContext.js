@@ -47,6 +47,15 @@ export const SubscriberProvider = (props) => {
             lineId: state.user.lineId.filter((x) => x.id !== action.payload),
           },
         };
+      // Remove train line from state when deleted via API call
+      case 'REMOVE_TRAIN_LINE':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            lineId: state.user.trainLines.filter((x) => x.id !== action.payload),
+          },
+        };
 
       case 'REMOVE_MOBILE':
         return {
