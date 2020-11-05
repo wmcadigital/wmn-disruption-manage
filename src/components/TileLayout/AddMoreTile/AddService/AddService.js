@@ -1,125 +1,54 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Components
-import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 import Button from 'components/shared/Button/Button';
-import RemoveService from 'components/shared/RemoveService/RemoveService';
+import AddBusService from './AddBusService';
+import AddTramService from './AddTramService';
+import AddTrainService from './AddTrainService';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
-  /* Check the services that are already assigned */
-  const { tramServices } = useFilterSubscribedServices();
-
   const [mode, setMode] = useState(null);
-  let trams = [];
   let buses = [];
+  let trams = [];
   if (selectedServices && selectedServices.length > 0) {
     buses = selectedServices.filter((service) => service.lineId !== '4546');
     trams = selectedServices.filter((service) => service.lineId === '4546');
   }
 
-  const handleRemoveBus = (lineId) => {
-    setSelectedServices((prevState) => prevState.filter((item) => item.lineId !== lineId));
-  };
-
   return (
     <>
       <p>You can add as many services as you would like.</p>
-
-      {/* Show bus autocomplete if we want to add more bus services */}
-      {mode === 'bus' && (
+      {/* Searching for a service to add */}
+      {mode !== null && (
         <>
-          <AutoComplete mode="bus" setSelectedServices={setSelectedServices} setMode={setMode} />
+          <AutoComplete mode={mode} setSelectedServices={setSelectedServices} setMode={setMode} />
         </>
       )}
+      {/* Show buttons and choosen services to be added */}
+      {mode === null && (
+        <>
+          <AddBusService setMode={setMode} buses={buses} />
 
-      {/* Add bus service button */}
-      {mode !== 'bus' && (
-        <div>
-          <Button
-            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
-            text="Add bus service"
-            onClick={() => setMode('bus')}
-            iconRight="general-expand"
-          />
-        </div>
-      )}
+          <AddTramService trams={trams} setSelectedServices={setSelectedServices} />
 
-      {/* Add choosen bus services */}
-      {mode !== 'bus' && buses && buses.length > 0 && (
-        <div className="wmnds-m-t-md">
-          <h4>Bus services that you want to add</h4>
-          {buses.map((busRoute) => {
-            return (
-              <RemoveService
-                showRemove
-                mode="bus"
-                id={busRoute.lineId}
-                serviceNumber={busRoute.serviceNumber}
-                routeName={busRoute.routeName}
-                key={busRoute.lineId}
-                onClick={() => handleRemoveBus(busRoute.lineId)}
+          <AddTrainService setMode={setMode} />
+
+          {/* Confirm service new subscriptions */}
+          {mode !== 'bus' && selectedServices && selectedServices.length > 0 && (
+            <div className="wmnds-col-1 wmnds-m-t-lg">
+              {/* Add button to confirm new subscriptions */}
+              <Button
+                className="wmnds-col-1 wmnds-col-md-1-2"
+                disabled={isFetching}
+                isFetching={isFetching}
+                text="Confirm new subscriptions"
+                onClick={addRoutes}
+                iconRight="general-chevron-right"
               />
-            );
-          })}
-        </div>
-      )}
-
-      {/* Add tram service button */}
-      {mode !== 'bus' && trams.length === 0 && tramServices.length === 0 && (
-        <div>
-          <Button
-            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
-            text="Add tram service"
-            onClick={() => {
-              setMode('tram');
-              setSelectedServices((prevState) => [
-                ...prevState,
-                {
-                  lineId: '4546',
-                  routeName: 'Birmingham - Wolverhampton - Birmingham',
-                  serviceNumber: 'mm1',
-                },
-              ]);
-            }}
-            iconRight="general-expand"
-          />
-        </div>
-      )}
-
-      {/* Add choosen tram services */}
-      {mode !== 'bus' && trams && trams.length > 0 && (
-        <div className="wmnds-m-t-md">
-          <h4>Trams you want to add</h4>
-          {trams.map((tramRoute) => {
-            return (
-              <RemoveService
-                showRemove
-                mode="tram"
-                id={tramRoute.lineId}
-                onClick={() => handleRemoveBus(tramRoute.lineId)}
-                serviceNumber={tramRoute.serviceNumber}
-                routeName={tramRoute.routeName}
-                key={`${tramRoute.lineId}`}
-              />
-            );
-          })}
-        </div>
-      )}
-
-      {/* Add more services buttons */}
-      {mode !== 'bus' && selectedServices && selectedServices.length > 0 && (
-        <div className="wmnds-col-1 wmnds-m-t-lg">
-          {/* Add button to confirm new subscriptions */}
-          <Button
-            className="wmnds-col-1 wmnds-col-md-1-2"
-            disabled={isFetching}
-            isFetching={isFetching}
-            text="Confirm new subscriptions"
-            onClick={addRoutes}
-            iconRight="general-chevron-right"
-          />
-        </div>
+            </div>
+          )}
+        </>
       )}
     </>
   );
