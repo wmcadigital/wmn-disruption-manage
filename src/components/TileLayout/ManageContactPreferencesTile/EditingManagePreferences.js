@@ -231,7 +231,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         onClick={() => handleSubmitChanges()}
         text="Confirm your changes"
         title="Confirm your changes"
-        type="submit"
       />
 
       <Message

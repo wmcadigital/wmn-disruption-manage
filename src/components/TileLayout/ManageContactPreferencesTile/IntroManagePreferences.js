@@ -33,16 +33,13 @@ const IntroManagePreferences = ({
         type: 'success',
       },
     ]);
-    console.log('entrou dentro desta funcao');
     setConfirmMobileMode(false);
   }
 
   const handleEditPreferences = () => {
     setEditingMode(true);
     if (smsMessageSuccess) {
-      console.log('show success message');
       subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: false }); // reset confirmation message
-      console.log('not showing success message anymore');
     }
     setMessages([]); // reset messages
   };
