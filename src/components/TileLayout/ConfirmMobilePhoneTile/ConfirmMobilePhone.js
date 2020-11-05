@@ -18,21 +18,22 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
   const [pin, setPin] = useState('');
   const { errors, confirmPin, isFetching } = useFetchConfirmPin();
   const [validateErrors, setValidateErrors] = useState('');
+  const [phoneNumberToVerify, setPhoneNumberToVerify] = useState(null);
 
-  /* RESEND CODE */
-  const [resendPressed, setResendPressed] = useState(false); // Used to track if a user has hit the resend button
-  const [resendSuccessful, setResendSuccessful] = useState(false);
-  useFetchSendPin(resendPressed); // Send the current resend status to our fetch so we can send a new text if the user hits resend
-  // if the resend has been pressed, we need to map it back to false so the user can click it again (send it true again)
+  const { sendPinSuccessful } = useFetchSendPin(phoneNumberToVerify, true); // Send the current resend status to our fetch so we can send a new text if the user hits resend
+
   useEffect(() => {
-    if (resendPressed) {
-      setResendPressed(false);
-      setResendSuccessful(true);
+    if (phoneNumberToVerify) {
+      setPhoneNumberToVerify(null); // if the resend has been pressed, we need to map it back to null so the user can click it again
     }
+  }, [phoneNumberToVerify]);
+
+  // Reset editing mode to go back to beginning of management prefs
+  useEffect(() => {
     if (subscriberState.user.smsMessageSuccess && confirmMobileMode) {
       setEditingMode(false);
     }
-  }, [confirmMobileMode, resendPressed, setEditingMode, subscriberState.user.smsMessageSuccess]);
+  }, [confirmMobileMode, setEditingMode, subscriberState.user.smsMessageSuccess]);
 
   /* WRONG NUMBER? */
   const enteredWrongNumber = () => {
@@ -79,12 +80,12 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
                 mobile phone number before you can receive text message alerts.
               </p>
               <p>
-                We've sent you a text with your authentication code. If you do not receive the text
-                message after 5 minutes, you can resend the authentication code. Your authentication
-                code expires at midnight.
+                We&apos;ve sent you a text with your authentication code. If you do not receive the
+                text message after 5 minutes, you can resend the authentication code. Your
+                authentication code expires at midnight.
               </p>
 
-              {resendSuccessful && (
+              {sendPinSuccessful && (
                 <WarningText
                   className="wmnds-m-b-md"
                   message="We have resent the authentication code to your mobile phone"
@@ -119,8 +120,8 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
             <div className="wmnds-col-1 wmnds-col-md-1-2">
               <Button
                 className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-t-sm"
-                onClick={() => setResendPressed(true)}
-                text="Resend code"
+                onClick={() => setPhoneNumberToVerify(subscriberState.user.mobileNumber)}
+                text="Resend PIN Code"
               />
             </div>
           </div>
