@@ -47,6 +47,7 @@ const IntroManagePreferences = ({
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Manage your contact preferences</h2>
+
       {messages &&
         messages.length > 0 &&
         messages.map((message) => {
@@ -61,13 +62,13 @@ const IntroManagePreferences = ({
             />
           );
         })}
+
       {mobileActive && (
-          <>
-          <h3>
-            Text messages
-          </h3>
+        <>
+          <h3>Text messages</h3>
           <p>
-            You're participating in the text message alert trial. We are sending texts to <strong>{mobileNumber}</strong>.
+            You&apos;re participating in the text message alert trial. We are sending texts to{' '}
+            <strong>{mobileNumber}</strong>.
           </p>
           <p>
             <a
@@ -82,13 +83,16 @@ const IntroManagePreferences = ({
           </p>
         </>
       )}
+
       {!emailDisabled && (
         <>
-        <h3>Emails</h3>
-        <p>
-          We are sending emails to <strong>{email}</strong>.
-        </p>
+          <h3>Emails</h3>
+          <p>
+            We are sending emails to <strong>{email}</strong>.
+          </p>
+        </>
       )}
+
       <Button
         className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2"
         onClick={() => handleEditPreferences()}

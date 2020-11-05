@@ -80,9 +80,9 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
                 mobile phone number before you can receive text message alerts.
               </p>
               <p>
-                We've sent you a text with your authentication code. If you do not receive the text
-                message after 5 minutes, you can resend the authentication code. Your authentication
-                code expires at midnight.
+                We&apos;ve sent you a text with your authentication code. If you do not receive the
+                text message after 5 minutes, you can resend the authentication code. Your
+                authentication code expires at midnight.
               </p>
 
               {sendPinSuccessful && (

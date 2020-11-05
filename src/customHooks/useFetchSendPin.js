@@ -23,7 +23,6 @@ const useFetchSendPin = (mobileNumber, resend) => {
     let mounted = true;
 
     if (((resend && mobileNumber) || (mobileNumber && !sendPinIsFinished && user)) && mounted) {
-      console.log({ mobileNumber });
       const dataToSend = {
         mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
       }; // Structure the data before sending
