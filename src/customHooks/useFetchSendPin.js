@@ -6,26 +6,24 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
   const [sendPinSuccessful, setPinSuccessful] = useState(false);
-  const { user } = subscriberState.query;
-  const [flagToAvoidMultipleMessages, setFlagToAvoidMultipleMessages] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState(
+    resend ? subscriberState.user.mobileNumber : subscriberState.query.mobileNumber
+  ); // Get the correct mobile number: If resend is true then at that point the mobile number must be in our user state
 
-  let { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
+  const { user } = subscriberState.query; // destructure user(id) from url
+
+  // If new mobile phone number exists then we want to update it
   if (newMobilePhone !== '') {
-    mobileNumber = newMobilePhone;
+    setMobileNumber(newMobilePhone); // Change to new phone number
   }
 
   const dataToSend = {
     mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
   }; // Structure the data before sending
+
   useEffect(() => {
-    if (
-      resend ||
-      (!flagToAvoidMultipleMessages &&
-        !sendPinIsFinished &&
-        user &&
-        subscriberState.query.mobileNumber)
-    ) {
-      setFlagToAvoidMultipleMessages(true);
+    if (resend || (!sendPinIsFinished && user && mobileNumber)) {
+      setMobileNumber(null); // Set mobileNumber to null once we are in the if statement, as we don't want the if to run again.
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -57,16 +55,7 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
     } else {
       setSendPinIsFinished(true);
     }
-  }, [
-    sendPinIsFinished,
-    dataToSend,
-    mobileNumber,
-    resend,
-    subscriberState.query.mobileNumber,
-    user,
-    flagToAvoidMultipleMessages,
-    subscriberDispatch,
-  ]);
+  }, [dataToSend, mobileNumber, resend, sendPinIsFinished, subscriberDispatch, user]);
 
   return { sendPinIsFinished, sendPinSuccessful };
 };
