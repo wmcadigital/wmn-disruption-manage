@@ -20,12 +20,8 @@ import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
 
 const TileLayout = () => {
   const { confirmServiceIsFinished } = useFetchConfirmServices(); // Run confirm new services before fetching user and return var if it has completed. This ensures that when we fetch the user, we have the most up to date lines they have confirmed.
-  const [isFirstTime, setIsFirstTime] = useState(null);
-  const { sendPinIsFinished } = useFetchSendPin(isFirstTime);
-  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished); // Then fetch the user
-  useEffect(() => {
-    setIsFirstTime(false);
-  }, []);
+  const { sendPinIsFinished } = useFetchSendPin();
+  const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished);
 
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, mobileActive, smsMessageSuccess } = subscriberState.user;
