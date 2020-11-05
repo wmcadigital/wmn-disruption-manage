@@ -33,16 +33,13 @@ const IntroManagePreferences = ({
         type: 'success',
       },
     ]);
-    console.log('entrou dentro desta funcao');
     setConfirmMobileMode(false);
   }
 
   const handleEditPreferences = () => {
     setEditingMode(true);
     if (smsMessageSuccess) {
-      console.log('show success message');
       subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: false }); // reset confirmation message
-      console.log('not showing success message anymore');
     }
     setMessages([]); // reset messages
   };
@@ -65,11 +62,13 @@ const IntroManagePreferences = ({
           );
         })}
       {mobileActive && (
-        <>
+          <>
+          <h3>
+            Text messages
+          </h3>
           <p>
-            We are sending text message disruption alerts to <strong>{mobileNumber}</strong>.
+            You're participating in the text message alert trial. We are sending texts to <strong>{mobileNumber}</strong>.
           </p>
-          <p>You’re participating in the text message service disruption trial.</p>
           <p>
             <a
               href="https://surveys.hotjar.com/b9f7936e-ae08-44a9-83f6-7bc392754dda"
@@ -78,20 +77,22 @@ const IntroManagePreferences = ({
               rel="noopener noreferrer"
               className="wmnds-link"
             >
-              Please complete a survey.
+              You can give feedback about the text messages.
             </a>
           </p>
         </>
       )}
       {!emailDisabled && (
+        <>
+        <h3>Emails</h3>
         <p>
-          We are sending email alerts to <strong>{email}</strong>.
+          We are sending emails to <strong>{email}</strong>.
         </p>
       )}
       <Button
         className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-col-md-1-2"
         onClick={() => handleEditPreferences()}
-        text="Edit your contact Preferences"
+        text="Edit your contact preferences"
       />
     </div>
   );
