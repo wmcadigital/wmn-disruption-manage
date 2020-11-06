@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from 'components/shared/Button/Button';
 import AddBusService from './AddBusService';
 import AddTramService from './AddTramService';
-import AddTrainService from './AddTrainService';
+// import AddTrainService from './AddTrainService';
 import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ isFetching, selectedServices, setSelectedServices, addRoutes }) => {
@@ -32,7 +32,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
           <AddTramService trams={trams} setSelectedServices={setSelectedServices} />
 
-          <AddTrainService setMode={setMode} />
+          {/* <AddTrainService setMode={setMode} /> */}
 
           {/* Confirm service new subscriptions */}
           {mode !== 'bus' && selectedServices && selectedServices.length > 0 && (
