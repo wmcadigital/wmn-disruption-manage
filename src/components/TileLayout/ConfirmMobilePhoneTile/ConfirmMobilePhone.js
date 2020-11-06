@@ -125,7 +125,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               />
             </div>
           </div>
-
+          <br />
           <div>
             <a
               href="#resetnumber"
