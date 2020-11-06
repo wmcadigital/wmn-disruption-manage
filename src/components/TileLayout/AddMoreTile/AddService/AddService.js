@@ -24,8 +24,9 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
   return (
     <>
-      <p>You can add as many services as you would like.</p>
+      <p>We'll send an automatic disruption alert for each service you add.</p>
 
+      <h2>Buses</h2>
       {/* Show bus autocomplete if we want to add more bus services */}
       {mode === 'bus' && (
         <>
@@ -63,7 +64,8 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           })}
         </div>
       )}
-
+      <br />
+      <h2>Trams</h2>
       {/* Add tram service button */}
       {mode !== 'bus' && trams.length === 0 && tramServices.length === 0 && (
         <div>
@@ -89,7 +91,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
       {/* Add choosen tram services */}
       {mode !== 'bus' && trams && trams.length > 0 && (
         <div className="wmnds-m-t-md">
-          <h4>Trams you want to add</h4>
+          <h4>Tram services you want to add</h4>
           {trams.map((tramRoute) => {
             return (
               <Bus
