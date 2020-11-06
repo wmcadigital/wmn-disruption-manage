@@ -14,9 +14,6 @@ const AddTramService = ({ trams, setSelectedServices }) => {
     setSelectedServices((prevState) => prevState.filter((item) => item.lineId !== lineId));
   };
 
-  console.log('trams' + trams);
-  console.log({ tramServices });
-
   return (
     <>
       {/* Add tram service button */}
