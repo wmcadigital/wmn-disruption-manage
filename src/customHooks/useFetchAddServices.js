@@ -8,6 +8,7 @@ const useFetchAddServices = (selectedServices) => {
 
   const dataToSend = {
     lineId: selectedServices.map((item) => +item.lineId),
+    emailDisabled: subscriberState.user.emailDisabled,
   }; // Structure the data before sending
 
   const addRoutes = () => {

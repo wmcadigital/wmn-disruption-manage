@@ -22,14 +22,11 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   /* useFetchSendPin(true, "07700900090") saves the new number and send a new message */
   /* useFetchSendPin(false, "") using useEffect we can set the function back to do nothing - right after sending the message */
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState(''); // Used to track if a user has saved the new phone number
-  const { sendPinIsFinished } = useFetchSendPin(
-    submittedMobileNumber.length > 0,
-    submittedMobileNumber
-  ); // Send the current resend status to our fetch so we can send a new text if the user hits resend
+  const { sendPinIsFinished } = useFetchSendPin(submittedMobileNumber, true); // Send the current resend status to our fetch so we can send a new text if the user hits resend
   // if the submit button has been pressed, we need to map it back to false so the user can click it again (send it true again)
   useEffect(() => {
     if (submittedMobileNumber) {
-      setSubmittedMobileNumber('');
+      setSubmittedMobileNumber(null);
       setWrongPhoneNumber(false); // set reset mode to false
     }
   }, [setWrongPhoneNumber, submittedMobileNumber]);

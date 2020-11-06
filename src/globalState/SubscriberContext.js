@@ -15,6 +15,7 @@ export const SubscriberProvider = (props) => {
       secret: getSearchParam('secret') || '',
       user: getSearchParam('user') || '',
       mobileNumber: getSearchParam('mobi') || '',
+      trains: getSearchParam('trains') ? JSON.parse(atob(getSearchParam('trains'))) : [],
     },
     user: {
       name: '',
@@ -22,6 +23,7 @@ export const SubscriberProvider = (props) => {
       lineId: [],
       newUser: false,
       updates: null,
+      trains: [],
     },
     addServices: [],
   };
@@ -45,7 +47,15 @@ export const SubscriberProvider = (props) => {
             lineId: state.user.lineId.filter((x) => x.id !== action.payload),
           },
         };
-
+      // Remove train line from state when deleted via API call
+      case 'REMOVE_TRAIN_LINE':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            trainLines: state.user.trainLines.filter((x) => x !== action.payload),
+          },
+        };
       case 'REMOVE_MOBILE':
         return {
           ...state,
