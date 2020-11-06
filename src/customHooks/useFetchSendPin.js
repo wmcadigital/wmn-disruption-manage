@@ -2,30 +2,31 @@ import { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchSendPin = (resend = false, newMobilePhone = '') => {
+const useFetchSendPin = (mobileNumber, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
   const [sendPinSuccessful, setPinSuccessful] = useState(false);
-  const { user } = subscriberState.query;
-  const [flagToAvoidMultipleMessages, setFlagToAvoidMultipleMessages] = useState(false);
+  // const [mobileNumber, setMobileNumber] = useState(
+  //   resend && subscriberState.user.mobileNumber
+  //     ? subscriberState.user.mobileNumber
+  //     : subscriberState.query.mobileNumber
+  // ); // Get the correct mobile number: If resend is true then at that point the mobile number must be in our user state
 
-  let { mobileNumber } = resend ? subscriberState.user : subscriberState.query;
-  if (newMobilePhone !== '') {
-    mobileNumber = newMobilePhone;
-  }
+  const { user } = subscriberState.query; // destructure user(id) from url
 
-  const dataToSend = {
-    mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
-  }; // Structure the data before sending
+  // // If new mobile phone number exists then we want to update it
+  // if (newMobilePhone !== '') {
+  //   setMobileNumber(newMobilePhone); // Change to new phone number
+  // }
+
   useEffect(() => {
-    if (
-      resend ||
-      (!flagToAvoidMultipleMessages &&
-        !sendPinIsFinished &&
-        user &&
-        subscriberState.query.mobileNumber)
-    ) {
-      setFlagToAvoidMultipleMessages(true);
+    let mounted = true;
+
+    if (((resend && mobileNumber) || (mobileNumber && !sendPinIsFinished && user)) && mounted) {
+      const dataToSend = {
+        mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null,
+      }; // Structure the data before sending
+
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(dataToSend),
@@ -57,16 +58,11 @@ const useFetchSendPin = (resend = false, newMobilePhone = '') => {
     } else {
       setSendPinIsFinished(true);
     }
-  }, [
-    sendPinIsFinished,
-    dataToSend,
-    mobileNumber,
-    resend,
-    subscriberState.query.mobileNumber,
-    user,
-    flagToAvoidMultipleMessages,
-    subscriberDispatch,
-  ]);
+
+    return () => {
+      mounted = false;
+    };
+  }, [mobileNumber, resend, sendPinIsFinished, subscriberDispatch, user]);
 
   return { sendPinIsFinished, sendPinSuccessful };
 };
