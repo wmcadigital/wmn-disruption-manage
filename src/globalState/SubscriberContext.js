@@ -53,10 +53,9 @@ export const SubscriberProvider = (props) => {
           ...state,
           user: {
             ...state.user,
-            lineId: state.user.trainLines.filter((x) => x.id !== action.payload),
+            trainLines: state.user.trainLines.filter((x) => x !== action.payload),
           },
         };
-
       case 'REMOVE_MOBILE':
         return {
           ...state,

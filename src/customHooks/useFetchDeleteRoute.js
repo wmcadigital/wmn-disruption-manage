@@ -42,7 +42,7 @@ const useFetchDeleteRoute = (lineId) => {
   };
 
   const removeLine = () => {
-    const confirmData = { trainLineId: [lineId], secret }; // Structure the data before sending
+    const confirmData = { TrainLineId: [lineId] }; // Structure the data before sending
     if (lineId) {
       // If lineId is passed in then submit a delete request for that lineId
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
@@ -66,6 +66,7 @@ const useFetchDeleteRoute = (lineId) => {
             type: 'REMOVE_TRAIN_LINE',
             payload: lineId,
           }); // Remove this lineId from local state
+          console.log(subscriberState.user.trainLines);
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -77,7 +78,7 @@ const useFetchDeleteRoute = (lineId) => {
   };
 
   // Return function and isFetching state to be used outside of custom hook
-  return { removeRoute, isFetching };
+  return { removeRoute, removeLine, isFetching };
 };
 
 export default useFetchDeleteRoute;

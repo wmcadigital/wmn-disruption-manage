@@ -10,6 +10,14 @@ import Button from '../Button/Button';
 const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode }) => {
   const { removeRoute, removeLine } = useFetchDeleteRoute(id);
 
+  const handleCancel = () => {
+    if (mode === 'train') {
+      removeLine();
+    } else {
+      removeRoute();
+    }
+  };
+
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-grid--align-center">
@@ -31,9 +39,7 @@ const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode
             text={mode === 'train' ? 'Remove line' : 'Remove service'}
             iconRight="general-trash"
             title={`Remove ${serviceNumber}${mode !== 'train' ? `: ${routeName}` : ' line'}`}
-            onClick={
-              onClick || (mode === 'train' && removeLine) || (mode !== 'train' && removeRoute)
-            }
+            onClick={onClick || handleCancel}
           />
         )}
       </div>
