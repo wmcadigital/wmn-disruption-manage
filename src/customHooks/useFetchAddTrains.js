@@ -2,17 +2,16 @@ import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchConfirmServices = () => {
+const useFetchAddTrains = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(false); // Track if fetch request is currently fetching
-  const { lines, trains, secret, user } = subscriberState.query; // Destructure state
-  const confirmData = { lineId: lines, secret, trains };
-  console.log(confirmData);
+  const [addTrainsIsFinished, setAddTrainsIsFinished] = useState(false); // Track if fetch request is currently fetching
+  const { trains, user, emailDisabled } = subscriberState.query; // Destructure state
+  const confirmData = { trains, emailDisabled };
 
   useEffect(() => {
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
-    if (!confirmServiceIsFinished && secret && (lines.length || trains.length)) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
+    if (!addTrainsIsFinished && trains.length) {
+      fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
         headers: {
@@ -29,26 +28,25 @@ const useFetchConfirmServices = () => {
         // If fetch is successful
         .then(() => {
           // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
-          delSearchParam('lines');
-          delSearchParam('lnames');
           delSearchParam('trains');
+          delSearchParam('nomail');
 
-          setConfirmServiceIsFinished(true); // set to false as we are done fetching now
+          setAddTrainsIsFinished(true); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
 
-          setConfirmServiceIsFinished(true); // set to false as we are done fetching now
+          setAddTrainsIsFinished(true); // set to false as we are done fetching now
         });
     }
     // Else the user doesn't need to confirm service so return that this service is finished
     else {
-      setConfirmServiceIsFinished(true);
+      setAddTrainsIsFinished(true);
     }
-  }, [confirmData, confirmServiceIsFinished, lines, trains, secret, user]);
+  }, [confirmData, addTrainsIsFinished, trains, user]);
 
-  return { confirmServiceIsFinished };
+  return { addTrainsIsFinished };
 };
 
-export default useFetchConfirmServices;
+export default useFetchAddTrains;
