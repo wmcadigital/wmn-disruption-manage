@@ -17,8 +17,16 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
 
     return (
       <div className="wmnds-grid">
-        {autoCompleteTitle(`Search for a ${mode} service`)}
-        <BusAutoComplete mode={mode} setMode={setMode} setSelectedServices={setSelectedServices} />
+        {mode === 'bus' && (
+          <>
+            {autoCompleteTitle(`Search for a ${mode} service`)}
+            <BusAutoComplete
+              mode={mode}
+              setMode={setMode}
+              setSelectedServices={setSelectedServices}
+            />
+          </>
+        )}
       </div>
     );
   };
