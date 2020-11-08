@@ -7,7 +7,6 @@ const useFetchConfirmServices = () => {
   const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(false); // Track if fetch request is currently fetching
   const { lines, trains, secret, user } = subscriberState.query; // Destructure state
   const confirmData = { lineId: lines, secret, trains };
-  console.log(confirmData);
 
   useEffect(() => {
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
