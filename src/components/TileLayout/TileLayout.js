@@ -82,7 +82,7 @@ const TileLayout = () => {
                     <strong>{mobileNumber}</strong>,
                     '.',
                   ]}
-                  className="wmnds-col-1 wmnds-m-t-lg"
+                  className="wmnds-col-1 wmnds-m-t-lg bg-white"
                   hasCloseButton
                 />
               )}
