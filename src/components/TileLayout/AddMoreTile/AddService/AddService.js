@@ -8,9 +8,6 @@ import AutoComplete from './Autocomplete/Autocomplete';
 
 const AddService = ({ selectedServices, setSelectedServices }) => {
   const [mode, setMode] = useState(null);
-  // const [buses, setBuses] = useState([]);
-  // const [trams, setTrams] = useState([]);
-  // const [trains, setTrains] = useState([]);
 
   // if (selectedServices && selectedServices.length > 0) {
   //   buses = selectedServices.filter((service) => service.lineId !== '4546');
@@ -46,13 +43,14 @@ const AddService = ({ selectedServices, setSelectedServices }) => {
 
 AddService.propTypes = {
   selectedServices: PropTypes.shape({
-    LineId: PropTypes.arrayOf(
+    BusServices: PropTypes.arrayOf(
       PropTypes.shape({
-        lineId: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         routeName: PropTypes.string.isRequired,
         serviceNumber: PropTypes.string.isRequired,
       })
     ),
+    LineId: PropTypes.arrayOf(PropTypes.string),
     Trains: PropTypes.arrayOf(
       PropTypes.shape({
         To: PropTypes.string.isRequired,

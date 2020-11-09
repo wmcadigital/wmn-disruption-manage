@@ -28,6 +28,11 @@ const BusAutoComplete = ({ mode, setMode, setSelectedServices }) => {
   // Import handleKeyDown function from customHook (used by all modes)
   const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, debounceInput, results);
 
+  // Go back to prev step if cancel
+  const handleCancel = () => {
+    setMode(null);
+  };
+
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-m-b-xl">
@@ -72,8 +77,8 @@ const BusAutoComplete = ({ mode, setMode, setSelectedServices }) => {
                         result={result}
                         handleKeyDown={handleKeyDown}
                         type={mode}
+                        handleCancel={handleCancel}
                         setSelectedServices={setSelectedServices}
-                        setMode={setMode}
                       />
                     );
                   })}
@@ -85,7 +90,7 @@ const BusAutoComplete = ({ mode, setMode, setSelectedServices }) => {
           <Button
             className="wmnds-btn wmnds-btn--primary wmnds-col-auto wmnds-col-md-1 wmnds-float-right"
             text="Cancel"
-            onClick={() => setMode(null)}
+            onClick={handleCancel}
           />
         </div>
       </div>

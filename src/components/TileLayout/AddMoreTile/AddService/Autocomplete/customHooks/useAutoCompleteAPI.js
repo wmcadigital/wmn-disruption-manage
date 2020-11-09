@@ -12,10 +12,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
     if (query) {
-      const {
-        REACT_APP_AUTOCOMPLETE_API,
-        REACT_APP_AUTOCOMPLETE_API_KEY,
-      } = process.env; // Destructure env vars
+      const { REACT_APP_AUTOCOMPLETE_API, REACT_APP_AUTOCOMPLETE_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(REACT_APP_AUTOCOMPLETE_API + apiPath, {
@@ -44,8 +41,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
             // if no bus data, set error
             setErrorInfo({
               title: 'No results found',
-              message:
-                'Make sure you are looking for the right service, and try again.',
+              message: 'Make sure you are looking for the right service, and try again.',
             });
           }
         })

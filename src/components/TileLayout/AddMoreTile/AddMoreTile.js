@@ -9,6 +9,8 @@ import AddService from './AddService/AddService';
 
 const AddMoreTile = () => {
   const [selectedServices, setSelectedServices] = useState({
+    BusServices: [],
+    TramServices: [],
     LineId: [],
     Trains: [],
   });
