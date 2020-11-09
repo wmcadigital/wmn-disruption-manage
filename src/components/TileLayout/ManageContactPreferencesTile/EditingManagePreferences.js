@@ -19,7 +19,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
   const [preferences, setPreferences] = useState({ phone: mobileActive, email: !emailDisabled });
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [newPhone, setNewPhone] = useState('');
-  const newMessages = [];
 
   const [doesPhonePrefChanged, setDoesPhonePrefChanged] = useState(false);
   const [doesEmailPrefChanged, setDoesEmailPrefChanged] = useState(false);
@@ -33,6 +32,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
   const { sendPinSuccessful } = useFetchSendPin(newPhone, true);
 
   useEffect(() => {
+    const newMessages = [];
     if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
       setNewPhone('');
       setConfirmMobileMode(true);
@@ -105,7 +105,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
     isToggleDone,
     mobileActive,
     mobileNumber,
-    newMessages,
     newPhone,
     phone,
     readyToShowMessages,
