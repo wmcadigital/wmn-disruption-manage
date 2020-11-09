@@ -7,7 +7,7 @@ import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 import {
   isValidMobileNumber,
   includeCountryCode,
-  omitCountryCode,
+  formatAndOmitCountryCode,
 } from 'helpers/MobilePhoneConversors';
 // Components
 import Button from 'components/shared/Button/Button';
@@ -75,7 +75,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
           )}
           <p>
             You requested to receive text message disruption alerts to{' '}
-            <strong>{omitCountryCode(currentMobileNumber)}</strong>.{' '}
+            <strong>{formatAndOmitCountryCode(currentMobileNumber)}</strong>.{' '}
           </p>
           <p>
             If this mobile phone number is incorrect, please enter the correct mobile phone number
