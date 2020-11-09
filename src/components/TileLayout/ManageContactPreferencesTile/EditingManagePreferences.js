@@ -74,7 +74,11 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         newMessages.push({
           key: `phone_${new Date().getTime()}`,
           title: 'Unsubscribed from text message alerts',
-          text: ["We'll no longer send disruption alerts to ", <strong>{phone}</strong>, '.'],
+          text: [
+            "We'll no longer send disruption alerts to ",
+            <strong>{formatAndOmitCountryCode(phone)}</strong>,
+            '.',
+          ],
           type: 'success',
         });
         setMessages([...newMessages]);
