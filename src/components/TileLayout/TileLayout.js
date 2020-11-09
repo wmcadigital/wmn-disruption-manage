@@ -72,7 +72,7 @@ const TileLayout = () => {
                 <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
               )}
 
-              {/* To Users that have completed the phone activation by submiting the correct pin number */}
+              {/* To Users that have completed the phone activation by submitting the correct pin number */}
               {smsMessageSuccess && !isEditingManagePreferences && (
                 <Message
                   type="success"
@@ -82,7 +82,7 @@ const TileLayout = () => {
                     <strong>{mobileNumber}</strong>,
                     '.',
                   ]}
-                  className="wmnds-col-1 wmnds-m-t-lg"
+                  className="wmnds-col-1 wmnds-m-t-lg bg-white"
                   hasCloseButton
                 />
               )}

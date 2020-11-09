@@ -37,7 +37,7 @@ const AddTramService = ({ trams, setSelectedServices }) => {
         </div>
       )}
 
-      {/* Add choosen tram services */}
+      {/* Add chosen tram services */}
       {trams && trams.length > 0 && (
         <div className="wmnds-m-t-md">
           <h4>Trams you want to add</h4>

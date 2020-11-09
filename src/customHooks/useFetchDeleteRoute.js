@@ -65,13 +65,11 @@ const useFetchDeleteRoute = (lineId) => {
           subscriberDispatch({
             type: 'REMOVE_TRAIN_LINE',
             payload: lineId,
-          }); // Remove this lineId from local state
-          console.log(subscriberState.user.trainLines);
+          }); // Remove this train line from local state
         }) // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
-
           setIsFetching(false); // set to false as we are done fetching now
         });
     }

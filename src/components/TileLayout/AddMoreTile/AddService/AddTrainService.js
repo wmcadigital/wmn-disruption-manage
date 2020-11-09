@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Components
-import RemoveService from 'components/shared/RemoveService/RemoveService';
-import Button from 'components/shared/Button/Button';
 
+// eslint-disable-next-line no-unused-vars
 const AddTrainService = ({ setMode }) => {
-  return <div></div>;
+  return <div />;
 };
 
 AddTrainService.propTypes = {

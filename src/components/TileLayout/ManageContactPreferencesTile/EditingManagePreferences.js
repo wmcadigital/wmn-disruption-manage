@@ -33,7 +33,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
   const { sendPinSuccessful } = useFetchSendPin(newPhone, true);
 
   useEffect(() => {
-    if (doesPhoneNumberChanged && newPhone && isNumberDeleted) {
+    if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
       setNewPhone('');
       setConfirmMobileMode(true);
     }
@@ -129,7 +129,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
   };
 
   const handleSubmitChanges = () => {
-    console.log(phone);
     setIsSubmitPressed(true);
     // if phone option is selected, only proceed if phone number is valid
     if ((preferences.phone && !generateErrors()) || !preferences.phone) {
@@ -146,7 +145,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         setIsEmailEnabled(preferences.email);
         toggleEmailAlerts(preferences.email);
       }
-      // If user did change phone number and phone option is choosen
+      // If user did change phone number and phone option is chosen
       if (preferences.phone && phone !== mobileNumber) {
         setDoesPhoneNumberChanged(true);
         deletePhoneNumber(false);

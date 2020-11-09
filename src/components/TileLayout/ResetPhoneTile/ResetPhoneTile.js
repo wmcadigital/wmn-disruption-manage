@@ -60,20 +60,6 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
         setSubmittedMobileNumber(newMobilePhone);
       }
       setResetWithErrors(true);
-
-      /* LOGIC to fallback
-      console.log("isNumberDeleted? "+isNumberDeleted);
-      if (isNumberDeleted) {
-        // activates the custom hook in order to save new phone number & send new message
-        setSubmittedMobileNumber(newMobilePhone);
-        if (sendPinIsFinished && !sendPinSuccessful) { // to avoid loosing the first phone number
-          setResetWithErrors(true);
-          setSubmittedMobileNumber(currentMobileNumber);
-        }
-        else {
-          setWrongPhoneNumber(false); // set reset mode to false
-        }
-      } */
     }
   };
 

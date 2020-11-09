@@ -25,7 +25,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
           <AutoComplete mode={mode} setSelectedServices={setSelectedServices} setMode={setMode} />
         </>
       )}
-      {/* Show buttons and choosen services to be added */}
+      {/* Show buttons and chosen services to be added */}
       {mode === null && (
         <>
           <AddBusService setMode={setMode} buses={buses} />
