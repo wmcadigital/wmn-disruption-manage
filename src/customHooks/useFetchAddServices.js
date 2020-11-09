@@ -6,8 +6,11 @@ const useFetchAddServices = (selectedServices) => {
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const [isFetchSuccessful, setIsFetchSuccessful] = useState(null);
 
+  const { Trains, LineId } = selectedServices;
+
   const dataToSend = {
-    // lineId: selectedServices.map((item) => +item.lineId),
+    LineId,
+    Trains,
     emailDisabled: subscriberState.user.emailDisabled,
   }; // Structure the data before sending
 

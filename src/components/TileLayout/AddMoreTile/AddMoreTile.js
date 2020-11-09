@@ -27,11 +27,11 @@ const AddMoreTile = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(null);
 
   if (isFetchSuccessful) {
-    setSelectedServices([]);
+    setSelectedServices({});
     setShowSuccessMessage(true);
     setIsFetchSuccessful(null);
   } else if (isFetchSuccessful === false) {
-    setSelectedServices([]);
+    setSelectedServices({});
     setShowSuccessMessage(false);
     setIsFetchSuccessful(null);
   }
