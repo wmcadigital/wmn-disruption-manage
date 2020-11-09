@@ -68,20 +68,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
       setMessages([...newMessages]);
     }
 
-    if (doesPhoneNumberChanged) {
-      setReadyToShowMessages(false);
-      if (!newPhone && sendPinSuccessful) {
-        newMessages.push({
-          key: `phone-change_${new Date().getTime()}`,
-          title: 'We have updated your phone number',
-          text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-          type: 'success',
-        });
-        setMessages([...newMessages]);
-        setReadyToShowMessages(true);
-      }
-    }
-
     if (doesPhonePrefChanged) {
       setReadyToShowMessages(false);
       if (isNumberDeleted) {
