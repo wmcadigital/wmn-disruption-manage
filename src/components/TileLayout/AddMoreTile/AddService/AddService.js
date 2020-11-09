@@ -50,7 +50,14 @@ AddService.propTypes = {
         serviceNumber: PropTypes.string.isRequired,
       })
     ),
-    LineId: PropTypes.arrayOf(PropTypes.string),
+    TramServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    LineId: PropTypes.arrayOf(PropTypes.number),
     Trains: PropTypes.arrayOf(
       PropTypes.shape({
         To: PropTypes.string.isRequired,

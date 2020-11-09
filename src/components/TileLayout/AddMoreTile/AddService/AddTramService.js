@@ -1,56 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Custom Hooks
-import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
+// import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 // Components
 import RemoveService from 'components/shared/RemoveService/RemoveService';
 import Button from 'components/shared/Button/Button';
 
-const AddTramService = ({ trams, setSelectedServices }) => {
+const AddTramService = ({ selectedServices, setSelectedServices }) => {
   /* Check the services that are already assigned */
-  const { tramServices } = useFilterSubscribedServices();
+  const { TramServices } = selectedServices;
 
-  const handleRemoveTram = (lineId) => {
-    setSelectedServices((prevState) => prevState.filter((item) => item.lineId !== lineId));
+  const handleRemoveTram = (id) => {
+    setSelectedServices((prevState) => {
+      return {
+        ...prevState,
+        TramServices: prevState.TramServices.filter((tram) => id !== tram.id),
+        LineId: prevState.LineId.filter((tramId) => +id !== tramId),
+      };
+    });
+  };
+
+  const handleAddTram = () => {
+    const defTram = [
+      {
+        id: '4546',
+        routeName: 'Birmingham - Wolverhampton - Birmingham',
+        serviceNumber: 'MM1',
+      },
+    ];
+
+    setSelectedServices((prevState) => {
+      return { ...prevState, LineId: [...prevState.LineId, 4546], TramServices: defTram };
+    });
   };
 
   return (
     <>
       {/* Add tram service button */}
-      {trams && trams.length === 0 && tramServices && tramServices.length === 0 && (
+      {(!TramServices || TramServices.length === 0) && (
         <div>
           <Button
-            className="wmnds-btn--primary wmnds-col-auto wmnds-m-b-sm"
+            className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
+            onClick={handleAddTram}
             text="Add tram service"
-            onClick={() => {
-              setSelectedServices((prevState) => [
-                ...prevState,
-                {
-                  lineId: '4546',
-                  routeName: 'Birmingham - Wolverhampton - Birmingham',
-                  serviceNumber: 'mm1',
-                },
-              ]);
-            }}
             iconRight="general-expand"
           />
         </div>
       )}
 
       {/* Add chosen tram services */}
-      {trams && trams.length > 0 && (
+      {TramServices && TramServices.length > 0 && (
         <div className="wmnds-m-t-md">
           <h4>Trams you want to add</h4>
-          {trams.map((tramRoute) => {
+          {TramServices.map((tramRoute) => {
             return (
               <RemoveService
                 showRemove
-                mode="tram"
-                id={tramRoute.lineId}
-                onClick={() => handleRemoveTram(tramRoute.lineId)}
+                onClick={() => handleRemoveTram(tramRoute.id)}
                 serviceNumber={tramRoute.serviceNumber}
+                mode="tram"
                 routeName={tramRoute.routeName}
-                key={`${tramRoute.lineId}`}
+                id={tramRoute.id}
+                key={`${tramRoute.id}`}
               />
             );
           })}
@@ -61,13 +72,15 @@ const AddTramService = ({ trams, setSelectedServices }) => {
 };
 
 AddTramService.propTypes = {
-  trams: PropTypes.arrayOf(
-    PropTypes.shape({
-      lineId: PropTypes.string.isRequired,
-      routeName: PropTypes.string.isRequired,
-      serviceNumber: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  selectedServices: PropTypes.shape({
+    TramServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };
 

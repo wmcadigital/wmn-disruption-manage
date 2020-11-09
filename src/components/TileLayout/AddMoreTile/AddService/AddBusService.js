@@ -60,7 +60,7 @@ AddBusService.propTypes = {
         routeName: PropTypes.string.isRequired,
         serviceNumber: PropTypes.string.isRequired,
       })
-    ).isRequired,
+    ),
     Trains: PropTypes.arrayOf(
       PropTypes.shape({
         To: PropTypes.string.isRequired,
