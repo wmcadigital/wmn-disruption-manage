@@ -147,6 +147,13 @@ TrainAutoCompleteSelectLines.propTypes = {
   setMode: PropTypes.func.isRequired,
   trainStations: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedServices: PropTypes.shape({
+    TramServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
     BusServices: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -161,6 +168,7 @@ TrainAutoCompleteSelectLines.propTypes = {
         LineIds: PropTypes.arrayOf(PropTypes.string),
       })
     ),
+    LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };

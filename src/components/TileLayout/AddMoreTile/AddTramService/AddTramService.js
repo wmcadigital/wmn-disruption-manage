@@ -35,22 +35,20 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
   };
 
   return (
-    <>
+    <div className="wmnds-m-t-md">
       {/* Add tram service button */}
       {(!TramServices || TramServices.length === 0) && (
-        <div>
-          <Button
-            className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
-            onClick={handleAddTram}
-            text="Add tram service"
-            iconRight="general-expand"
-          />
-        </div>
+        <Button
+          className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
+          onClick={handleAddTram}
+          text="Add tram service"
+          iconRight="general-expand"
+        />
       )}
 
       {/* Add chosen tram services */}
       {TramServices && TramServices.length > 0 && (
-        <div className="wmnds-m-t-md">
+        <>
           <h4>Trams you want to add</h4>
           {TramServices.map((tramRoute) => {
             return (
@@ -65,9 +63,9 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
               />
             );
           })}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 
@@ -79,7 +77,22 @@ AddTramService.propTypes = {
         routeName: PropTypes.string.isRequired,
         serviceNumber: PropTypes.string.isRequired,
       })
-    ).isRequired,
+    ),
+    BusServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
+    Trains: PropTypes.arrayOf(
+      PropTypes.shape({
+        To: PropTypes.string.isRequired,
+        From: PropTypes.string.isRequired,
+        LineIds: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+    LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };

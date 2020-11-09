@@ -5,7 +5,10 @@ import useFetchAddServices from 'customHooks/useFetchAddServices';
 import Message from 'components/shared/Message/Message';
 import GenericError from 'components/shared/Errors/GenericError';
 import Button from 'components/shared/Button/Button';
-import AddService from './AddService/AddService';
+import AddBusService from './AddBusService/AddBusService';
+import AddTramService from './AddTramService/AddTramService';
+import AutoComplete from './Autocomplete/Autocomplete';
+import AddTrainService from './AddTrainService/AddTrainService';
 
 const AddMoreTile = () => {
   const [selectedServices, setSelectedServices] = useState({
@@ -14,6 +17,10 @@ const AddMoreTile = () => {
     LineId: [],
     Trains: [],
   });
+  const [mode, setMode] = useState(null);
+
+  const { BusServices, TramServices, Trains } = selectedServices;
+
   const { addRoutes, isFetching, isFetchSuccessful, setIsFetchSuccessful } = useFetchAddServices(
     selectedServices
   );
@@ -49,22 +56,54 @@ const AddMoreTile = () => {
         />
       )}
 
-      <AddService
-        isFetching={isFetching}
-        selectedServices={selectedServices}
-        setSelectedServices={setSelectedServices}
-        addRoutes={addRoutes}
-      />
+      {/* Add services */}
+      <p>We&apos;ll send an automatic disruption alert for each service you add.</p>
+      {/* Searching for a service to add */}
+      {mode ? (
+        <AutoComplete
+          mode={mode}
+          setSelectedServices={setSelectedServices}
+          setMode={setMode}
+          selectedServices={selectedServices}
+        />
+      ) : (
+        <>
+          {/* Show buttons and chosen services to be added */}
+          <AddBusService
+            setMode={setMode}
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
+
+          <AddTramService
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
+
+          <AddTrainService
+            setMode={setMode}
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
+        </>
+      )}
 
       {/* Add button to confirm new subscriptions */}
-      <Button
-        className="wmnds-col-1 wmnds-col-md-1-2"
-        disabled={isFetching}
-        isFetching={isFetching}
-        text="Confirm new subscriptions"
-        onClick={addRoutes}
-        iconRight="general-chevron-right"
-      />
+
+      {/* Continue button */}
+      {((BusServices && BusServices.length > 0) ||
+        (TramServices && TramServices.length > 0) ||
+        (Trains && Trains.length > 0)) &&
+        !mode && (
+          <Button
+            className="wmnds-btn wmnds-col-1 wmnds-m-t-xl"
+            disabled={isFetching}
+            isFetching={isFetching}
+            text="Confirm new subscriptions"
+            onClick={addRoutes}
+            iconRight="general-chevron-right"
+          />
+        )}
     </div>
   );
 };

@@ -20,7 +20,7 @@ const AddBusService = ({ setMode, selectedServices, setSelectedServices }) => {
   const handleAddBus = () => setMode('bus');
 
   return (
-    <>
+    <div className="wmnds-m-t-md">
       <Button
         className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
         text={`Add ${BusServices && BusServices.length > 0 ? 'another' : ''} bus service`}
@@ -30,7 +30,7 @@ const AddBusService = ({ setMode, selectedServices, setSelectedServices }) => {
 
       {/* Add chosen bus services */}
       {BusServices && BusServices.length > 0 && (
-        <div className="wmnds-m-t-md">
+        <>
           <h4>Bus services that you want to add</h4>
           {BusServices.map((busRoute) => {
             return (
@@ -45,15 +45,22 @@ const AddBusService = ({ setMode, selectedServices, setSelectedServices }) => {
               />
             );
           })}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 
 AddBusService.propTypes = {
   setMode: PropTypes.func.isRequired, // Set custom button classes, will default to wmnds-btn (primary btn)
   selectedServices: PropTypes.shape({
+    TramServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
     BusServices: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -68,6 +75,7 @@ AddBusService.propTypes = {
         LineIds: PropTypes.arrayOf(PropTypes.string),
       })
     ),
+    LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };

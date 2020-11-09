@@ -92,7 +92,30 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
 AutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setMode: PropTypes.func.isRequired,
-  selectedServices: PropTypes.shape(PropTypes.any).isRequired,
+  selectedServices: PropTypes.shape({
+    TramServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
+    BusServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
+    Trains: PropTypes.arrayOf(
+      PropTypes.shape({
+        To: PropTypes.string.isRequired,
+        From: PropTypes.string.isRequired,
+        LineIds: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+    LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };
 
