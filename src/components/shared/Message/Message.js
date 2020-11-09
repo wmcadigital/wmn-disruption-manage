@@ -41,9 +41,9 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
           <Icon iconName="general-cross" className="" />
         </button>
       )}
-      <div className="wmnds-msg-summary__header">
+      <div className="wmnds-msg-summary__header wmnds-grid">
         <Icon iconName={`general-${iconName}`} className="wmnds-msg-summary__icon" />
-        <h3 className="wmnds-msg-summary__title">{title}</h3>
+        <h3 className="wmnds-msg-summary__title wmnds-col-1">{title}</h3>
       </div>
 
       <div className="wmnds-msg-summary__info">{message}</div>
