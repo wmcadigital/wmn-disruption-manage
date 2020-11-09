@@ -6,9 +6,9 @@ const useFetchAddTrains = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [addTrainsIsFinished, setAddTrainsIsFinished] = useState(false); // Track if fetch request is currently fetching
   const { trains, user, emailDisabled } = subscriberState.query; // Destructure state
-  const confirmData = { trains, emailDisabled };
 
   useEffect(() => {
+    const confirmData = { trains, emailDisabled };
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
     if (!addTrainsIsFinished && trains.length) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
@@ -44,7 +44,7 @@ const useFetchAddTrains = () => {
     else {
       setAddTrainsIsFinished(true);
     }
-  }, [confirmData, addTrainsIsFinished, trains, user]);
+  }, [addTrainsIsFinished, trains, user, emailDisabled]);
 
   return { addTrainsIsFinished };
 };

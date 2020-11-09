@@ -7,8 +7,8 @@ const useFetchDeleteRoute = (lineId) => {
   const { secret, user } = subscriberState.query; // Destructure state
 
   const removeRoute = () => {
-    const confirmData = { lineId: [lineId], secret }; // Structure the data before sending
     if (lineId) {
+      const confirmData = { lineId: [lineId], secret }; // Structure the data before sending
       // If lineId is passed in then submit a delete request for that lineId
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'DELETE',
@@ -42,8 +42,8 @@ const useFetchDeleteRoute = (lineId) => {
   };
 
   const removeLine = () => {
-    const confirmData = { TrainLineId: [lineId] }; // Structure the data before sending
     if (lineId) {
+      const confirmData = { TrainLineId: [lineId] }; // Structure the data before sending
       // If lineId is passed in then submit a delete request for that lineId
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
         method: 'DELETE',
