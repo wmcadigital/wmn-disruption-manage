@@ -72,8 +72,8 @@ const IntroManagePreferences = ({
           </p>
           <p>
             <a
-              href="https://surveys.hotjar.com/b9f7936e-ae08-44a9-83f6-7bc392754dda"
-              title="Please complete a survey."
+              href="https://forms.office.com/Pages/ResponsePage.aspx?id=RetZCK7xCk6e-ubWa7tnLz45Weo_RTVDpYxVYcrD8wxUOE1INTBMOEdXMFJSQTI4MUpRWlJQMEZWTi4u"
+              title="Survey about the text message alert trial"
               target="_blank"
               rel="noopener noreferrer"
               className="wmnds-link"

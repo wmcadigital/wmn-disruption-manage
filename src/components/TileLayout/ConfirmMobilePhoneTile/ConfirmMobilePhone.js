@@ -135,7 +135,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               }}
               title="Entered the wrong mobile number?"
               target="_self"
-              className="wmnds-link wmnds-float-right wmnds-m-t-md"
+              className="wmnds-link wmnds-float-right wmnds-m-t-lg"
             >
               Entered the wrong mobile number?
             </a>

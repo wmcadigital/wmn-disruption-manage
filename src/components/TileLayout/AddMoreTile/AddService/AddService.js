@@ -18,7 +18,7 @@ const AddService = ({ isFetching, selectedServices, setSelectedServices, addRout
 
   return (
     <>
-      <p>You can add as many services as you would like.</p>
+      <p>We'll send an automatic disruption alert for each service you add.</p>
       {/* Searching for a service to add */}
       {mode !== null && (
         <>
