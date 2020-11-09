@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 // Custom Hooks
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
+import {
+  isValidMobileNumber,
+  includeCountryCode,
+  omitCountryCode,
+} from 'helpers/MobilePhoneConversors';
 // Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
@@ -77,7 +82,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
           )}
           <p>
             You requested to receive text message disruption alerts to{' '}
-            <strong>{currentMobileNumber}</strong>.{' '}
+            <strong>{omitCountryCode(currentMobileNumber)}</strong>.{' '}
           </p>
           <p>
             If this mobile phone number is incorrect, please enter the correct mobile phone number
