@@ -145,7 +145,7 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         setIsEmailEnabled(preferences.email);
         toggleEmailAlerts(preferences.email);
       }
-      // If user did change phone number and phone option is choosen
+      // If user did change phone number and phone option is chosen
       if (preferences.phone && phone !== mobileNumber) {
         setDoesPhoneNumberChanged(true);
         deletePhoneNumber(false);

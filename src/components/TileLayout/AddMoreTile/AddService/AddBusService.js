@@ -22,7 +22,7 @@ const AddBusService = ({ setMode, buses, setSelectedServices }) => {
         />
       </div>
 
-      {/* Add choosen bus services */}
+      {/* Add chosen bus services */}
       {buses && buses.length > 0 && (
         <div className="wmnds-m-t-md">
           <h4>Bus services that you want to add</h4>

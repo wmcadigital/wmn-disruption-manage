@@ -72,7 +72,7 @@ const TileLayout = () => {
                 <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
               )}
 
-              {/* To Users that have completed the phone activation by submiting the correct pin number */}
+              {/* To Users that have completed the phone activation by submitting the correct pin number */}
               {smsMessageSuccess && !isEditingManagePreferences && (
                 <Message
                   type="success"
