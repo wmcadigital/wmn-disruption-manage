@@ -6,8 +6,13 @@ import Button from 'components/shared/Button/Button';
 // Style
 import s from './TrainAutoCompleteSelectLines.module.scss';
 
-const TrainAutoCompleteSelectLines = ({ setMode, trainStations }) => {
-  const lineIds = formDataState.formData?.Trains[0]?.LineIds || []; // Get the selected lines to what has already been selected or empty array
+const TrainAutoCompleteSelectLines = ({
+  setMode,
+  trainStations,
+  selectedServices,
+  setSelectedServices,
+}) => {
+  const lineIds = selectedServices?.Trains[0]?.LineIds || []; // Get the selected lines to what has already been selected or empty array
   const [selectedLines, setSelectedLines] = useState(lineIds); // Set state to lineIds var above
   const originalSelectedLines = lineIds; // This is used so we can store the original value and compare if the user changes anything (used to show continue/cancel button below)
   // These numbers will be used to convert .length into a written number
@@ -45,43 +50,39 @@ const TrainAutoCompleteSelectLines = ({ setMode, trainStations }) => {
   const handleContinue = () => {
     let payload;
     // If Trains doesn't have any data yet
-    if (!formDataState.formData.Trains.length) {
+    if (!selectedServices.Trains.length) {
       // Set payload to from/to stations and the users selected lines
-      payload = {
-        Trains: [
-          {
-            To: trainStations.To.name,
-            From: trainStations.From.name,
-            LineIds: selectedLines,
-          },
-        ],
-      };
+      payload = [
+        {
+          To: trainStations.To.name,
+          From: trainStations.From.name,
+          LineIds: selectedLines,
+        },
+      ];
     }
     // Else, if the above logic has already been completed when returning to this step && there are selectedLines to add
     else if (selectedLines.length) {
-      const newArr = formDataState.formData.Trains; // Get existing data the user selected
+      const newArr = selectedServices.Trains; // Get existing data the user selected
       newArr[0].LineIds = selectedLines; // Map the selected lines to the first object in the array
 
       // Set payload to above newArr and and a new object. This will add the from/to as a new object but the selected lines will map to the first object in the array.
-      payload = {
-        Trains: [
-          ...newArr,
-          { To: trainStations.To.name, From: trainStations.From.name, LineIds: [] },
-        ],
-      };
+      payload = [
+        ...newArr,
+        { To: trainStations.To.name, From: trainStations.From.name, LineIds: [] },
+      ];
     }
     // Else the user must have removed all their chosen lines, so reset trains field
     else {
-      payload = {
-        Trains: [],
-      };
+      payload = [];
     }
 
-    formDataDispatch({ type: 'UPDATE_FORM_DATA', payload }); // Write new payload/data to global state
+    // Write new payload/data to global state
+    setSelectedServices((prevState) => {
+      return { ...prevState, Trains: payload };
+    });
 
     // Go back to prev step
     setMode(null);
-    setStep(formDataState.currentStep - 1);
   };
 
   return (
@@ -134,7 +135,7 @@ const TrainAutoCompleteSelectLines = ({ setMode, trainStations }) => {
           <Button
             btnClass="wmnds-btn wmnds-btn--primary wmnds-col-1"
             text="Cancel"
-            onClick={() => setStep(formDataState.currentStep - 1)}
+            onClick={() => setMode(null)}
           />
         </div>
       )}
@@ -145,6 +146,23 @@ const TrainAutoCompleteSelectLines = ({ setMode, trainStations }) => {
 TrainAutoCompleteSelectLines.propTypes = {
   setMode: PropTypes.func.isRequired,
   trainStations: PropTypes.objectOf(PropTypes.any).isRequired,
+  selectedServices: PropTypes.shape({
+    BusServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired,
+        serviceNumber: PropTypes.string.isRequired,
+      })
+    ),
+    Trains: PropTypes.arrayOf(
+      PropTypes.shape({
+        To: PropTypes.string.isRequired,
+        From: PropTypes.string.isRequired,
+        LineIds: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+  }).isRequired,
+  setSelectedServices: PropTypes.func.isRequired,
 };
 
 export default TrainAutoCompleteSelectLines;

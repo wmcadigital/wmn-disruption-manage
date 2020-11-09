@@ -16,7 +16,8 @@ const AddTrainService = ({ setMode, selectedServices, setSelectedServices }) => 
     }
     // Else, remove individual train line
     else {
-      const removedTrains = Trains[0].LineIds.filter((line) => line !== id);
+      const removedTrains = Trains;
+      removedTrains[0].LineIds = Trains[0].LineIds.filter((line) => line !== id);
 
       setSelectedServices((prevState) => {
         return { ...prevState, Trains: removedTrains };
