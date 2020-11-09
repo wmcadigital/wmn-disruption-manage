@@ -5,6 +5,7 @@ import AddBusService from './AddBusService';
 import AddTramService from './AddTramService';
 // import AddTrainService from './AddTrainService';
 import AutoComplete from './Autocomplete/Autocomplete';
+import AddTrainService from './AddTrainService';
 
 const AddService = ({ selectedServices, setSelectedServices }) => {
   const [mode, setMode] = useState(null);
@@ -19,7 +20,12 @@ const AddService = ({ selectedServices, setSelectedServices }) => {
       <p>We&apos;ll send an automatic disruption alert for each service you add.</p>
       {/* Searching for a service to add */}
       {mode ? (
-        <AutoComplete mode={mode} setSelectedServices={setSelectedServices} setMode={setMode} />
+        <AutoComplete
+          mode={mode}
+          setSelectedServices={setSelectedServices}
+          setMode={setMode}
+          selectedServices
+        />
       ) : (
         <>
           {/* Show buttons and chosen services to be added */}
@@ -34,7 +40,11 @@ const AddService = ({ selectedServices, setSelectedServices }) => {
             setSelectedServices={setSelectedServices}
           />
 
-          {/* <AddTrainService setMode={setMode} /> */}
+          <AddTrainService
+            setMode={setMode}
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
         </>
       )}
     </>

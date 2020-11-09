@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Import components
+import Button from 'components/shared/Button/Button';
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
+import TrainAutoCompleteSelectLines from './TrainAutoComplete/TrainAutoCompleteSelectLines/TrainAutoCompleteSelectLines';
+import TrainAutoComplete from './TrainAutoComplete/TrainAutoComplete';
 
-const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
+const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) => {
+  const [trainStations, setTrainStations] = useState({});
+
+  // Used to go back to previous step and wipes any trainStations (local state) data stored
+  const getPreviousStep = () => {
+    setMode(null);
+  };
+
   // Do a switch on the mode, then return the component related to that
   const autoCompleteToShow = () => {
-    // const [trainStations, setTrainStations] = useState({});
-
     // This is used as a template html for the title of the autocomplete box. It changes depending on the mode
     const autoCompleteTitle = (text) => {
       return (
@@ -30,7 +38,7 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
           </>
         )}
 
-        {/* {mode === 'train' && (
+        {mode === 'train' && (
           <>
             {(!trainStations.From || !trainStations.To) && (
               <div className="wmnds-col-1 wmnds-m-b-xl">
@@ -53,7 +61,12 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
             )}
 
             {trainStations.From && trainStations.To && (
-              <TrainAutoCompleteSelectLines setMode={setMode} trainStations={trainStations} />
+              <TrainAutoCompleteSelectLines
+                setMode={setMode}
+                trainStations={trainStations}
+                setSelectedServices={setSelectedServices}
+                selectedServices={selectedServices}
+              />
             )}
 
             {(!trainStations.From || !trainStations.To) && (
@@ -67,7 +80,7 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
               </div>
             )}
           </>
-        )} */}
+        )}
       </div>
     );
   };
@@ -79,6 +92,7 @@ const AutoComplete = ({ mode, setMode, setSelectedServices }) => {
 AutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setMode: PropTypes.func.isRequired,
+  selectedServices: PropTypes.shape(PropTypes.any).isRequired,
   setSelectedServices: PropTypes.func.isRequired,
 };
 
