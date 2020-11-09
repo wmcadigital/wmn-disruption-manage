@@ -21,7 +21,7 @@ import {
 const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobileMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, email, mobileActive, emailDisabled } = subscriberState.user;
-  const [phone, setPhone] = useState(omitCountryCode(mobileNumber));
+  const [phone, setPhone] = useState(mobileNumber ? omitCountryCode(mobileNumber) : null);
   const [preferences, setPreferences] = useState({ phone: mobileActive, email: !emailDisabled });
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [newPhone, setNewPhone] = useState('');
@@ -39,9 +39,23 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
 
   useEffect(() => {
     const newMessages = [];
-    if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
-      setNewPhone('');
-      setConfirmMobileMode(true);
+    if (doesPhonePrefChanged) {
+      setReadyToShowMessages(false);
+      if (isNumberDeleted) {
+        newMessages.push({
+          key: `phone_${new Date().getTime()}`,
+          title: 'Unsubscribed from text message alerts',
+          text: [
+            "We'll no longer send disruption alerts to ",
+            <strong>{formatAndOmitCountryCode(phone)}</strong>,
+            '.',
+          ],
+          type: 'success',
+        });
+        setDoesPhoneNumberChanged(false);
+        setPreferences({ phone: mobileActive, email: !emailDisabled });
+        setReadyToShowMessages(true);
+      }
     }
 
     if (doesEmailPrefChanged) {
@@ -65,28 +79,15 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         setPreferences({ phone: mobileActive, email: !emailDisabled });
         setReadyToShowMessages(true);
       }
-      setMessages([...newMessages]);
     }
 
-    if (doesPhonePrefChanged) {
-      setReadyToShowMessages(false);
-      if (isNumberDeleted) {
-        newMessages.push({
-          key: `phone_${new Date().getTime()}`,
-          title: 'Unsubscribed from text message alerts',
-          text: [
-            "We'll no longer send disruption alerts to ",
-            <strong>{formatAndOmitCountryCode(phone)}</strong>,
-            '.',
-          ],
-          type: 'success',
-        });
-        setMessages([...newMessages]);
-        setReadyToShowMessages(true);
-      }
+    if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
+      setNewPhone('');
+      setConfirmMobileMode(true);
     }
 
     if (readyToShowMessages) {
+      setMessages([...newMessages]);
       setEditingMode(false);
       setReadyToShowMessages(false);
     }
@@ -140,7 +141,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         deletePhoneNumber(false);
         setNewPhone(includeCountryCode(phone));
       }
-
       // it there is no change at all, go back to Intro
       if (
         preferences.phone === mobileActive &&
