@@ -4,10 +4,14 @@ import useFetchAddServices from 'customHooks/useFetchAddServices';
 // Components
 import Message from 'components/shared/Message/Message';
 import GenericError from 'components/shared/Errors/GenericError';
+import Button from 'components/shared/Button/Button';
 import AddService from './AddService/AddService';
 
 const AddMoreTile = () => {
-  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState({
+    LineId: [],
+    Trains: [],
+  });
   const { addRoutes, isFetching, isFetchSuccessful, setIsFetchSuccessful } = useFetchAddServices(
     selectedServices
   );
@@ -48,6 +52,16 @@ const AddMoreTile = () => {
         selectedServices={selectedServices}
         setSelectedServices={setSelectedServices}
         addRoutes={addRoutes}
+      />
+
+      {/* Add button to confirm new subscriptions */}
+      <Button
+        className="wmnds-col-1 wmnds-col-md-1-2"
+        disabled={isFetching}
+        isFetching={isFetching}
+        text="Confirm new subscriptions"
+        onClick={addRoutes}
+        iconRight="general-chevron-right"
       />
     </div>
   );

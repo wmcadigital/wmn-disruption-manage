@@ -30,12 +30,12 @@ const AddBusService = ({ setMode, buses, setSelectedServices }) => {
             return (
               <RemoveService
                 showRemove
+                onClick={() => handleRemoveBus(busRoute.lineId)}
                 mode="bus"
-                id={busRoute.lineId}
                 serviceNumber={busRoute.serviceNumber}
                 routeName={busRoute.routeName}
+                id={busRoute.lineId}
                 key={busRoute.lineId}
-                onClick={() => handleRemoveBus(busRoute.lineId)}
               />
             );
           })}

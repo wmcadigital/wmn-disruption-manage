@@ -7,7 +7,7 @@ const useFetchAddServices = (selectedServices) => {
   const [isFetchSuccessful, setIsFetchSuccessful] = useState(null);
 
   const dataToSend = {
-    lineId: selectedServices.map((item) => +item.lineId),
+    // lineId: selectedServices.map((item) => +item.lineId),
     emailDisabled: subscriberState.user.emailDisabled,
   }; // Structure the data before sending
 
