@@ -10,11 +10,6 @@ import AddTrainService from './AddTrainService';
 const AddService = ({ selectedServices, setSelectedServices }) => {
   const [mode, setMode] = useState(null);
 
-  // if (selectedServices && selectedServices.length > 0) {
-  //   buses = selectedServices.filter((service) => service.lineId !== '4546');
-  //   trams = selectedServices.filter((service) => service.lineId === '4546');
-  // }
-
   return (
     <>
       <p>We&apos;ll send an automatic disruption alert for each service you add.</p>
@@ -24,7 +19,7 @@ const AddService = ({ selectedServices, setSelectedServices }) => {
           mode={mode}
           setSelectedServices={setSelectedServices}
           setMode={setMode}
-          selectedServices
+          selectedServices={selectedServices}
         />
       ) : (
         <>
