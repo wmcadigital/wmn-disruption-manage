@@ -95,7 +95,7 @@ const AddMoreTile = () => {
         (Trains && Trains.length > 0)) &&
         !mode && (
           <Button
-            className="wmnds-btn wmnds-col-1 wmnds-m-t-xl"
+            className="wmnds-btn wmnds-col-1 wmnds-col-lg-1-2 wmnds-m-t-xl"
             disabled={isFetching}
             isFetching={isFetching}
             text="Confirm new subscriptions"
