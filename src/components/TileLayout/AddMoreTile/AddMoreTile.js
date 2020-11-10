@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Custom hooks
 import useFetchAddServices from 'customHooks/useFetchAddServices';
 // Components
@@ -18,29 +18,28 @@ const AddMoreTile = () => {
     Trains: [],
   });
   const [mode, setMode] = useState(null);
-
+  const [resend, setResend] = useState(false);
   const { BusServices, TramServices, Trains } = selectedServices;
+  const { isFetching, hasError } = useFetchAddServices(selectedServices, resend);
 
-  const { addRoutes, isFetching, isFetchSuccessful, setIsFetchSuccessful } = useFetchAddServices(
-    selectedServices
-  );
-  const [showSuccessMessage, setShowSuccessMessage] = useState(null);
-
-  if (isFetchSuccessful) {
-    setSelectedServices({});
-    setShowSuccessMessage(true);
-    setIsFetchSuccessful(null);
-  } else if (isFetchSuccessful === false) {
-    setSelectedServices({});
-    setShowSuccessMessage(false);
-    setIsFetchSuccessful(null);
-  }
+  useEffect(() => {
+    if (resend) setResend(false); // Flip resend back to false so we can press the button again
+    // If there is no error and the api is done fetching then reset the selected services as they are on the users account now
+    if (hasError === false && isFetching === false) {
+      setSelectedServices({
+        BusServices: [],
+        TramServices: [],
+        LineId: [],
+        Trains: [],
+      });
+    }
+  }, [hasError, isFetching, resend]);
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Add more services</h2>
 
-      {showSuccessMessage && (
+      {hasError === false && (
         <Message
           title="Service(s) added successfully"
           message="We’ll send an automatic disruption alert for each service you add."
@@ -49,7 +48,7 @@ const AddMoreTile = () => {
         />
       )}
 
-      {showSuccessMessage === false && (
+      {hasError && (
         <GenericError
           title="Services subscription failed"
           desc="Apologies, we are having technical difficulties. Try again later."
@@ -100,7 +99,7 @@ const AddMoreTile = () => {
             disabled={isFetching}
             isFetching={isFetching}
             text="Confirm new subscriptions"
-            onClick={addRoutes}
+            onClick={() => setResend(true)}
             iconRight="general-chevron-right"
           />
         )}

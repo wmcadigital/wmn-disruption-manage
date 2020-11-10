@@ -6,18 +6,7 @@ const useFetchSendPin = (mobileNumber, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(false); // Track if fetch request is currently fetching
   const [sendPinSuccessful, setPinSuccessful] = useState(false);
-  // const [mobileNumber, setMobileNumber] = useState(
-  //   resend && subscriberState.user.mobileNumber
-  //     ? subscriberState.user.mobileNumber
-  //     : subscriberState.query.mobileNumber
-  // ); // Get the correct mobile number: If resend is true then at that point the mobile number must be in our user state
-
   const { user } = subscriberState.query; // destructure user(id) from url
-
-  // // If new mobile phone number exists then we want to update it
-  // if (newMobilePhone !== '') {
-  //   setMobileNumber(newMobilePhone); // Change to new phone number
-  // }
 
   useEffect(() => {
     let mounted = true;

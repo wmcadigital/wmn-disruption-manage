@@ -1,21 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
-const useFetchAddServices = (selectedServices) => {
+const useFetchAddServices = (selectedServices, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
-  const [isFetchSuccessful, setIsFetchSuccessful] = useState(null);
+  const [hasError, setHasError] = useState(null);
 
-  const { Trains, LineId } = selectedServices;
+  useEffect(() => {
+    if (selectedServices && resend) {
+      const { Trains, LineId } = selectedServices;
 
-  const dataToSend = {
-    LineId,
-    Trains,
-    emailDisabled: subscriberState.user.emailDisabled,
-  }; // Structure the data before sending
+      const dataToSend = {
+        LineId,
+        Trains,
+        emailDisabled: subscriberState.user.emailDisabled,
+      }; // Structure the data before sending
 
-  const addRoutes = () => {
-    if (selectedServices) {
+      setIsFetching(true);
       // If lineId is passed in then submit a delete request for that lineId
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${subscriberState.query.user}`, {
         method: 'PUT',
@@ -26,7 +27,7 @@ const useFetchAddServices = (selectedServices) => {
       })
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             return response.text(); // Return response as json
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
@@ -34,7 +35,7 @@ const useFetchAddServices = (selectedServices) => {
         // If fetch is successful
         .then((payload) => {
           setIsFetching(false); // set to false as we are done fetching now
-          setIsFetchSuccessful(true);
+          setHasError(false);
           subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
         }) // If fetch errors
         .catch((error) => {
@@ -42,13 +43,19 @@ const useFetchAddServices = (selectedServices) => {
           console.error({ error });
 
           setIsFetching(false); // set to false as we are done fetching now
-          setIsFetchSuccessful(false);
+          setHasError(true);
         });
     }
-  };
+  }, [
+    resend,
+    selectedServices,
+    subscriberDispatch,
+    subscriberState.query.user,
+    subscriberState.user.emailDisabled,
+  ]);
 
   // Return function and isFetching state to be used outside of custom hook
-  return { addRoutes, isFetching, isFetchSuccessful, setIsFetchSuccessful };
+  return { isFetching, hasError };
 };
 
 export default useFetchAddServices;
