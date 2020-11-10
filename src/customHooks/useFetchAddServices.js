@@ -10,8 +10,10 @@ const useFetchAddServices = (selectedServices, resend) => {
     if (selectedServices && resend) {
       const { Trains, LineId } = selectedServices;
 
+      const lineIdsToSubmit = LineId.length > 0 ? LineId : null;
+
       const dataToSend = {
-        LineId: LineId.length > 0 ? LineId : ['1001'],
+        LineId: lineIdsToSubmit,
         Trains,
         emailDisabled: subscriberState.user.emailDisabled,
       }; // Structure the data before sending
