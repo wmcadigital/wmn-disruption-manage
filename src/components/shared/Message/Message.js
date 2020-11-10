@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
+// Styles
+import s from './Message.module.scss';
 
-const Message = ({ type, title, message, className }) => {
+const Message = ({ type, title, message, className, hasCloseButton }) => {
   let iconName;
   switch (type) {
     case 'error':
@@ -13,16 +15,37 @@ const Message = ({ type, title, message, className }) => {
       iconName = 'warning-circle';
       break;
 
+    case 'info':
+      iconName = 'info';
+      break;
+
     default:
       iconName = 'success';
       break;
   }
 
+  const closeMessage = (e) => {
+    e.preventDefault();
+    e.target.parentNode.parentNode.parentNode.parentNode.querySelector(
+      '.wmnds-msg-summary'
+    ).style.display = 'none';
+  };
+
   return (
     <div className={`wmnds-msg-summary wmnds-msg-summary--${type} ${className}`}>
+      {hasCloseButton && (
+        <button
+          type="button"
+          className="wmnds-msg-summary__close wmnds-link"
+          onClick={(e) => closeMessage(e)}
+        >
+          Close
+          <Icon iconName="general-cross" />
+        </button>
+      )}
       <div className="wmnds-msg-summary__header">
         <Icon iconName={`general-${iconName}`} className="wmnds-msg-summary__icon" />
-        <h3 className="wmnds-msg-summary__title">{title}</h3>
+        <h3 className={`wmnds-msg-summary__title ${s.title}`}>{title}</h3>
       </div>
 
       <div className="wmnds-msg-summary__info">{message}</div>
@@ -35,6 +58,7 @@ Message.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   message: PropTypes.string,
+  hasCloseButton: PropTypes.bool,
 };
 
 Message.defaultProps = {
@@ -42,6 +66,7 @@ Message.defaultProps = {
   type: 'success',
   title: 'Good service',
   message: 'No incidents reported.',
+  hasCloseButton: false,
 };
 
 export default Message;

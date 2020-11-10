@@ -14,9 +14,9 @@ const DeleteTile = ({ setIsUnsubscribed }) => {
       <h2>Unsubscribe from all alerts</h2>
       {!wantToDelete && (
         <>
-          <p>You will no longer receive alerts and your information will be deleted.</p>
+          <p>You’ll no longer receive alerts and we’ll delete all your information.</p>
           <Button
-            className="wmnds-btn--primary"
+            className="wmnds-btn--destructive wmnds-col-1 wmnds-col-md-1-2"
             text="Unsubscribe from alerts"
             iconRight="general-trash"
             onClick={() => setWantToDelete(true)}

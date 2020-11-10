@@ -4,14 +4,14 @@ import { SubscriberContext } from 'globalState/SubscriberContext';
 // Helpers
 import { getSearchParam } from 'helpers/URLSearchParams';
 
-const useFetchUser = (confirmServiceIsFinished) => {
+const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching#
   const [hasError, setHasError] = useState(false); // Track to see if an error occurs
 
   useEffect(() => {
     // Only start fetching the user if the confirm service has been completed
-    if (confirmServiceIsFinished && getSearchParam('user')) {
+    if (confirmServiceIsFinished && confirmMobileFinished && getSearchParam('user')) {
       setHasError(null); // Set errors to null
       fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
@@ -41,7 +41,12 @@ const useFetchUser = (confirmServiceIsFinished) => {
     else {
       setHasError('noAccount');
     }
-  }, [confirmServiceIsFinished, subscriberDispatch, subscriberState.query.user]);
+  }, [
+    confirmMobileFinished,
+    confirmServiceIsFinished,
+    subscriberDispatch,
+    subscriberState.query.user,
+  ]);
 
   return { isFetching, hasError };
 };
