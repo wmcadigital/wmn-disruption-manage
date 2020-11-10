@@ -33,6 +33,27 @@ const BusAutoComplete = ({ mode, setMode, setSelectedServices }) => {
     setMode(null);
   };
 
+  const busSorting = (a, b) => {
+    // Use toUpperCase() to ignore character casing
+    const serviceNumberA = a.serviceNumber.toUpperCase();
+    const serviceNumberB = b.serviceNumber.toUpperCase();
+    const routeNameA = a.routes[0].routeName.toUpperCase();
+    const routeNameB = b.routes[0].routeName.toUpperCase();
+    let comparison = 0;
+    if (serviceNumberA > serviceNumberB) {
+      comparison = 1;
+    } else if (serviceNumberA < serviceNumberB) {
+      comparison = -1;
+    } else if (routeNameA > routeNameB) {
+      // if service number is equal compare route name
+      comparison = 1;
+    } else if (routeNameA < routeNameB) {
+      // if service number is equal compare route name
+      comparison = -1;
+    }
+    return comparison;
+  };
+
   return (
     <>
       <div className="wmnds-grid wmnds-grid--justify-between wmnds-m-b-xl">
@@ -69,6 +90,7 @@ const BusAutoComplete = ({ mode, setMode, setSelectedServices }) => {
                  */}
                 {results
                   .filter((result) => !busServices.some((el) => el.id === result.id))
+                  .sort(busSorting)
                   .map((result) => {
                     // eslint-disable-next-line no-unused-expressions
                     return (
