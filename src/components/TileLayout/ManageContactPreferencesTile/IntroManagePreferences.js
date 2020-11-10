@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import PropTypes, { objectOf } from 'prop-types';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-
 // Components
 import Button from 'components/shared/Button/Button';
 import Message from 'components/shared/Message/Message';
+// Helpers
+import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
 
 const IntroManagePreferences = ({
   messages,
   setMessages,
   setEditingMode,
-  // setIsEditingManagerPreferences,
   confirmMobileMode,
   setConfirmMobileMode,
 }) => {
@@ -29,7 +29,11 @@ const IntroManagePreferences = ({
       {
         key: `change-phone_${new Date().getTime()}`,
         title: 'Mobile phone number confirmed',
-        text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
+        text: [
+          "We'll send disruption alerts to ",
+          <strong>{formatAndOmitCountryCode(mobileNumber)}</strong>,
+          '.',
+        ],
         type: 'success',
       },
     ]);
@@ -68,7 +72,7 @@ const IntroManagePreferences = ({
           <h3>Text messages</h3>
           <p>
             You&apos;re participating in the text message alert trial. We are sending texts to{' '}
-            <strong>{mobileNumber}</strong>.
+            <strong>{formatAndOmitCountryCode(mobileNumber)}</strong>.
           </p>
           <p>
             <a
@@ -107,7 +111,6 @@ IntroManagePreferences.propTypes = {
   messages: PropTypes.arrayOf(objectOf(PropTypes.string)).isRequired,
   setMessages: PropTypes.func.isRequired,
   setEditingMode: PropTypes.func.isRequired,
-  // setIsEditingManagerPreferences: PropTypes.func.isRequired,
   confirmMobileMode: PropTypes.bool.isRequired,
   setConfirmMobileMode: PropTypes.func.isRequired,
 };

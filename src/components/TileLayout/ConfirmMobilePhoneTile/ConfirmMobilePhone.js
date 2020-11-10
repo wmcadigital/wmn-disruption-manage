@@ -11,6 +11,7 @@ import WarningText from 'components/shared/WarningText/WarningText';
 // Custom Hooks
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchConfirmPin from 'customHooks/useFetchConfirmPin';
+import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
 
 const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditingMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -76,8 +77,8 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
             <legend className="wmnds-fe-fieldset__legend">
               <p>
                 We’ll send text message disruption alerts to{' '}
-                <strong>{subscriberState.user.mobileNumber}</strong>. You need to confirm your
-                mobile phone number before you can receive text message alerts.
+                <strong>{formatAndOmitCountryCode(subscriberState.user.mobileNumber)}</strong>. You
+                need to confirm your mobile phone number before you can receive text message alerts.
               </p>
               <p>
                 We&apos;ve sent you a text with your authentication code. If you do not receive the

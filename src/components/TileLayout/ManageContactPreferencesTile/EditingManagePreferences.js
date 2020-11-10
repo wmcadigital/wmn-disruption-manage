@@ -11,11 +11,17 @@ import WarningText from 'components/shared/WarningText/WarningText';
 import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
 import useFetchToggleEmailAlerts from 'customHooks/useFetchToggleEmailAlerts';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
+import {
+  isValidMobileNumber,
+  includeCountryCode,
+  omitCountryCode,
+  formatAndOmitCountryCode,
+} from 'helpers/MobilePhoneConversors';
 
 const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobileMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { mobileNumber, email, mobileActive, emailDisabled } = subscriberState.user;
-  const [phone, setPhone] = useState(mobileNumber);
+  const [phone, setPhone] = useState(mobileNumber ? omitCountryCode(mobileNumber) : null);
   const [preferences, setPreferences] = useState({ phone: mobileActive, email: !emailDisabled });
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [newPhone, setNewPhone] = useState('');
@@ -33,9 +39,23 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
 
   useEffect(() => {
     const newMessages = [];
-    if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
-      setNewPhone('');
-      setConfirmMobileMode(true);
+    if (doesPhonePrefChanged) {
+      setReadyToShowMessages(false);
+      if (isNumberDeleted) {
+        newMessages.push({
+          key: `phone_${new Date().getTime()}`,
+          title: 'Unsubscribed from text message alerts',
+          text: [
+            "We'll no longer send disruption alerts to ",
+            <strong>{formatAndOmitCountryCode(phone)}</strong>,
+            '.',
+          ],
+          type: 'success',
+        });
+        setDoesPhoneNumberChanged(false);
+        setPreferences({ phone: mobileActive, email: !emailDisabled });
+        setReadyToShowMessages(true);
+      }
     }
 
     if (doesEmailPrefChanged) {
@@ -59,38 +79,15 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         setPreferences({ phone: mobileActive, email: !emailDisabled });
         setReadyToShowMessages(true);
       }
-      setMessages([...newMessages]);
     }
 
-    if (doesPhoneNumberChanged) {
-      setReadyToShowMessages(false);
-      if (!newPhone && sendPinSuccessful) {
-        newMessages.push({
-          key: `phone-change_${new Date().getTime()}`,
-          title: 'We have updated your phone number',
-          text: ["We'll send disruption alerts to ", <strong>{mobileNumber}</strong>, '.'],
-          type: 'success',
-        });
-        setMessages([...newMessages]);
-        setReadyToShowMessages(true);
-      }
-    }
-
-    if (doesPhonePrefChanged) {
-      setReadyToShowMessages(false);
-      if (isNumberDeleted) {
-        newMessages.push({
-          key: `phone_${new Date().getTime()}`,
-          title: 'Unsubscribed from text message alerts',
-          text: ["We'll no longer send disruption alerts to ", <strong>{phone}</strong>, '.'],
-          type: 'success',
-        });
-        setMessages([...newMessages]);
-        setReadyToShowMessages(true);
-      }
+    if (doesPhoneNumberChanged && newPhone && sendPinSuccessful) {
+      setNewPhone('');
+      setConfirmMobileMode(true);
     }
 
     if (readyToShowMessages) {
+      setMessages([...newMessages]);
       setEditingMode(false);
       setReadyToShowMessages(false);
     }
@@ -113,12 +110,6 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
     setEditingMode,
     setMessages,
   ]);
-
-  const isValidMobileNumber = (p) => {
-    const number = p.replace(/\s/g, '');
-    const mobileRegEx = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
-    return mobileRegEx.test(number);
-  };
 
   const generateErrors = () => {
     if (!isValidMobileNumber(phone)) {
@@ -145,20 +136,15 @@ const EditingManagePreferences = ({ setMessages, setEditingMode, setConfirmMobil
         toggleEmailAlerts(preferences.email);
       }
       // If user did change phone number and phone option is chosen
-      if (preferences.phone && phone !== mobileNumber) {
+      if (preferences.phone && phone !== omitCountryCode(mobileNumber)) {
         setDoesPhoneNumberChanged(true);
         deletePhoneNumber(false);
-        if (phone && phone.substr(0, 1) === '0') {
-          setNewPhone(`+44${phone.substr(1)}`);
-        } else {
-          setNewPhone(phone);
-        }
+        setNewPhone(includeCountryCode(phone));
       }
-
       // it there is no change at all, go back to Intro
       if (
         preferences.phone === mobileActive &&
-        phone === mobileNumber &&
+        phone === omitCountryCode(mobileNumber) &&
         preferences.email === !emailDisabled
       ) {
         setEditingMode(false);
