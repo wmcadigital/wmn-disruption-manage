@@ -72,11 +72,7 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
             {(!trainStations.From || !trainStations.To) && (
               // Add cancel button
               <div className="wmnds-col-1 wmnds-col-md-2-5">
-                <Button
-                  btnClass="wmnds-btn wmnds-btn--primary wmnds-col-1"
-                  text="Cancel"
-                  onClick={getPreviousStep}
-                />
+                <Button className="wmnds-btn--primary" text="Cancel" onClick={getPreviousStep} />
               </div>
             )}
           </>

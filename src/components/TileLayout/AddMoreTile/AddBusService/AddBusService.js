@@ -20,7 +20,8 @@ const AddBusService = ({ setMode, selectedServices, setSelectedServices }) => {
   const handleAddBus = () => setMode('bus');
 
   return (
-    <div className="wmnds-m-t-md">
+    <>
+      <h3 className="wmnds-p-t-md">Buses</h3>
       <Button
         className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
         text={`Add ${BusServices && BusServices.length > 0 ? 'another' : ''} bus service`}
@@ -47,7 +48,7 @@ const AddBusService = ({ setMode, selectedServices, setSelectedServices }) => {
           })}
         </>
       )}
-    </div>
+    </>
   );
 };
 

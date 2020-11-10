@@ -128,15 +128,11 @@ const TrainAutoCompleteSelectLines = ({
       </div>
       {/* This logic compares if the users selected lines are different from the ones they originally chose (when step loads). If it's different then the user must have changed their chosen lines, so show continue button else show cancel button(nothing changed) */}
       {originalSelectedLines.sort().join(',') !== selectedLines.sort().join(',') ? (
-        <Button btnClass="wmnds-btn wmnds-col-1" text="Continue" onClick={handleContinue} />
+        <Button text="Continue" onClick={handleContinue} />
       ) : (
         // Add cancel button
         <div className="wmnds-col-1 wmnds-col-md-2-5">
-          <Button
-            btnClass="wmnds-btn wmnds-btn--primary wmnds-col-1"
-            text="Cancel"
-            onClick={() => setMode(null)}
-          />
+          <Button className="wmnds-btn--primary" text="Cancel" onClick={() => setMode(null)} />
         </div>
       )}
     </div>

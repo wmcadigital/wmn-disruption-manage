@@ -35,7 +35,8 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
   };
 
   return (
-    <div className="wmnds-m-t-md">
+    <>
+      <h3 className="wmnds-p-t-md">Trams</h3>
       {/* Add tram service button */}
       {(!TramServices || TramServices.length === 0) && (
         <Button
@@ -65,7 +66,7 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
           })}
         </>
       )}
-    </div>
+    </>
   );
 };
 
