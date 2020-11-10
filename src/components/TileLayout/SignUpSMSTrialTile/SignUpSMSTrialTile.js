@@ -9,10 +9,10 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
 
   let signUpPageUrl;
   if (process.env.NODE_ENV === 'development') {
-    signUpPageUrl = 'https://deploy-preview-102--wmn-disruption-sign-up.netlify.app/';
+    signUpPageUrl = 'https://deploy-preview-126--wmn-disruption-sign-up.netlify.app/';
   } else if (process.env.NODE_ENV === 'production') {
     // signUpPageUrl = 'https://disruption-sign-up.wmnetwork.co.uk/'; {/* TODO : UPDATE LINK before go live */}
-    signUpPageUrl = 'https://deploy-preview-102--wmn-disruption-sign-up.netlify.app/'; // for testing only
+    signUpPageUrl = 'https://deploy-preview-126--wmn-disruption-sign-up.netlify.app/'; // for testing only
   }
 
   return (

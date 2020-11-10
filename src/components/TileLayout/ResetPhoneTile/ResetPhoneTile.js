@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 // Custom Hooks
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchDeleteMobileNumber from 'customHooks/useFetchDeleteMobileNumber';
+import {
+  isValidMobileNumber,
+  includeCountryCode,
+  formatAndOmitCountryCode,
+} from 'helpers/MobilePhoneConversors';
 // Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
@@ -18,25 +23,25 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   const [resetWithErrors, setResetWithErrors] = useState(false);
 
   /* CHANGE NUMBER and SEND CODE */
-  /* useFetchSendPin(false, "") initial state - does nothing */
-  /* useFetchSendPin(true, "07700900090") saves the new number and send a new message */
-  /* useFetchSendPin(false, "") using useEffect we can set the function back to do nothing - right after sending the message */
+  /* useFetchSendPin("", true) initial state - does nothing */
+  /* useFetchSendPin("07700900090", true) saves the new number and send a new message */
+  /* useFetchSendPin("", true) using useEffect we can set the function back to do nothing - right after sending the message */
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState(''); // Used to track if a user has saved the new phone number
-  const { sendPinIsFinished } = useFetchSendPin(submittedMobileNumber, true); // Send the current resend status to our fetch so we can send a new text if the user hits resend
+  const { sendPinIsFinished, sendPinSuccessful } = useFetchSendPin(submittedMobileNumber, true); // Send the current resend status to our fetch so we can send a new text if the user hits resend
   // if the submit button has been pressed, we need to map it back to false so the user can click it again (send it true again)
   useEffect(() => {
     if (submittedMobileNumber) {
       setSubmittedMobileNumber(null);
-      setWrongPhoneNumber(false); // set reset mode to false
     }
-  }, [setWrongPhoneNumber, submittedMobileNumber]);
+  }, [submittedMobileNumber]);
 
-  const phoneLabel = 'Mobile phone number';
-  const isValidMobileNumber = (p) => {
-    const number = p.replace(/\s/g, '');
-    const mobileRegEx = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
-    return mobileRegEx.test(number);
-  };
+  useEffect(() => {
+    if (sendPinIsFinished && sendPinSuccessful) {
+      setWrongPhoneNumber(false); // set reset mode to false
+    } else if (sendPinIsFinished && sendPinSuccessful === false) {
+      setResetWithErrors(true); // activate mode to show errors
+    }
+  }, [sendPinIsFinished, sendPinSuccessful, setWrongPhoneNumber]);
 
   /* LIVE PIN ERRORS GENERATOR BEFORE SUBMISSION */
   const generateErrors = () => {
@@ -51,15 +56,8 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
     if (!generateErrors()) {
       // delete Phone
       deletePhoneNumber(false);
-      // check if number has +44
-      if (newMobilePhone && newMobilePhone.substr(0, 1) === '0') {
-        // activates the custom hook in order to save new phone number & send new message
-        setSubmittedMobileNumber(`+44${newMobilePhone.substr(1)}`);
-      } else {
-        // activates the custom hook in order to save new phone number & send new message
-        setSubmittedMobileNumber(newMobilePhone);
-      }
-      setResetWithErrors(true);
+      // activates the custom hook in order to save new phone number & send new message
+      setSubmittedMobileNumber(includeCountryCode(newMobilePhone));
     }
   };
 
@@ -77,7 +75,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
           )}
           <p>
             You requested to receive text message disruption alerts to{' '}
-            <strong>{currentMobileNumber}</strong>.{' '}
+            <strong>{formatAndOmitCountryCode(currentMobileNumber)}</strong>.{' '}
           </p>
           <p>
             If this mobile phone number is incorrect, please enter the correct mobile phone number
@@ -90,7 +88,7 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
           name="Phone"
           value={newMobilePhone}
           onChange={(e) => setNewMobilePhone(e.target.value)}
-          label={`${phoneLabel}, for example: 07700900090`}
+          label="Mobile phone number, for example: 07700900090"
           type="tel"
           errors={isSubmitPressed ? generateErrors() : null}
           required

@@ -5,6 +5,8 @@ import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchAddTrains from 'customHooks/useFetchAddTrains';
+// Helpers
+import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
 // Components
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
 import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
@@ -79,7 +81,7 @@ const TileLayout = () => {
                   title="Mobile phone number confirmed"
                   message={[
                     'We’ll send disruption alerts to ',
-                    <strong>{mobileNumber}</strong>,
+                    <strong>{formatAndOmitCountryCode(mobileNumber)}</strong>,
                     '.',
                   ]}
                   className="wmnds-col-1 wmnds-m-t-lg bg-white"
