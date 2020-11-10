@@ -15,6 +15,7 @@ export const SubscriberProvider = (props) => {
       secret: getSearchParam('secret') || '',
       user: getSearchParam('user') || '',
       mobileNumber: getSearchParam('mobi') || '',
+      emailDisabled: getSearchParam('nomail') || '',
       trains: getSearchParam('trains') ? JSON.parse(atob(getSearchParam('trains'))) : [],
     },
     user: {
@@ -23,6 +24,7 @@ export const SubscriberProvider = (props) => {
       lineId: [],
       newUser: false,
       updates: null,
+      emailDisabled: null,
       trains: [],
     },
     addServices: [],
