@@ -1,0 +1,5 @@
+@import '~assets/styles/vars';
+
+.title {
+  width: calc(100% - (35px + #{$size-sm}));
+}

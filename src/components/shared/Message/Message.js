@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
+// Styles
+import s from './Message.module.scss';
 
 const Message = ({ type, title, message, className, hasCloseButton }) => {
   let iconName;
@@ -41,9 +43,9 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
           <Icon iconName="general-cross" className="" />
         </button>
       )}
-      <div className="wmnds-msg-summary__header wmnds-grid">
+      <div className="wmnds-msg-summary__header">
         <Icon iconName={`general-${iconName}`} className="wmnds-msg-summary__icon" />
-        <h3 className="wmnds-msg-summary__title wmnds-col-1">{title}</h3>
+        <h3 className={`wmnds-msg-summary__title ${s.title}`}>{title}</h3>
       </div>
 
       <div className="wmnds-msg-summary__info">{message}</div>
