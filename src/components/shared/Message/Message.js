@@ -40,7 +40,7 @@ const Message = ({ type, title, message, className, hasCloseButton }) => {
           onClick={(e) => closeMessage(e)}
         >
           Close
-          <Icon iconName="general-cross" className="" />
+          <Icon iconName="general-cross" />
         </button>
       )}
       <div className="wmnds-msg-summary__header">

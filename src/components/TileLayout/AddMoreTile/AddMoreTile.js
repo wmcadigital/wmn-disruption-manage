@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import useFetchAddServices from 'customHooks/useFetchAddServices';
 // Components
 import Message from 'components/shared/Message/Message';
-import GenericError from 'components/shared/Errors/GenericError';
 import Button from 'components/shared/Button/Button';
 import AddBusService from './AddBusService/AddBusService';
 import AddTramService from './AddTramService/AddTramService';
@@ -43,15 +42,17 @@ const AddMoreTile = () => {
         <Message
           title="Service(s) added successfully"
           message="We’ll send an automatic disruption alert for each service you add."
-          className="wmnds-col-1 wmnds-m-b-lg"
+          className="wmnds-m-b-lg"
           hasCloseButton
         />
       )}
 
       {hasError && (
-        <GenericError
+        <Message
           title="Services subscription failed"
-          desc="Apologies, we are having technical difficulties. Try again later."
+          message="Apologies, we are having technical difficulties. Try again later."
+          className="wmnds-m-b-lg"
+          type="error"
         />
       )}
 

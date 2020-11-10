@@ -12,7 +12,7 @@ import {
 // Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
-import GenericError from 'components/shared/Errors/GenericError';
+import Message from 'components/shared/Message/Message';
 
 const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -68,9 +68,11 @@ const ResetPhoneTile = ({ setWrongPhoneNumber }) => {
           <h2>Reset your mobile phone number</h2>
           {/* Show generic error message */}
           {resetWithErrors && (
-            <GenericError
+            <Message
               title="An error occurred"
-              desc="Unable to finish your request. Please try again."
+              message="Unable to finish your request. Please try again."
+              className="wmnds-m-b-lg"
+              type="error"
             />
           )}
           <p>

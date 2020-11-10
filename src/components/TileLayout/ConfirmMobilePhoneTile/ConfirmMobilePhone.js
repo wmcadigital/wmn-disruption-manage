@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 // Components
 import Button from 'components/shared/Button/Button';
 import Input from 'components/shared/FormElements/Input/Input';
-import GenericError from 'components/shared/Errors/GenericError';
 import WarningText from 'components/shared/WarningText/WarningText';
 
 // Custom Hooks
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 import useFetchConfirmPin from 'customHooks/useFetchConfirmPin';
 import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
+import Message from 'components/shared/Message/Message';
 
 const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditingMode }) => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -67,9 +67,11 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
           <h2>Confirm your mobile phone number</h2>
 
           {errors && (
-            <GenericError
+            <Message
               title="Invalid authentication code"
-              desc="Please check your authentication code. It should be between 4-7 digits long."
+              message="Please check your authentication code. It should be between 4-7 digits long."
+              className="wmnds-m-b-lg"
+              type="error"
             />
           )}
 
