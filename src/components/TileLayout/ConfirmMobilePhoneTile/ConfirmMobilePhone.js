@@ -124,7 +124,7 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
               <Button
                 className="wmnds-btn wmnds-btn--secondary wmnds-col-1 wmnds-m-t-sm"
                 onClick={() => setPhoneNumberToVerify(subscriberState.user.mobileNumber)}
-                text="Resend PIN Code"
+                text="Resend code"
               />
             </div>
           </div>
