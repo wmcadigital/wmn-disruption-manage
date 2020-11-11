@@ -49,7 +49,7 @@ const TileLayout = () => {
             <div className="wmnds-grid">
               {/* To ALL: Title */}
               <div className="wmnds-col-1">
-                <h1>Disruption alerts dashboard</h1>
+                <h1>Manage disruption alerts</h1>
               </div>
 
               {/* To ALL: Intro */}
