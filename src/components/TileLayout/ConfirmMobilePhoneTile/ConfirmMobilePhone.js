@@ -78,14 +78,16 @@ const ConfirmMobilePhone = ({ setWrongPhoneNumber, confirmMobileMode, setEditing
           <fieldset className="wmnds-fe-fieldset">
             <legend className="wmnds-fe-fieldset__legend">
               <p>
-                We’ll send text message disruption alerts to{' '}
-                <strong>{formatAndOmitCountryCode(subscriberState.user.mobileNumber)}</strong>. You
-                need to confirm your mobile phone number before you can receive text message alerts.
+                We&apos;ll send text message disruption alerts to{' '}
+                <strong>{formatAndOmitCountryCode(subscriberState.user.mobileNumber)}</strong>.
+              </p>
+              <p>To receive text message alerts, you need to confirm your mobile phone number.</p>
+              <p>
+                We&apos;ve sent you a text message with an authentication code. This code will
+                expire at midnight.
               </p>
               <p>
-                We&apos;ve sent you a text with your authentication code. If you do not receive the
-                text message after 5 minutes, you can resend the authentication code. Your
-                authentication code expires at midnight.
+                If you do not receive the authentication code after 5 minutes, you can resend it.
               </p>
 
               {sendPinSuccessful && (
