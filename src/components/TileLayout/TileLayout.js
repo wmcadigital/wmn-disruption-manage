@@ -44,14 +44,9 @@ const TileLayout = () => {
       {(!confirmServiceIsFinished || isFetching) && <LoadingView />}
 
       {!isFetching && !hasError && !isUnsubscribed && (
-        <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-lg wmnds-p-b-lg wmnds-container">
+        <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-xl wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-2-3">
             <div className="wmnds-grid">
-              {/* To ALL: Title */}
-              <div className="wmnds-col-1">
-                <h1>Manage disruption alerts</h1>
-              </div>
-
               {/* To ALL: Intro */}
               <SummaryTile />
 
