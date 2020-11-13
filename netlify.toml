@@ -7,6 +7,9 @@
 [context.deploy-preview.environment]
   NODE_ENV = "development"
 
+[context.deploy-preview]
+  NODE_ENV = "development"
+
 [[plugins]]
   package = "@sentry/netlify-build-plugin"
 
