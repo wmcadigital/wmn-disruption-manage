@@ -44,7 +44,7 @@ const useFetchAddTrains = () => {
     else {
       setAddTrainsIsFinished(true);
     }
-  }, [addTrainsIsFinished, trains, user, emailDisabled]);
+  }, [addTrainsIsFinished, trains, user, emailDisabled, subscriberState.query.user]);
 
   return { addTrainsIsFinished };
 };
