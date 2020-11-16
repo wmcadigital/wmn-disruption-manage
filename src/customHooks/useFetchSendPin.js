@@ -58,7 +58,7 @@ const useFetchSendPin = (mobile, resend) => {
     return () => {
       mounted = false;
     };
-  }, [mobileNumber, resend, sendPinIsFinished, subscriberDispatch, user]);
+  }, [emailDisabled, mobileNumber, resend, sendPinIsFinished, subscriberDispatch, user]);
 
   return { sendPinIsFinished, sendPinSuccessful };
 };
