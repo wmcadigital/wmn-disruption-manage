@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
-      name="Manage alerts about disruptions - West Midlands Network"
+      name="Manage alert preferences - West Midlands Network"
       content="Service to manage alerts of West Midlands Network disruptions"
     />
 
@@ -55,9 +55,7 @@
       href="https://designsystem.wmnetwork.co.uk/css/wmnds-components.min.css"
     />
 
-    <title>
-      Manage alerts about disruptions - West Midlands Network
-    </title>
+    <title>Manage alert preferences - West Midlands Network</title>
 
     <!-- Google Tag Manager -->
     <script>
@@ -94,7 +92,7 @@
         src="https://www.googletagmanager.com/ns.html?id=GTM-NVSWZS"
         height="0"
         width="0"
-        style="display: none; visibility: hidden;"
+        style="display: none; visibility: hidden"
       ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
@@ -137,9 +135,7 @@
           </a>
         </div>
 
-        <h1 class="wmnds-header__title wmnds-col-1 wmnds-col-sm-auto">
-          Manage alerts about disruptions
-        </h1>
+        <h1 class="wmnds-header__title wmnds-col-1 wmnds-col-sm-auto">Manage alert preferences</h1>
       </div>
     </header>
     <!-- End header -->
@@ -152,9 +148,7 @@
     <!-- Footer -->
     <footer class="wmnds-footer">
       <div class="wmnds-container wmnds-grid">
-        <div class="wmnds-col-1 wmnds-col-md-1-2">
-          Copyright West Midlands Network &copy; 2020
-        </div>
+        <div class="wmnds-col-1 wmnds-col-md-1-2">Copyright West Midlands Network &copy; 2020</div>
         <div class="wmnds-col-1 wmnds-col-md-1-2">
           <a
             href="https://www.wmnetwork.co.uk/privacy-cookies-policy/"
@@ -181,5 +175,10 @@
         document.body.insertBefore(div, document.body.childNodes[0]);
       };
     </script>
+
+    <!-- Avoid's error on IE11 -->
+    <!--[if IE]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
+    <!--[endif]-->
   </body>
 </html>
