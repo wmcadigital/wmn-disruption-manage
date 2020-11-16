@@ -23,7 +23,6 @@ const useFetchToggleEmailAlerts = () => {
       },
     })
       .then((response) => {
-        console.log(response);
         // If the response is successful(200: OK) or error with validation message(400)
         if (response.status === 200 || response.status === 400) {
           const payload = response.data;

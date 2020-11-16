@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
+import axios from 'axios';
 
 const useFetchValidatePIN = (pin) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
