@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
+import axios from 'axios';
 
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -11,9 +12,11 @@ const useFetchConfirmServices = () => {
     const confirmData = { lineId: lines, secret, trains, emailDisabled };
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
     if (!confirmServiceIsFinished && secret && (lines.length || trains.length)) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
+      axios({
+        url: `/person/${user}`,
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
         method: 'PUT',
-        body: JSON.stringify(confirmData),
+        data: JSON.stringify(confirmData),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -21,20 +24,17 @@ const useFetchConfirmServices = () => {
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
-            return response.text(); // Return response as json
+            // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
+            delSearchParam('lines');
+            delSearchParam('lnames');
+            delSearchParam('trains');
+            delSearchParam('nomail');
+            setConfirmServiceIsFinished(true); // set to false as we are done fetching now
+            return true;
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If fetch is successful
-        .then(() => {
-          // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
-          delSearchParam('lines');
-          delSearchParam('lnames');
-          delSearchParam('trains');
-          delSearchParam('nomail');
-
-          setConfirmServiceIsFinished(true); // set to false as we are done fetching now
-        }) // If fetch errors
+        // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });

@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 import { includeCountryCode } from 'helpers/MobilePhoneConversors';
+import axios from 'axios';
 
 const useFetchSendPin = (mobile, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -19,13 +20,15 @@ const useFetchSendPin = (mobile, resend) => {
 
     if (((resend && mobileNumber) || (mobileNumber && !sendPinIsFinished && user)) && mounted) {
       const dataToSend = {
-        emailDisabled,
+        emailDisabled: emailDisabled === '' ? subscriberState.user.emailDisabled : emailDisabled,
         mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null, // to avoid error reading it directly from the url (plus is replaced by a space)
       }; // Structure the data before sending
 
-      fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
+      axios({
+        url: `/personlocal/${user}`,
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
         method: 'PUT',
-        body: JSON.stringify(dataToSend),
+        data: JSON.stringify(dataToSend),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -33,18 +36,17 @@ const useFetchSendPin = (mobile, resend) => {
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
-            return response.text(); // Return response as json
+            const payload = response.data;
+            delSearchParam('mobi');
+            delSearchParam('nomail');
+            setPinSuccessful(true);
+            setSendPinIsFinished(true);
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
+            return true; // Return response as json
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If fetch is successful
-        .then((payload) => {
-          delSearchParam('mobi');
-          delSearchParam('nomail');
-          setPinSuccessful(true);
-          setSendPinIsFinished(true);
-          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
-        }) // If fetch errors
+        // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
@@ -58,7 +60,15 @@ const useFetchSendPin = (mobile, resend) => {
     return () => {
       mounted = false;
     };
-  }, [emailDisabled, mobileNumber, resend, sendPinIsFinished, subscriberDispatch, user]);
+  }, [
+    emailDisabled,
+    mobileNumber,
+    resend,
+    sendPinIsFinished,
+    subscriberDispatch,
+    subscriberState.user.emailDisabled,
+    user,
+  ]);
 
   return { sendPinIsFinished, sendPinSuccessful };
 };

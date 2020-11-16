@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
+import axios from 'axios';
 
 const useFetchConfirmPin = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -15,9 +16,11 @@ const useFetchConfirmPin = () => {
     }; // Structure the data before sending
     setErrors(false);
     if (pin && user) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
+      axios({
+        url: `/personlocal/${user}`,
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
         method: 'PUT',
-        body: JSON.stringify(dataToSend),
+        data: JSON.stringify(dataToSend),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -25,18 +28,17 @@ const useFetchConfirmPin = () => {
         .then((response) => {
           // If the response is successful(200: OK)
           if (response.status === 200) {
-            return response.text(); // Return response as json
+            const payload = response.data;
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
+            subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: true });
+            setShowSuccessMessage(true);
+            setIsFetching(false);
+            setConfirmPinIsFinished(true);
+            return true;
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If fetch is successful
-        .then((payload) => {
-          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
-          subscriberDispatch({ type: 'ADD_PIN_CONFIRMATION_MESSAGE', payload: true });
-          setShowSuccessMessage(true);
-          setIsFetching(false);
-          setConfirmPinIsFinished(true);
-        }) // If fetch errors
+        // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });

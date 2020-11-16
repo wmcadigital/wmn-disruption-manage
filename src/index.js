@@ -1,6 +1,4 @@
 import 'react-app-polyfill/stable';
-import 'isomorphic-fetch';
-import 'es6-promise';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom';
