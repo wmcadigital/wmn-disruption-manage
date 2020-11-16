@@ -7,7 +7,7 @@ const useFetchSendPin = (mobile, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [sendPinIsFinished, setSendPinIsFinished] = useState(null); // Track if fetch request is currently fetching
   const [sendPinSuccessful, setPinSuccessful] = useState(null);
-  const { user } = subscriberState.query; // destructure user(id) from url
+  const { user, emailDisabled } = subscriberState.query; // destructure user(id) from url
   let mobileNumber = mobile;
   if (mobileNumber && mobileNumber.substr(0, 1) === '0') {
     // if number provided doesn't have country code, it will force it to have
@@ -19,6 +19,7 @@ const useFetchSendPin = (mobile, resend) => {
 
     if (((resend && mobileNumber) || (mobileNumber && !sendPinIsFinished && user)) && mounted) {
       const dataToSend = {
+        emailDisabled,
         mobileNumber: mobileNumber ? `+${mobileNumber.substr(1)}` : null, // to avoid error reading it directly from the url (plus is replaced by a space)
       }; // Structure the data before sending
 
