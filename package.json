@@ -11,7 +11,7 @@
   },
   "copyright": "WMCA",
   "dependencies": {
-    "@sentry/react": "^5.27.3",
+    "@sentry/react": "^5.29.1",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^7.1.2",
