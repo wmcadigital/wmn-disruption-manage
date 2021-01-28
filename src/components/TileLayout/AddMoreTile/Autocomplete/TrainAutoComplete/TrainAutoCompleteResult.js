@@ -1,20 +1,13 @@
 import React from 'react';
 
 const TrainAutoCompleteResult = (props) => {
-  const { result, handleKeyDown, setTrainStations, to } = props || {};
+  const { result, handleKeyDown, setTrainStation } = props || {};
   // Destructure fields from result
   const { id, name, lines } = result;
 
   // Function to update the state with selected service
-  const updateSelectedService = () => {
-    const toOrFrom = to ? 'To' : 'From';
-
-    setTrainStations((prevState) => ({
-      ...prevState,
-      [toOrFrom]: { id, name, lines },
-    }));
-
-    // handleCancel(); // Passed in from parent (go back to previous step and set mode to null)
+  const selectTrainStation = () => {
+    setTrainStation({ id, name, lines });
   };
 
   // Return service with the above disruption logic, replace type and iconName with correct icon and class depending on disruption type
@@ -26,8 +19,8 @@ const TrainAutoCompleteResult = (props) => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
       role="button"
       aria-pressed="false"
-      onKeyDown={(e) => handleKeyDown(e)}
-      onClick={() => updateSelectedService()}
+      onKeyDown={handleKeyDown}
+      onClick={selectTrainStation}
     >
       <strong className="wmnds-col-1">{name}</strong>
     </li>

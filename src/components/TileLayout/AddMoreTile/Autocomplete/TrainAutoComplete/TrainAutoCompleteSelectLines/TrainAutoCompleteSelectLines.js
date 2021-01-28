@@ -7,7 +7,7 @@ import Button from 'components/shared/Button/Button';
 import s from './TrainAutoCompleteSelectLines.module.scss';
 
 const TrainAutoCompleteSelectLines = ({
-  setMode,
+  closeAutoComplete,
   trainStations,
   selectedServices,
   setSelectedServices,
@@ -82,7 +82,7 @@ const TrainAutoCompleteSelectLines = ({
     });
 
     // Go back to prev step
-    setMode(null);
+    closeAutoComplete();
   };
 
   return (
@@ -132,7 +132,7 @@ const TrainAutoCompleteSelectLines = ({
       ) : (
         // Add cancel button
         <div className="wmnds-col-1 wmnds-col-md-2-5">
-          <Button className="wmnds-btn--primary" text="Cancel" onClick={() => setMode(null)} />
+          <Button className="wmnds-btn--primary" text="Cancel" onClick={closeAutoComplete} />
         </div>
       )}
     </div>
@@ -140,7 +140,7 @@ const TrainAutoCompleteSelectLines = ({
 };
 
 TrainAutoCompleteSelectLines.propTypes = {
-  setMode: PropTypes.func.isRequired,
+  closeAutoComplete: PropTypes.func.isRequired,
   trainStations: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedServices: PropTypes.shape({
     TramServices: PropTypes.arrayOf(
