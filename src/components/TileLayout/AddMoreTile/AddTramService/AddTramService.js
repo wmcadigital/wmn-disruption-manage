@@ -6,61 +6,50 @@ import PropTypes from 'prop-types';
 import RemoveService from 'components/shared/RemoveService/RemoveService';
 import Button from 'components/shared/Button/Button';
 
-const AddTramService = ({ selectedServices, setSelectedServices }) => {
+const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
   /* Check the services that are already assigned */
-  const { TramServices } = selectedServices;
+  const { TramLines } = selectedServices;
 
-  const handleRemoveTram = (id) => {
+  const handleRemoveTram = ({ From, To }) => {
     setSelectedServices((prevState) => {
       return {
         ...prevState,
-        TramServices: prevState.TramServices.filter((tram) => id !== tram.id),
-        LineId: prevState.LineId.filter((tramId) => +id !== tramId),
+        TramLines: prevState.TramLines.filter(
+          (tram) => tram.From.id !== From.id || tram.To.id !== To.id
+        ),
       };
     });
   };
 
   const handleAddTram = () => {
-    const defTram = [
-      {
-        id: '4546',
-        routeName: 'Birmingham - Wolverhampton - Birmingham',
-        serviceNumber: 'MM1',
-      },
-    ];
-
-    setSelectedServices((prevState) => {
-      return { ...prevState, LineId: [...prevState.LineId, 4546], TramServices: defTram };
-    });
+    setMode('tram');
   };
 
   return (
     <>
       <h3 className="wmnds-p-t-md">Trams</h3>
       {/* Add tram service button */}
-      {(!TramServices || TramServices.length === 0) && (
-        <Button
-          className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
-          onClick={handleAddTram}
-          text="Add tram service"
-          iconRight="general-expand"
-        />
-      )}
+      <Button
+        className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
+        text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} train service`}
+        onClick={handleAddTram}
+        iconRight="general-expand"
+      />
 
       {/* Add chosen tram services */}
-      {TramServices && TramServices.length > 0 && (
+      {TramLines && TramLines.length > 0 && (
         <>
           <h4>Trams you want to add</h4>
-          {TramServices.map((tramRoute) => {
+          {TramLines.map((route) => {
             return (
               <RemoveService
                 showRemove
-                onClick={() => handleRemoveTram(tramRoute.id)}
-                serviceNumber={tramRoute.serviceNumber}
+                onClick={() => handleRemoveTram(route)}
+                serviceNumber="MM1"
                 mode="tram"
-                routeName={tramRoute.routeName}
-                id={tramRoute.id}
-                key={`${tramRoute.id}`}
+                routeName={`${route.From.name} to ${route.To.name}`}
+                id={`${route.From.id}-${route.To.id}`}
+                key={`${route.From.id}-${route.To.id}`}
               />
             );
           })}
@@ -71,26 +60,18 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
 };
 
 AddTramService.propTypes = {
+  setMode: PropTypes.func.isRequired,
   selectedServices: PropTypes.shape({
-    TramServices: PropTypes.arrayOf(
+    TramLines: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
-    BusServices: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
-    Trains: PropTypes.arrayOf(
-      PropTypes.shape({
-        To: PropTypes.string.isRequired,
-        From: PropTypes.string.isRequired,
-        LineIds: PropTypes.arrayOf(PropTypes.string),
+        To: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
+        From: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
       })
     ),
     LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),

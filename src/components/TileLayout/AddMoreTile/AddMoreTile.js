@@ -12,13 +12,13 @@ import AddTrainService from './AddTrainService/AddTrainService';
 const AddMoreTile = () => {
   const [selectedServices, setSelectedServices] = useState({
     BusServices: [],
-    TramServices: [],
+    TramLines: [],
     LineId: [],
     Trains: [],
   });
   const [mode, setMode] = useState(null);
   const [resend, setResend] = useState(false);
-  const { BusServices, TramServices, Trains } = selectedServices;
+  const { BusServices, TramLines, Trains } = selectedServices;
   const { isFetching, hasError } = useFetchAddServices(selectedServices, resend);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const AddMoreTile = () => {
     if (hasError === false && isFetching === false) {
       setSelectedServices({
         BusServices: [],
-        TramServices: [],
+        TramLines: [],
         LineId: [],
         Trains: [],
       });
@@ -62,9 +62,9 @@ const AddMoreTile = () => {
       {mode ? (
         <AutoComplete
           mode={mode}
-          setSelectedServices={setSelectedServices}
           setMode={setMode}
           selectedServices={selectedServices}
+          setSelectedServices={setSelectedServices}
         />
       ) : (
         <>
@@ -76,6 +76,7 @@ const AddMoreTile = () => {
           />
 
           <AddTramService
+            setMode={setMode}
             selectedServices={selectedServices}
             setSelectedServices={setSelectedServices}
           />
@@ -92,7 +93,7 @@ const AddMoreTile = () => {
 
       {/* Continue button */}
       {((BusServices && BusServices.length > 0) ||
-        (TramServices && TramServices.length > 0) ||
+        (TramLines && TramLines.length > 0) ||
         (Trains && Trains.length > 0)) &&
         !mode && (
           <div className="wmnds-col-1">

@@ -8,13 +8,15 @@ const useFetchAddServices = (selectedServices, resend) => {
 
   useEffect(() => {
     if (selectedServices && resend) {
-      const { Trains, LineId } = selectedServices;
+      const { Trains, LineId, TramLines } = selectedServices;
 
       const lineIdsToSubmit = LineId.length > 0 ? LineId : null;
+      const tramLinesToSubmit = TramLines.map((line) => ({ From: line.From.id, To: line.To.id }));
 
       const dataToSend = {
         LineId: lineIdsToSubmit,
         Trains,
+        TramLines: tramLinesToSubmit,
         emailDisabled: subscriberState.user.emailDisabled,
       }; // Structure the data before sending
 

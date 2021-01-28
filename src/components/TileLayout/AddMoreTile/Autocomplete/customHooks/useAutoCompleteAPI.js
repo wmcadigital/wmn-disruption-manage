@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 // Import contexts
 
-const useAutoCompleteAPI = (apiPath, mode, query, to) => {
+const useAutoCompleteAPI = (apiPath, mode, query) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false); // Set loading state for spinner
   const [errorInfo, setErrorInfo] = useState(); // Placeholder to set error messaging
@@ -65,7 +65,7 @@ const useAutoCompleteAPI = (apiPath, mode, query, to) => {
       mounted = false; // Set mounted back to false on unmount
       source.cancel(); // cancel the request
     };
-  }, [apiPath, mode, query, to]);
+  }, [apiPath, mode, query]);
 
   return { loading, errorInfo, results };
 };
