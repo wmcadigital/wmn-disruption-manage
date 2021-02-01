@@ -26,6 +26,7 @@ export const SubscriberProvider = (props) => {
       updates: null,
       emailDisabled: null,
       trains: [],
+      tramLines: [],
     },
     addServices: [],
   };
@@ -56,6 +57,17 @@ export const SubscriberProvider = (props) => {
           user: {
             ...state.user,
             trainLines: state.user.trainLines.filter((x) => x !== action.payload),
+          },
+        };
+      // Remove tram line from state when deleted via API call
+      case 'REMOVE_TRAM_LINE':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            tramLines: state.user.tramLines.filter(
+              (tram) => tram.from !== action.payload.from || tram.to !== action.payload.to
+            ),
           },
         };
       case 'REMOVE_MOBILE':
