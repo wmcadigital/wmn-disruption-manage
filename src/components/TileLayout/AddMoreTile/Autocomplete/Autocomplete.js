@@ -6,7 +6,7 @@ import TrainAutoComplete from './TrainAutoComplete/TrainAutoComplete';
 import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 
 const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) => {
-  // Used to go back to previous step and wipes any state from the corresponding mode's autoComplete
+  // Used to close any mode's autoComplete, if the global state has not been updated then this will clear what the user's progress
   const closeAutoComplete = () => {
     setMode(null);
   };
@@ -47,8 +47,6 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
       case 'tram':
         return (
           <TramAutoComplete
-            mode={mode}
-            setMode={setMode}
             setSelectedServices={setSelectedServices}
             closeAutoComplete={closeAutoComplete}
           />
