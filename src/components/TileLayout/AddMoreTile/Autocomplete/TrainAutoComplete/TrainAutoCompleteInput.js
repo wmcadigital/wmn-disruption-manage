@@ -13,9 +13,6 @@ import SelectedTrainStation from './SelectedTrainStation';
 const TrainAutoCompleteInput = ({ trainStation, setTrainStation }) => {
   const [query, setQuery] = useState(); // placeholder for getting/setting query
 
-  const resultsList = useRef(null);
-  const debounceInput = useRef(null);
-
   // customHook used to fetch results based on query
   const { loading, errorInfo, results } = useAutoCompleteAPI(
     `/rail/v2/station?q=${encodeURI(query)}`,
@@ -24,15 +21,16 @@ const TrainAutoCompleteInput = ({ trainStation, setTrainStation }) => {
   );
 
   // Import handleKeyDown function from customHook (used by all modes)
+  const resultsList = useRef(null);
+  const debounceInput = useRef(null);
   const { handleKeyDown } = useHandleAutoCompleteKeys(resultsList, debounceInput, results);
+
+  const clearTrainStation = () => setTrainStation(null);
 
   return (
     <>
       {trainStation && trainStation?.id ? (
-        <SelectedTrainStation
-          trainStation={trainStation}
-          clearTrainStation={() => setTrainStation({})}
-        />
+        <SelectedTrainStation trainStation={trainStation} clearTrainStation={clearTrainStation} />
       ) : (
         <div className="wmnds-grid wmnds-grid--justify-between">
           <div className="wmnds-col-1 wmnds-col-md-3-5 wmnds-col-lg-4-5">
