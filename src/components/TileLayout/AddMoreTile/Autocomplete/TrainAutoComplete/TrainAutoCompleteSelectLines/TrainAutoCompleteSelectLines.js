@@ -143,20 +143,6 @@ TrainAutoCompleteSelectLines.propTypes = {
   closeAutoComplete: PropTypes.func.isRequired,
   trainStations: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedServices: PropTypes.shape({
-    TramServices: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
-    BusServices: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
     Trains: PropTypes.arrayOf(
       PropTypes.shape({
         To: PropTypes.string.isRequired,
