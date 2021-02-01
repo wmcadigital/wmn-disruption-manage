@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// Custom Hooks
-// import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 // Components
 import RemoveService from 'components/shared/RemoveService/RemoveService';
 import Button from 'components/shared/Button/Button';
@@ -31,7 +29,7 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
       {/* Add tram service button */}
       <Button
         className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
-        text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} train service`}
+        text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} tram service`}
         onClick={handleAddTram}
         iconRight="general-expand"
       />
@@ -48,7 +46,6 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
                 serviceNumber="MM1"
                 mode="tram"
                 routeName={`${route.From.name} to ${route.To.name}`}
-                id={`${route.From.id}-${route.To.id}`}
                 key={`${route.From.id}-${route.To.id}`}
               />
             );

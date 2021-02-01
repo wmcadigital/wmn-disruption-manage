@@ -2,10 +2,10 @@ import React from 'react';
 
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
-import RemoveService from '../../shared/RemoveService/RemoveService';
+import RemoveAPIService from '../../shared/RemoveService/RemoveAPIService';
 
 const RemoveTile = () => {
-  const { allServices, busServices, tramServices, trainServices } = useFilterSubscribedServices();
+  const { busServices, tramServices, trainServices } = useFilterSubscribedServices();
 
   let buses;
   if (busServices && busServices.length > 0) {
@@ -16,10 +16,10 @@ const RemoveTile = () => {
           {busServices &&
             busServices.reverse().map((serviceRoute) => {
               return (
-                <RemoveService
+                <RemoveAPIService
                   showRemove
                   mode="bus"
-                  id={serviceRoute.id}
+                  data={{ id: serviceRoute.id }}
                   serviceNumber={serviceRoute.name}
                   routeName={serviceRoute.idName}
                   key={serviceRoute.id}
@@ -37,19 +37,18 @@ const RemoveTile = () => {
       <>
         <h3>Tram services</h3>
         <div className="wmnds-m-b-xl">
-          {tramServices &&
-            tramServices.map((serviceRoute) => {
-              return (
-                <RemoveService
-                  showRemove
-                  mode="tram"
-                  id={serviceRoute.id}
-                  serviceNumber={serviceRoute.name}
-                  routeName="Birmingham - Wolverhampton - Birmingham"
-                  key={serviceRoute.id}
-                />
-              );
-            })}
+          {tramServices.map((serviceRoute) => {
+            return (
+              <RemoveAPIService
+                showRemove
+                mode="tram"
+                serviceNumber="MM1"
+                routeName={`${serviceRoute.from} to ${serviceRoute.to}`}
+                data={{ id: serviceRoute.id, from: serviceRoute.from, to: serviceRoute.to }}
+                key={`${serviceRoute.from}-${serviceRoute.to}`}
+              />
+            );
+          })}
         </div>
       </>
     );
@@ -63,7 +62,13 @@ const RemoveTile = () => {
         <div className={`${trainServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {trainServices.map((line) => {
             return (
-              <RemoveService showRemove serviceNumber={line} id={line} key={line} mode="train" />
+              <RemoveAPIService
+                showRemove
+                serviceNumber={line}
+                data={{ id: line }}
+                key={line}
+                mode="train"
+              />
             );
           })}
         </div>
@@ -77,7 +82,7 @@ const RemoveTile = () => {
       <p>Remove services you no longer want alerts for.</p>
       <hr className="wmnds-m-t-md wmnds-m-b-md" />
       {/* If we have bus or tram services then map through them */}
-      {allServices && allServices.length > 0 ? (
+      {buses || trams || trains ? (
         <>
           {buses}
           {trams}
