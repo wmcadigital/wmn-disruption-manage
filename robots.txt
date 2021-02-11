@@ -1,0 +1,4 @@
+# Block indexing as this is a service. Services should be accessed from web content.
+User-agent: *
+Disallow: /
+Disallow: /cgi-bin/
