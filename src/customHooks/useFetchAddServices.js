@@ -6,7 +6,25 @@ const useFetchAddServices = (selectedServices, resend) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const [hasError, setHasError] = useState(null);
-  // variables for tram logic
+
+  // Fetching functions
+  const checkResponseStatus = (response) => {
+    // If the response is successful(200: OK) or error with validation message(400)
+    if (response.status === 200 || response.status === 400) {
+      return response.text(); // Return response as json
+    }
+    throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
+  };
+
+  const catchErrors = (error) => {
+    // eslint-disable-next-line no-console
+    console.error({ error });
+
+    setIsFetching(false); // set to false as we are done fetching now
+    setHasError(true);
+  };
+
+  // Variables for tram logic
   const { filterTramLineInfo } = useSelectableTramLines();
   const shouldReplaceTramLineWithStops =
     subscriberState.user.tramLines.length && filterTramLineInfo(selectedServices.LineId).length > 0;
@@ -15,7 +33,6 @@ const useFetchAddServices = (selectedServices, resend) => {
     selectedServices.TramLines.length &&
     filterTramLineInfo(subscriberState.user.lineId.map((line) => line.id)).length > 0;
 
-  // eslint-disable-next-line no-unused-vars
   const deleteTramSubscriptions = useCallback(() => {
     const { secret } = subscriberState.query;
     let dataToDelete;
@@ -37,20 +54,8 @@ const useFetchAddServices = (selectedServices, resend) => {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        // If the response is successful(200: OK) or error with validation message(400)
-        if (response.status === 200 || response.status === 400) {
-          return response.text(); // Return response as json
-        }
-        throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error({ error });
-
-        setIsFetching(false); // set to false as we are done fetching now
-        setHasError(true);
-      });
+      .then(checkResponseStatus)
+      .catch(catchErrors);
   }, [
     filterTramLineInfo,
     shouldReplaceTramLineWithStops,
@@ -70,26 +75,14 @@ const useFetchAddServices = (selectedServices, resend) => {
             'Content-Type': 'application/json',
           },
         })
-          .then((response) => {
-            // If the response is successful(200: OK) or error with validation message(400)
-            if (response.status === 200) {
-              return response.text(); // Return response as json
-            }
-            throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
-          })
+          .then(checkResponseStatus)
           // If fetch is successful
           .then((payload) => {
             setIsFetching(false); // set to false as we are done fetching now
             setHasError(false);
             subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
           }) // If fetch errors
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.error({ error });
-
-            setIsFetching(false); // set to false as we are done fetching now
-            setHasError(true);
-          })
+          .catch(catchErrors)
       );
     },
     [subscriberDispatch, subscriberState.query.user]
@@ -109,14 +102,14 @@ const useFetchAddServices = (selectedServices, resend) => {
         emailDisabled: subscriberState.user.emailDisabled,
       }; // Structure the data before sending
 
+      // Start api fetching
       setIsFetching(true);
+      const addOtherServices = () => addServices(dataToAdd); // create variable to help readability
 
       if (shouldReplaceTramStopsWithLine || shouldReplaceTramLineWithStops) {
-        deleteTramSubscriptions().then(() => {
-          addServices(dataToAdd);
-        });
+        deleteTramSubscriptions().then(addOtherServices);
       } else {
-        addServices(dataToAdd);
+        addOtherServices();
       }
     }
   }, [
@@ -126,8 +119,6 @@ const useFetchAddServices = (selectedServices, resend) => {
     selectedServices,
     shouldReplaceTramLineWithStops,
     shouldReplaceTramStopsWithLine,
-    subscriberDispatch,
-    subscriberState.query.user,
     subscriberState.user.emailDisabled,
   ]);
 
