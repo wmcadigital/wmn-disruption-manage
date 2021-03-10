@@ -15,7 +15,13 @@ const RemoveTile = () => {
     buses = (
       <>
         <h3>Bus services</h3>
-        <div className={`${tramServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
+        <div
+          className={`${
+            tramServices.length > 0 || selectedTramLines.length > 0
+              ? 'wmnds-m-b-sm'
+              : 'wmnds-m-b-xl'
+          }`}
+        >
           {busServices &&
             busServices.reverse().map((serviceRoute) => {
               return (
@@ -39,7 +45,7 @@ const RemoveTile = () => {
     trams = (
       <>
         <h3>Tram services</h3>
-        <div className="wmnds-m-b-xl">
+        <div className={`${trainServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {tramServices &&
             tramServices.map((serviceRoute) => {
               return (
