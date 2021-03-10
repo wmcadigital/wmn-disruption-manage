@@ -1,5 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
+//
+import { SubscriberContext } from 'globalState/SubscriberContext';
+import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 // Import components
 import Button from 'components/shared/Button/Button';
 import WarningText from 'components/shared/WarningText/WarningText';
@@ -7,6 +10,9 @@ import TramAutoCompleteInput from './TramAutoCompleteInput';
 import TramAutoCompleteSelectLine from './TramAutoCompleteSelectLine';
 
 const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComplete }) => {
+  const [subscriberState] = useContext(SubscriberContext);
+  const { filterTramLineInfo } = useSelectableTramLines();
+  // Local state
   const [tramStops, setTramStops] = useState({ From: null, To: null });
   const [selectedLines, setSelectedLines] = useState([]);
   // Helper function to create setters to set each stop
@@ -55,6 +61,9 @@ const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComp
   const hasAnySelectedStops =
     selectedServices.TramLines.length > 0 || tramStops.From !== null || tramStops.To !== null;
 
+  const showLineSelection =
+    filterTramLineInfo(subscriberState.user.lineId.map((line) => line.id)).length === 0;
+
   return (
     <div className="wmnds-grid">
       <div className="wmnds-col-1 wmnds-m-b-xl">
@@ -63,11 +72,15 @@ const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComp
         <strong className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md">and</strong>
         <TramAutoCompleteInput tramStop={tramStops.To} setTramStop={setTramStopTo} />
         {/* Select full line instead */}
-        <h4 className="wmnds-m-t-lg">Or select entire tram line</h4>
-        <TramAutoCompleteSelectLine
-          selectedLines={selectedServices.LineId}
-          setSelectedLines={setSelectedTramLines}
-        />
+        {showLineSelection && (
+          <>
+            <h4 className="wmnds-m-t-lg">Or select entire tram line</h4>
+            <TramAutoCompleteSelectLine
+              selectedLines={selectedServices.LineId}
+              setSelectedLines={setSelectedTramLines}
+            />
+          </>
+        )}
         {/* Warning message for when selecting the whole line */}
         {isFullLineSelected && hasAnySelectedStops && (
           <div className="wmnds-grid">
