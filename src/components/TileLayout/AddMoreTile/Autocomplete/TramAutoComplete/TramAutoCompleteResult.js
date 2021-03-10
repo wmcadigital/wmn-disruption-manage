@@ -3,11 +3,11 @@ import React from 'react';
 const TramAutoCompleteResult = (props) => {
   const { result, handleKeyDown, setTramStop } = props || {};
   // Destructure fields from result
-  const { id, name } = result;
+  const { atcoCode, name } = result;
 
   // Function to update the state with selected service
   const selectTramStop = () => {
-    setTramStop({ id, name });
+    setTramStop({ id: atcoCode, name });
   };
 
   // Return service with the above disruption logic, replace type and iconName with correct icon and class depending on disruption type
