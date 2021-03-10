@@ -10,6 +10,10 @@
   }
 }
 
+.lineName {
+  text-transform: capitalize;
+}
+
 .selectedItemBox {
   padding: $size-sm;
   border: 1px solid get-color(primary);

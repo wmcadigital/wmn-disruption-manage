@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Icon from 'components/shared/Icon/Icon';
 import Button from 'components/shared/Button/Button';
 // Style
-import s from './TrainAutoCompleteSelectLines.module.scss';
+import s from '../ServiceAutocomplete.module.scss';
 
 const TrainAutoCompleteSelectLines = ({
   closeAutoComplete,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Import components
 import Button from 'components/shared/Button/Button';
-import TrainAutoCompleteSelectLines from './TrainAutoCompleteSelectLines/TrainAutoCompleteSelectLines';
+import TrainAutoCompleteSelectLines from './TrainAutoCompleteSelectLines';
 import TrainAutoCompleteInput from './TrainAutoCompleteInput';
 
 const TrainAutoComplete = ({ setSelectedServices, selectedServices, closeAutoComplete }) => {
