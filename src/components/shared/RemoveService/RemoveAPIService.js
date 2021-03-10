@@ -24,6 +24,7 @@ RemoveAPIService.propTypes = {
     id: PropTypes.string.isRequired,
     from: PropTypes.string,
     to: PropTypes.string,
+    tramLine: PropTypes.bool,
   }).isRequired,
   mode: PropTypes.string.isRequired,
   routeName: PropTypes.string,

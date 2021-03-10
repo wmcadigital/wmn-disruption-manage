@@ -49,8 +49,20 @@ const AddMoreTile = () => {
       (Trains && Trains.length > 0)) &&
     !mode;
 
-  const showTramLineWarning =
+  // Tram line & stop logic
+  const userWillDeleteTramLineSubscription =
     subscriberState.user.tramLines.length && filterTramLineInfo(selectedServices.LineId).length > 0;
+
+  const userWillDeleteTramStopSubscription =
+    selectedServices.TramLines.length &&
+    filterTramLineInfo(subscriberState.user.lineId.map((line) => line.id)).length > 0;
+
+  const showTramLineWarning =
+    (userWillDeleteTramLineSubscription || userWillDeleteTramStopSubscription) === true;
+
+  const warningMessage = userWillDeleteTramLineSubscription
+    ? 'Selecting the entire tram line will remove your current stop-by-stop alerts'
+    : 'Selecting tram stops will remove your current full tram line alerts';
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -103,11 +115,7 @@ const AddMoreTile = () => {
           {showTramLineWarning && (
             <div className="wmnds-grid">
               <div className="wmnds-col-md-7-8">
-                <WarningText
-                  type="warning"
-                  message="Selecting the entire tram line will remove your current stop-by-stop alerts"
-                  className="wmnds-p-r-sm"
-                />
+                <WarningText type="warning" message={warningMessage} className="wmnds-p-r-sm" />
               </div>
             </div>
           )}

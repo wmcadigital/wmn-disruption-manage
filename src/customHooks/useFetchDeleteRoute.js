@@ -31,16 +31,26 @@ const useFetchDeleteRoute = (data, mode) => {
       break;
 
     case 'tram':
-      confirmData = { TramLines: [data.id] };
-      callback = () => {
-        subscriberDispatch({
-          type: 'REMOVE_TRAM_LINE',
-          payload: {
-            from: data.from,
-            to: data.to,
-          },
-        });
-      };
+      if (!data.tramLine) {
+        confirmData = { TramLines: [data.id] };
+        callback = () => {
+          subscriberDispatch({
+            type: 'REMOVE_TRAM_LINE',
+            payload: {
+              from: data.from,
+              to: data.to,
+            },
+          });
+        };
+      } else {
+        confirmData = { lineId: [data.id], secret };
+        callback = () => {
+          subscriberDispatch({
+            type: 'REMOVE_LINE_ID',
+            payload: data.id,
+          });
+        };
+      }
       break;
 
     default:

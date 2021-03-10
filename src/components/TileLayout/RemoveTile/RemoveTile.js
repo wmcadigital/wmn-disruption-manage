@@ -2,10 +2,13 @@ import React from 'react';
 
 // Components
 import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
+import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 import RemoveAPIService from '../../shared/RemoveService/RemoveAPIService';
 
 const RemoveTile = () => {
-  const { busServices, tramServices, trainServices } = useFilterSubscribedServices();
+  const { busServices, tramServices, trainServices, allServices } = useFilterSubscribedServices();
+  const { filterTramLineInfo } = useSelectableTramLines();
+  const selectedTramLines = filterTramLineInfo(allServices.map((service) => service.id));
 
   let buses;
   if (busServices && busServices.length > 0) {
@@ -32,23 +35,37 @@ const RemoveTile = () => {
   }
 
   let trams;
-  if (tramServices && tramServices.length > 0) {
+  if ((tramServices && tramServices.length > 0) || selectedTramLines.length > 0) {
     trams = (
       <>
         <h3>Tram services</h3>
         <div className="wmnds-m-b-xl">
-          {tramServices.map((serviceRoute) => {
-            return (
-              <RemoveAPIService
-                showRemove
-                mode="tram"
-                serviceNumber="MM1"
-                routeName={`${serviceRoute.from} to ${serviceRoute.to}`}
-                data={{ id: serviceRoute.id, from: serviceRoute.from, to: serviceRoute.to }}
-                key={`${serviceRoute.from}-${serviceRoute.to}`}
-              />
-            );
-          })}
+          {tramServices &&
+            tramServices.map((serviceRoute) => {
+              return (
+                <RemoveAPIService
+                  showRemove
+                  mode="tram"
+                  serviceNumber="MM1"
+                  routeName={`${serviceRoute.from} to ${serviceRoute.to}`}
+                  data={{ id: serviceRoute.id, from: serviceRoute.from, to: serviceRoute.to }}
+                  key={`${serviceRoute.from}-${serviceRoute.to}`}
+                />
+              );
+            })}
+          {selectedTramLines.length > 0 &&
+            selectedTramLines.map((line) => {
+              return (
+                <RemoveAPIService
+                  showRemove
+                  mode="tram"
+                  data={{ id: line.id, tramLine: true }}
+                  serviceNumber={line.serviceNumber}
+                  routeName={line.routeName}
+                  key={line.routeName}
+                />
+              );
+            })}
         </div>
       </>
     );
