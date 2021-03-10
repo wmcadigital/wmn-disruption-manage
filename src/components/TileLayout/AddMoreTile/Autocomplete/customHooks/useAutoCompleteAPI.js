@@ -29,7 +29,7 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
           }
           // TRAM
           else if (mode === 'tram') {
-            setResults(response.data.data || []);
+            setResults(response.data.metroStopSearch || []);
           }
           // TRAIN
           else if (mode === 'train') {
