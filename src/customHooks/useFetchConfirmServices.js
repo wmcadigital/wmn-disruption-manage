@@ -5,13 +5,13 @@ import { delSearchParam } from 'helpers/URLSearchParams';
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const [confirmServiceIsFinished, setConfirmServiceIsFinished] = useState(false); // Track if fetch request is currently fetching
-  const { lines, trains, secret, user } = subscriberState.query; // Destructure state
+  const { lines, trains, trams, secret, user, emailDisabled } = subscriberState.query; // Destructure state
 
   useEffect(() => {
-    const confirmData = { lineId: lines, secret, trains };
+    const confirmData = { lineId: lines, secret, trains, TramLines: trams, emailDisabled };
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
-    if (!confirmServiceIsFinished && secret && (lines.length || trains.length)) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
+    if (!confirmServiceIsFinished && secret && (lines.length || trains.length || trams.length)) {
+      fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
         body: JSON.stringify(confirmData),
         headers: {
@@ -31,6 +31,7 @@ const useFetchConfirmServices = () => {
           delSearchParam('lines');
           delSearchParam('lnames');
           delSearchParam('trains');
+          delSearchParam('tram');
 
           setConfirmServiceIsFinished(true); // set to false as we are done fetching now
         }) // If fetch errors
@@ -45,7 +46,7 @@ const useFetchConfirmServices = () => {
     else {
       setConfirmServiceIsFinished(true);
     }
-  }, [confirmServiceIsFinished, lines, trains, secret, user]);
+  }, [confirmServiceIsFinished, lines, trains, trams, secret, user, emailDisabled]);
 
   return { confirmServiceIsFinished };
 };
