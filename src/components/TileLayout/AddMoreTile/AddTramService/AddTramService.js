@@ -3,12 +3,19 @@ import PropTypes from 'prop-types';
 // Components
 import RemoveService from 'components/shared/RemoveService/RemoveService';
 import Button from 'components/shared/Button/Button';
+// hooks
+import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 
 const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
+  const { selectableTramLineIds, filterTramLineInfo } = useSelectableTramLines();
   /* Check the services that are already assigned */
   const { TramLines } = selectedServices;
 
-  const handleRemoveTram = ({ From, To }) => {
+  const handleAddTram = () => {
+    setMode('tram');
+  };
+
+  const removeTramStops = ({ From, To }) => {
     setSelectedServices((prevState) => {
       return {
         ...prevState,
@@ -19,34 +26,67 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
     });
   };
 
-  const handleAddTram = () => {
-    setMode('tram');
+  const removeTramLine = (lineId) => {
+    setSelectedServices((prevState) => {
+      return {
+        ...prevState,
+        LineId: prevState.LineId.filter((id) => id !== lineId),
+      };
+    });
   };
+
+  // Get the info for selected full lines
+  const selectedFullTramLines = filterTramLineInfo(selectedServices.LineId);
+
+  // Helper booleans
+  const anyStopsSelected = TramLines && TramLines.length > 0;
+  const isFullLineSelected = selectableTramLineIds.some((lineId) =>
+    selectedServices.LineId.includes(lineId)
+  );
 
   return (
     <>
       <h3 className="wmnds-p-t-md">Trams</h3>
       {/* Add tram service button */}
-      <Button
-        className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
-        text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} tram service`}
-        onClick={handleAddTram}
-        iconRight="general-expand"
-      />
-
-      {/* Add chosen tram services */}
-      {TramLines && TramLines.length > 0 && (
+      {!isFullLineSelected && (
+        <Button
+          className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
+          text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} tram service`}
+          onClick={handleAddTram}
+          iconRight="general-expand"
+        />
+      )}
+      {(anyStopsSelected || isFullLineSelected) && (
+        <h4 className="wmnds-m-b-sm wmnds-m-t-lg">Tram services that you want to add</h4>
+      )}
+      {/* Show the tram services the user has added */}
+      {anyStopsSelected && !isFullLineSelected ? (
         <>
-          <h4>Trams you want to add</h4>
           {TramLines.map((route) => {
             return (
               <RemoveService
                 showRemove
-                onClick={() => handleRemoveTram(route)}
+                onClick={() => removeTramStops(route)}
                 serviceNumber="MM1"
                 mode="tram"
                 routeName={`${route.From.name} to ${route.To.name}`}
+                id={`${route.From.id}-${route.To.id}`}
                 key={`${route.From.id}-${route.To.id}`}
+              />
+            );
+          })}
+        </>
+      ) : (
+        <>
+          {selectedFullTramLines.map((line) => {
+            return (
+              <RemoveService
+                showRemove
+                onClick={() => removeTramLine(line.id)}
+                serviceNumber={line.serviceNumber}
+                mode="tram"
+                routeName={line.routeName}
+                key={line.routeName}
               />
             );
           })}

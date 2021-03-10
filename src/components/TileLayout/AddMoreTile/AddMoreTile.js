@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // Custom hooks
 import useFetchAddServices from 'customHooks/useFetchAddServices';
+import { SubscriberContext } from 'globalState/SubscriberContext';
 // Components
 import Message from 'components/shared/Message/Message';
 import Button from 'components/shared/Button/Button';
+import WarningText from 'components/shared/WarningText/WarningText';
+import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 import AddBusService from './AddBusService/AddBusService';
 import AddTramService from './AddTramService/AddTramService';
 import AutoComplete from './Autocomplete/Autocomplete';
 import AddTrainService from './AddTrainService/AddTrainService';
 
 const AddMoreTile = () => {
+  // Hooks
+  const [subscriberState] = useContext(SubscriberContext);
+  const { filterTramLineInfo } = useSelectableTramLines();
+  // Selection state
   const [selectedServices, setSelectedServices] = useState({
     BusServices: [],
     TramLines: [],
@@ -18,7 +25,7 @@ const AddMoreTile = () => {
   });
   const [mode, setMode] = useState(null);
   const [resend, setResend] = useState(false);
-  const { BusServices, TramLines, Trains } = selectedServices;
+  const { BusServices, TramLines, Trains, LineId } = selectedServices;
   const { isFetching, hasError } = useFetchAddServices(selectedServices, resend);
 
   useEffect(() => {
@@ -33,6 +40,17 @@ const AddMoreTile = () => {
       });
     }
   }, [hasError, isFetching, resend]);
+
+  // Helper booleans
+  const showContinue =
+    ((BusServices && BusServices.length > 0) ||
+      (TramLines && TramLines.length > 0) ||
+      (LineId && LineId.length > 0) ||
+      (Trains && Trains.length > 0)) &&
+    !mode;
+
+  const showTramLineWarning =
+    subscriberState.user.tramLines.length && filterTramLineInfo(selectedServices.LineId).length > 0;
 
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
@@ -81,6 +99,19 @@ const AddMoreTile = () => {
             setSelectedServices={setSelectedServices}
           />
 
+          {/* Tram warning */}
+          {showTramLineWarning && (
+            <div className="wmnds-grid">
+              <div className="wmnds-col-md-7-8">
+                <WarningText
+                  type="warning"
+                  message="Selecting the entire tram line will remove your current stop-by-stop alerts"
+                  className="wmnds-p-r-sm"
+                />
+              </div>
+            </div>
+          )}
+
           <AddTrainService
             setMode={setMode}
             selectedServices={selectedServices}
@@ -89,24 +120,19 @@ const AddMoreTile = () => {
         </>
       )}
 
-      {/* Add button to confirm new subscriptions */}
-
       {/* Continue button */}
-      {((BusServices && BusServices.length > 0) ||
-        (TramLines && TramLines.length > 0) ||
-        (Trains && Trains.length > 0)) &&
-        !mode && (
-          <div className="wmnds-col-1">
-            <Button
-              className="wmnds-btn wmnds-col-1 wmnds-col-lg-1-2 wmnds-m-t-xl"
-              disabled={isFetching}
-              isFetching={isFetching}
-              text="Confirm new subscriptions"
-              onClick={() => setResend(true)}
-              iconRight="general-chevron-right"
-            />
-          </div>
-        )}
+      {showContinue && (
+        <div className="wmnds-col-1">
+          <Button
+            className="wmnds-btn wmnds-col-1 wmnds-col-lg-1-2 wmnds-m-t-xl"
+            disabled={isFetching}
+            isFetching={isFetching}
+            text="Confirm new subscriptions"
+            onClick={() => setResend(true)}
+            iconRight="general-chevron-right"
+          />
+        </div>
+      )}
     </div>
   );
 };

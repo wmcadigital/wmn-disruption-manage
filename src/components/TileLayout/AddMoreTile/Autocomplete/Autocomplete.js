@@ -47,6 +47,7 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
       case 'tram':
         return (
           <TramAutoComplete
+            selectedServices={selectedServices}
             setSelectedServices={setSelectedServices}
             closeAutoComplete={closeAutoComplete}
           />
