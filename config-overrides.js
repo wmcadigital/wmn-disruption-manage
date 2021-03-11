@@ -1,5 +1,5 @@
 // This file helps to reroute the webpack build through here first
-// This enables to modify the webbpack config without ejecting CRA
+// This enables to modify the webpack config without ejecting CRA
 // For more: https://www.npmjs.com/package/react-app-rewired
 
 const SassLintPlugin = require('sass-lint-webpack');
