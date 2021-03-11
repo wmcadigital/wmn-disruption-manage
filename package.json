@@ -10,6 +10,14 @@
     "url": "https://github.com/wmcadigital/wmn-disruption-manage/issues"
   },
   "copyright": "WMCA",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "lint:styles": "sass-lint '**/*.scss'",
+    "update-packages": "ncu",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@sentry/react": "^6.2.2",
     "@testing-library/jest-dom": "^5.11.9",
@@ -34,12 +42,6 @@
     "sass-lint": "^1.13.1",
     "sass-lint-webpack": "^1.0.3"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -53,5 +55,6 @@
       "last 1 safari version",
       "ie 11"
     ]
-  }
+  },
+  "sasslintConfig": ".sass-lint.yml"
 }
