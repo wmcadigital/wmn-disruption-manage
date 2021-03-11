@@ -47,7 +47,6 @@ const AddTrainService = ({ setMode, selectedServices, setSelectedServices }) => 
                 showRemove
                 onClick={() => handleRemoveTrain(line)}
                 serviceNumber={line}
-                id={line}
                 key={line}
                 mode="train"
               />

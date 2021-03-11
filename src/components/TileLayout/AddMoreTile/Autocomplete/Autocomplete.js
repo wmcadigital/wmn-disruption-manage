@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // Import components
-import Button from 'components/shared/Button/Button';
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
-import TrainAutoCompleteSelectLines from './TrainAutoComplete/TrainAutoCompleteSelectLines/TrainAutoCompleteSelectLines';
 import TrainAutoComplete from './TrainAutoComplete/TrainAutoComplete';
+import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
 
 const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) => {
-  const [trainStations, setTrainStations] = useState({});
-
-  // Used to go back to previous step and wipes any trainStations (local state) data stored
-  const getPreviousStep = () => {
+  // Used to close any mode's autoComplete, if the global state has not been updated then this will clear what the user's progress
+  const closeAutoComplete = () => {
     setMode(null);
   };
 
@@ -25,75 +22,54 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
       );
     };
 
-    return (
-      <div className="wmnds-grid">
-        {mode === 'bus' && (
+    switch (mode) {
+      case 'bus':
+        return (
           <>
             {autoCompleteTitle(`Search for a ${mode} service`)}
             <BusAutoComplete
-              mode={mode}
-              setMode={setMode}
               setSelectedServices={setSelectedServices}
+              closeAutoComplete={closeAutoComplete}
             />
           </>
-        )}
+        );
 
-        {mode === 'train' && (
-          <>
-            {(!trainStations.From || !trainStations.To) && (
-              <div className="wmnds-col-1 wmnds-m-b-xl">
-                <h4>Select trains between</h4>
-                <TrainAutoComplete
-                  mode={mode}
-                  setMode={setMode}
-                  trainStations={trainStations}
-                  setTrainStations={setTrainStations}
-                />
-                <strong className="wmnds-col-1 wmnds-m-t-md wmnds-m-b-md">and</strong>
-                <TrainAutoComplete
-                  mode={mode}
-                  setMode={setMode}
-                  trainStations={trainStations}
-                  setTrainStations={setTrainStations}
-                  to
-                />
-              </div>
-            )}
+      case 'train':
+        return (
+          <TrainAutoComplete
+            mode={mode}
+            setSelectedServices={setSelectedServices}
+            selectedServices={selectedServices}
+            closeAutoComplete={closeAutoComplete}
+          />
+        );
 
-            {trainStations.From && trainStations.To && (
-              <TrainAutoCompleteSelectLines
-                setMode={setMode}
-                trainStations={trainStations}
-                setSelectedServices={setSelectedServices}
-                selectedServices={selectedServices}
-              />
-            )}
+      case 'tram':
+        return (
+          <TramAutoComplete
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+            closeAutoComplete={closeAutoComplete}
+          />
+        );
 
-            {(!trainStations.From || !trainStations.To) && (
-              // Add cancel button
-              <div className="wmnds-col-1 wmnds-col-md-2-5">
-                <Button className="wmnds-btn--primary" text="Cancel" onClick={getPreviousStep} />
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    );
+      default:
+        return null;
+    }
   };
 
   // Render the correct component based on logic in switch statement above
-  return <>{autoCompleteToShow()}</>;
+  return <div className="wmnds-grid">{autoCompleteToShow()}</div>;
 };
 
 AutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setMode: PropTypes.func.isRequired,
   selectedServices: PropTypes.shape({
-    TramServices: PropTypes.arrayOf(
+    TramLines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
       })
     ),
     BusServices: PropTypes.arrayOf(
