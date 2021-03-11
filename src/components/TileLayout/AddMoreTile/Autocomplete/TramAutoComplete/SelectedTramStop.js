@@ -11,7 +11,12 @@ const SelectedTramStop = ({ tramStop, clearTramStop }) => {
       <div className={`wmnds-grid wmnds-grid--align-center wmnds-m-t-xs  ${s.selectedItemBox}`}>
         <strong className={`wmnds-col-auto ${s.selectedSummary}`}>{tramStop.name}</strong>
 
-        <button type="button" className={s.closeButton} onClick={clearTramStop}>
+        <button
+          type="button"
+          className={s.closeButton}
+          onClick={clearTramStop}
+          aria-label="Clear selection"
+        >
           <Icon iconName="general-cross" className={`general-cross ${s.closeIcon}`} />
         </button>
       </div>
