@@ -11,7 +11,7 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
     let mounted = true; // Set mounted to true (used later to make sure we don't do events as component is unmounting)
     const source = axios.CancelToken.source(); // Set source of cancelToken
     // If autocomplete has query
-    if (query) {
+    if (query && mounted) {
       const { REACT_APP_AUTOCOMPLETE_API, REACT_APP_AUTOCOMPLETE_API_KEY } = process.env; // Destructure env vars
       setLoading(true); // Update loading state to true as we are hitting API
       axios

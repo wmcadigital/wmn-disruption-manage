@@ -9,8 +9,11 @@ const formatAndOmitCountryCode = (phone) => {
   if (phone && phone.substr(0, 1) === '0') {
     return [phone.slice(0, 5), ' ', phone.slice(5)].join('');
   }
-  const p = `0${phone.substr(3)}`;
-  return [p.slice(0, 5), ' ', p.slice(5)].join('');
+  if (phone) {
+    const p = `0${phone.substr(3)}`;
+    return [p.slice(0, 5), ' ', p.slice(5)].join('');
+  }
+  return null;
 };
 
 const includeCountryCode = (phone) => {

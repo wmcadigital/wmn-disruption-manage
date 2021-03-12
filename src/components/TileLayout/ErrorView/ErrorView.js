@@ -23,6 +23,16 @@ const ErrorPage = ({ hasError }) => {
               </a>{' '}
               again.
             </p>
+            <p>
+              If you&apos;ve lost the link to manage your disruption alerts, <br />
+              <a
+                href={`${process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}?requestLink=true`}
+                title="Request new link to manage your disruption alerts"
+                className="wmds-link"
+              >
+                you can request a new one
+              </a>{' '}
+            </p>
           </>
         )}
 

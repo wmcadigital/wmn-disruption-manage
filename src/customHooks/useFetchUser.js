@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 // Context
 import { SubscriberContext } from 'globalState/SubscriberContext';
 // Helpers
@@ -13,28 +14,32 @@ const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
     // Only start fetching the user if the confirm service has been completed
     if (confirmServiceIsFinished && confirmMobileFinished && getSearchParam('user')) {
       setHasError(null); // Set errors to null
-      fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
+
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200) {
-            return response.json(); // Return response as json
-          }
-          if (response.status === 400) {
-            return response.text();
+            const payload = response.data;
+
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
+            setIsFetching(false); // set to false as we are done fetching now
+            return true; // Return response as json
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If fetch is successful
-        .then((payload) => {
-          if (payload === 'no account found') setHasError('noAccount');
-          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
-          setIsFetching(false); // set to false as we are done fetching now
-        }) // If fetch errors
+        // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setHasError('true'); // Set to 'true' as error has occured
-          setIsFetching(false); // set to false as we are done fetching now
+          const { status, data } = error.response;
+          if (status === 400 && data === 'no account found') {
+            setHasError('noAccount');
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: data }); // Map user details to state
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setHasError('true'); // Set to 'true' as error has occured
+            setIsFetching(false); // set to false as we are done fetching now
+          }
         });
     }
     // Not a valid URL as no search params exist, so not a valide account

@@ -109,7 +109,7 @@ const TrainAutoCompleteSelectLines = ({
                 <div className="wmnds-fe-checkboxes__container wmnds-m-b-none">
                   {/* Right side for remove service button */}
                   <input
-                    checked={selectedLines.includes(line)}
+                    defaultChecked={selectedLines.includes(line)}
                     value={line}
                     onChange={(e) => handleChange(e.target.value)}
                     className="wmnds-fe-checkboxes__input"

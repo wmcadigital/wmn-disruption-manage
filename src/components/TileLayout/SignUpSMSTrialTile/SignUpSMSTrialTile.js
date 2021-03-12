@@ -6,6 +6,7 @@ import Button from 'components/shared/Button/Button';
 const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
   const [subscriberState] = useContext(SubscriberContext);
   const { name, email } = subscriberState.user;
+  const { user } = subscriberState.query;
 
   return (
     <div className="wmnds-content-tile wmnds-m-t-lg wmnds-col-1">
@@ -17,7 +18,7 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
           <a
             href={`${process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}?name=${encodeURI(
               name
-            )}&email=${email}`}
+            )}&email=${email}&user=${user}`}
             title="Sign up to text message trial"
             target="_blank"
             rel="noopener noreferrer"
