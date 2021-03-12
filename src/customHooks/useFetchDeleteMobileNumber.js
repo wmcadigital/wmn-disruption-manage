@@ -27,7 +27,7 @@ const useFetchDeleteMobileNumber = () => {
       })
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             if (updateUser) {
               subscriberDispatch({ type: 'REMOVE_MOBILE', payload: '' });
             }
@@ -39,10 +39,19 @@ const useFetchDeleteMobileNumber = () => {
         })
         // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setIsDeleting(false);
-          setErrors(true);
+          const { status } = error.response;
+          if (status === 400) {
+            if (updateUser) {
+              subscriberDispatch({ type: 'REMOVE_MOBILE', payload: '' });
+            }
+            setIsDeleting(false);
+            setIsNumberDeleted(true);
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setIsDeleting(false);
+            setErrors(true);
+          }
         });
     }
   };

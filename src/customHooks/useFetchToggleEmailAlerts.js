@@ -35,10 +35,18 @@ const useFetchToggleEmailAlerts = () => {
       })
       // If fetch errors
       .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error({ error });
-        setIsFetching(false); // set to false as we are done fetching now
-        setToggleDone(false);
+        const { status, data } = error.response;
+        if (status === 400) {
+          const payload = data;
+          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
+          setIsFetching(false); // set to false as we are done fetching now
+          setToggleDone(true);
+        } else {
+          // eslint-disable-next-line no-console
+          console.error({ error });
+          setIsFetching(false); // set to false as we are done fetching now
+          setToggleDone(false);
+        }
       });
   };
 
