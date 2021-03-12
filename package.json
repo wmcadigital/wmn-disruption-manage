@@ -10,37 +10,37 @@
     "url": "https://github.com/wmcadigital/wmn-disruption-manage/issues"
   },
   "copyright": "WMCA",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "lint:styles": "sass-lint '**/*.scss'",
+    "update-packages": "ncu",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
-    "@sentry/react": "^5.27.3",
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.1",
-    "@testing-library/user-event": "^7.1.2",
-    "axios": "^0.19.2",
-    "node-sass": "^4.14.1",
+    "@sentry/react": "^6.2.2",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-app-polyfill": "^1.0.6",
-    "react-debounce-input": "^3.2.2",
-    "react-dom": "^16.13.1",
-    "react-scripts": "4.0.0"
+    "react": "^17.0.1",
+    "react-app-polyfill": "^2.0.0",
+    "react-debounce-input": "^3.2.3",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.3"
   },
   "devDependencies": {
-    "eslint": "^7.11.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-config-react-app": "^5.2.1",
-    "eslint-plugin-import": "^2.21.2",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-jam3": "^0.2.3",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.5",
-    "prettier": "^2.0.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "react-app-rewired": "^2.1.8",
+    "sass-lint": "^1.13.1",
+    "sass-lint-webpack": "^1.0.3"
   },
   "browserslist": {
     "production": [
@@ -55,5 +55,6 @@
       "last 1 safari version",
       "ie 11"
     ]
-  }
+  },
+  "sasslintConfig": ".sass-lint.yml"
 }

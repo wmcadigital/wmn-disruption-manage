@@ -9,7 +9,7 @@ const ErrorPage = ({ hasError }) => {
 
         {hasError === 'noAccount' && (
           <>
-            <h3>This subscription does not seem to exist</h3>
+            <h2>This subscription does not seem to exist</h2>
             <p>Check you are using the correct link to manage alerts about disruptions.</p>
             <p>
               If you have unsubscribed from alerts, you will need to{' '}
