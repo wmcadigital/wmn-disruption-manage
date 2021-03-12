@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
+import axios from 'axios';
 
 const useFetchDeleteAccount = (setIsUnsubscribed) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -10,9 +11,11 @@ const useFetchDeleteAccount = (setIsUnsubscribed) => {
     if (user) {
       setIsFetching(true);
       // If lineId is passed in then submit a delete request for that lineId
-      fetch(`${process.env.REACT_APP_API_HOST}api/removeme/${user}`, {
+      axios({
+        url: `/removeme/${user}`,
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
         method: 'DELETE',
-        body: JSON.stringify({ name: user }),
+        data: JSON.stringify({ name: user }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -20,19 +23,16 @@ const useFetchDeleteAccount = (setIsUnsubscribed) => {
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
-            return response.text(); // Return response as json
+            setIsUnsubscribed(true);
+            setIsFetching(false); // set to false as we are done fetching now
+            return true; // Return response as json
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
-        // If fetch is successful
-        .then(() => {
-          setIsUnsubscribed(true);
-          setIsFetching(false); // set to false as we are done fetching now
-        }) // If fetch errors
+        // If fetch errors
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error({ error });
-
           setIsFetching(false); // set to false as we are done fetching now
         });
     }

@@ -193,5 +193,10 @@
         document.body.insertBefore(div, document.body.childNodes[0]);
       };
     </script>
+
+    <!-- Avoid's error on IE11 -->
+    <!--[if IE]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
+    <!--[endif]-->
   </body>
 </html>

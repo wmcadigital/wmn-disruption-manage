@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
+import axios from 'axios';
 
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
@@ -13,7 +14,7 @@ const useFetchConfirmServices = () => {
     if (!confirmServiceIsFinished && secret && (lines.length || trains.length || trams.length)) {
       fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
         method: 'PUT',
-        body: JSON.stringify(confirmData),
+        data: JSON.stringify(confirmData),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -21,18 +22,19 @@ const useFetchConfirmServices = () => {
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200 || response.status === 400) {
-            return response.text(); // Return response as json
+            // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
+            delSearchParam('lines');
+            delSearchParam('lnames');
+            delSearchParam('trains');
+            delSearchParam('tram');
+            delSearchParam('nomail');
+            setConfirmServiceIsFinished(true); // set to false as we are done fetching now
+            return true;
           }
           throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
         })
         // If fetch is successful
         .then(() => {
-          // When we have confirmed the service(s), update URL to remove lines, lnames as we don't need it anymore (stops another PUT request if user then decides to refresh page)
-          delSearchParam('lines');
-          delSearchParam('lnames');
-          delSearchParam('trains');
-          delSearchParam('tram');
-
           setConfirmServiceIsFinished(true); // set to false as we are done fetching now
         }) // If fetch errors
         .catch((error) => {
