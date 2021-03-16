@@ -54,22 +54,25 @@ const TrainAutoCompleteInput = ({ trainStation, setTrainStation }) => {
             </div>
             {/* If there is no data.length(results) and the user hasn't submitted a query and the state isn't loading then the user should be displayed with no results message, else show results */}
             {!results.length && query && !loading && errorInfo ? (
-              <Message type="error" title={errorInfo.title} message={errorInfo.message} />
+              <Message
+                type="error"
+                title={errorInfo.title}
+                message={errorInfo.message}
+                className="wmnds-m-t-md"
+              />
             ) : (
               query && (
                 <ul className="wmnds-autocomplete-suggestions wmnds-m-b-none" ref={resultsList}>
                   {/* Only show autocomplete results if there is a query, also filter out any results that the user has already added
                    */}
-                  {results.map((result) => {
-                    return (
-                      <TrainAutoCompleteResult
-                        key={result.id}
-                        result={result}
-                        handleKeyDown={handleKeyDown}
-                        setTrainStation={setTrainStation}
-                      />
-                    );
-                  })}
+                  {results.map((result) => (
+                    <TrainAutoCompleteResult
+                      key={result.id}
+                      result={result}
+                      handleKeyDown={handleKeyDown}
+                      setTrainStation={setTrainStation}
+                    />
+                  ))}
                 </ul>
               )
             )}
