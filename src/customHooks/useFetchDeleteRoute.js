@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import axios from 'axios';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 
 const useFetchDeleteRoute = (data, mode) => {
@@ -6,12 +7,12 @@ const useFetchDeleteRoute = (data, mode) => {
   const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
   const { secret, user } = subscriberState.query; // Destructure state
 
-  let confirmData;
+  let dataToDelete;
   let callback;
   // Set up the data and the callback depending on the mode
   switch (mode) {
     case 'bus':
-      confirmData = { lineId: [data.id], secret };
+      dataToDelete = { lineId: [data.id], secret };
       callback = () => {
         subscriberDispatch({
           type: 'REMOVE_LINE_ID',
@@ -21,7 +22,7 @@ const useFetchDeleteRoute = (data, mode) => {
       break;
 
     case 'train':
-      confirmData = { TrainLineId: [data.id] };
+      dataToDelete = { TrainLineId: [data.id] };
       callback = () => {
         subscriberDispatch({
           type: 'REMOVE_TRAIN_LINE',
@@ -32,7 +33,7 @@ const useFetchDeleteRoute = (data, mode) => {
 
     case 'tram':
       if (!data.tramLine) {
-        confirmData = { TramLines: [data.id] };
+        dataToDelete = { TramLines: [data.id] };
         callback = () => {
           subscriberDispatch({
             type: 'REMOVE_TRAM_LINE',
@@ -43,7 +44,7 @@ const useFetchDeleteRoute = (data, mode) => {
           });
         };
       } else {
-        confirmData = { lineId: [data.id], secret };
+        dataToDelete = { lineId: [data.id], secret };
         callback = () => {
           subscriberDispatch({
             type: 'REMOVE_LINE_ID',
@@ -60,29 +61,24 @@ const useFetchDeleteRoute = (data, mode) => {
   const deleteRoute = () => {
     if (!data.id) return;
 
-    fetch(`${process.env.REACT_APP_API_HOST}api/person/${user}`, {
+    axios({
+      baseURL: `${process.env.REACT_APP_API_HOST}api`,
+      url: `/person/${user}`,
       method: 'DELETE',
-      body: JSON.stringify(confirmData),
+      data: dataToDelete,
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        // If the response is successful(200: OK) or error with validation message(400)
-        if (response.status === 200 || response.status === 400) {
-          return response.text(); // Return response as json
-        }
-        throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
-      })
       .then(() => {
-        setIsFetching(false);
         callback(); // Call the corresponding mode's callback to remove the route from localState
       }) // If fetch errors
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error({ error });
-
-        setIsFetching(false); // set to false as we are done fetching now
+      })
+      .finally(() => {
+        setIsFetching(false);
       });
   };
 
