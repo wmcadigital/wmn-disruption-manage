@@ -18,7 +18,7 @@ const TramAutoCompleteSelectLine = ({ selectedLines, setSelectedLines }) => {
   const handleChange = (e) => {
     const id = e.target.value;
     setChecked((prevState) => {
-      if (!prevState.indexOf(id) > -1) return [...prevState, id];
+      if (!(prevState.indexOf(id) > -1)) return [...prevState, id];
       return prevState.filter((checkedId) => checkedId !== id);
     });
   };
