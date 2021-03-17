@@ -12,7 +12,7 @@ const useSelectableTramLines = () => {
 
   const filterTramLineInfo = (lineIds) => {
     if (!lineIds.length) return [];
-    return selectableTramLineInfo.filter((line) => lineIds.includes(line.id));
+    return selectableTramLineInfo.filter((line) => lineIds.indexOf(line.id) > -1);
   };
 
   return { selectableTramLineInfo, selectableTramLineIds, filterTramLineInfo };

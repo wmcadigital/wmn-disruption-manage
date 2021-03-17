@@ -66,12 +66,27 @@ AutoComplete.propTypes = {
   mode: PropTypes.string.isRequired,
   setMode: PropTypes.func.isRequired,
   selectedServices: PropTypes.shape({
-    TramLines: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
+    TramLines: PropTypes.oneOfType([
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          routeName: PropTypes.string.isRequired,
+          serviceNumber: PropTypes.string.isRequired,
+        })
+      ),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          From: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+          }),
+          To: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+          }),
+        })
+      ),
+    ]),
     BusServices: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,

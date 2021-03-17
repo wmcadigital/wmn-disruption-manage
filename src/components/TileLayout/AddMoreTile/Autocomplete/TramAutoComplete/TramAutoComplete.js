@@ -58,8 +58,6 @@ const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComp
   // Helper booleans
   const bothStopsSelected = tramStops.From?.name && tramStops.To?.name;
   const isFullLineSelected = selectedLines.length > 0;
-  const hasAnySelectedStops =
-    selectedServices.TramLines.length > 0 || tramStops.From !== null || tramStops.To !== null;
 
   const showLineSelection =
     filterTramLineInfo(subscriberState.user.lineId.map((line) => line.id)).length === 0;
@@ -82,7 +80,7 @@ const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComp
           </>
         )}
         {/* Warning message for when selecting the whole line */}
-        {isFullLineSelected && hasAnySelectedStops && (
+        {isFullLineSelected && (
           <div className="wmnds-grid">
             <div className="wmnds-col-md-7-8">
               <WarningText
@@ -111,13 +109,27 @@ const TramAutoComplete = ({ selectedServices, setSelectedServices, closeAutoComp
 
 TramAutoComplete.propTypes = {
   selectedServices: PropTypes.shape({
-    TramLines: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
+    TramLines: PropTypes.oneOfType([
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          routeName: PropTypes.string.isRequired,
+          serviceNumber: PropTypes.string.isRequired,
+        })
+      ),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          From: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+          }),
+          To: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+          }),
+        })
+      ),
+    ]),
     LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   }).isRequired,
   setSelectedServices: PropTypes.func.isRequired,

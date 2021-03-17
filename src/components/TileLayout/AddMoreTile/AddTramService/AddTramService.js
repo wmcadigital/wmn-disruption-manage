@@ -16,23 +16,19 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
   };
 
   const removeTramStops = ({ From, To }) => {
-    setSelectedServices((prevState) => {
-      return {
-        ...prevState,
-        TramLines: prevState.TramLines.filter(
-          (tram) => tram.From.id !== From.id || tram.To.id !== To.id
-        ),
-      };
-    });
+    setSelectedServices((prevState) => ({
+      ...prevState,
+      TramLines: prevState.TramLines.filter(
+        (tram) => tram.From.id !== From.id || tram.To.id !== To.id
+      ),
+    }));
   };
 
   const removeTramLine = (lineId) => {
-    setSelectedServices((prevState) => {
-      return {
-        ...prevState,
-        LineId: prevState.LineId.filter((id) => id !== lineId),
-      };
-    });
+    setSelectedServices((prevState) => ({
+      ...prevState,
+      LineId: prevState.LineId.filter((id) => id !== lineId),
+    }));
   };
 
   // Get the info for selected full lines
@@ -40,8 +36,8 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
 
   // Helper booleans
   const anyStopsSelected = TramLines && TramLines.length > 0;
-  const isFullLineSelected = selectableTramLineIds.some((lineId) =>
-    selectedServices.LineId.includes(lineId)
+  const isFullLineSelected = selectableTramLineIds.some(
+    (lineId) => selectedServices.LineId.indexOf(lineId) > -1
   );
 
   return (
@@ -62,34 +58,30 @@ const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
       {/* Show the tram services the user has added */}
       {anyStopsSelected && !isFullLineSelected ? (
         <>
-          {TramLines.map((route) => {
-            return (
-              <RemoveService
-                showRemove
-                onClick={() => removeTramStops(route)}
-                serviceNumber="MM1"
-                mode="tram"
-                routeName={`${route.From.name} to ${route.To.name}`}
-                id={`${route.From.id}-${route.To.id}`}
-                key={`${route.From.id}-${route.To.id}`}
-              />
-            );
-          })}
+          {TramLines.map((route) => (
+            <RemoveService
+              showRemove
+              onClick={() => removeTramStops(route)}
+              serviceNumber="MM1"
+              mode="tram"
+              routeName={`${route.From.name} to ${route.To.name}`}
+              id={`${route.From.id}-${route.To.id}`}
+              key={`${route.From.id}-${route.To.id}`}
+            />
+          ))}
         </>
       ) : (
         <>
-          {selectedFullTramLines.map((line) => {
-            return (
-              <RemoveService
-                showRemove
-                onClick={() => removeTramLine(line.id)}
-                serviceNumber={line.serviceNumber}
-                mode="tram"
-                routeName={line.routeName}
-                key={line.routeName}
-              />
-            );
-          })}
+          {selectedFullTramLines.map((line) => (
+            <RemoveService
+              showRemove
+              onClick={() => removeTramLine(line.id)}
+              serviceNumber={line.serviceNumber}
+              mode="tram"
+              routeName={line.routeName}
+              key={line.routeName}
+            />
+          ))}
         </>
       )}
     </>
