@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
 
@@ -11,7 +12,9 @@ const useFetchConfirmServices = () => {
     const confirmData = { lineId: lines, secret, trains, TramLines: trams, emailDisabled };
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
     if (!confirmServiceIsFinished && secret && (lines.length || trains.length || trams.length)) {
-      fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${user}`, {
+      axios({
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        url: `/personlocal/${user}`,
         method: 'PUT',
         data: JSON.stringify(confirmData),
         headers: {
