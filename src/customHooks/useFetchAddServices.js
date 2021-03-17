@@ -1,5 +1,8 @@
 import { useContext, useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+// State
 import { SubscriberContext } from 'globalState/SubscriberContext';
+// Hooks
 import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 
 const useFetchAddServices = (selectedServices, resend) => {
@@ -8,19 +11,10 @@ const useFetchAddServices = (selectedServices, resend) => {
   const [hasError, setHasError] = useState(null);
 
   // Fetching functions
-  const checkResponseStatus = (response) => {
-    // If the response is successful(200: OK) or error with validation message(400)
-    if (response.status === 200 || response.status === 400) {
-      return response.text(); // Return response as json
-    }
-    throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
-  };
-
+  const finishFetching = () => setIsFetching(false);
   const catchErrors = (error) => {
     // eslint-disable-next-line no-console
     console.error({ error });
-
-    setIsFetching(false); // set to false as we are done fetching now
     setHasError(true);
   };
 
@@ -47,15 +41,15 @@ const useFetchAddServices = (selectedServices, resend) => {
       dataToDelete = { TramLines };
     }
 
-    return fetch(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`, {
+    return axios({
+      baseURL: `${process.env.REACT_APP_API_HOST}api`,
+      url: `/person/${subscriberState.query.user}`,
       method: 'DELETE',
-      body: JSON.stringify(dataToDelete),
+      data: dataToDelete,
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then(checkResponseStatus)
-      .catch(catchErrors);
+    }).catch(catchErrors);
   }, [
     filterTramLineInfo,
     shouldReplaceTramLineWithStops,
@@ -66,25 +60,27 @@ const useFetchAddServices = (selectedServices, resend) => {
   ]);
 
   const addServices = useCallback(
-    (data) => {
-      return (
-        fetch(`${process.env.REACT_APP_API_HOST}api/personlocal/${subscriberState.query.user}`, {
-          method: 'PUT',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    (data) =>
+      axios({
+        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        url: `/personlocal/${subscriberState.query.user}`,
+        method: 'PUT',
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error(response.statusText, response.Message);
+          }
+          // If the PUT was successful
+          setHasError(false);
+          const payload = response.data;
+          subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
         })
-          .then(checkResponseStatus)
-          // If fetch is successful
-          .then((payload) => {
-            setIsFetching(false); // set to false as we are done fetching now
-            setHasError(false);
-            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: JSON.parse(payload) }); // Map user details to state
-          }) // If fetch errors
-          .catch(catchErrors)
-      );
-    },
+        .catch(catchErrors)
+        .finally(finishFetching),
     [subscriberDispatch, subscriberState.query.user]
   );
 
