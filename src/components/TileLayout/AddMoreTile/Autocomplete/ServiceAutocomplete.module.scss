@@ -1,6 +1,41 @@
-.wmndsError {
-  background-color: #d4351c;
-  &:hover {
-    background-color: #7f1f10;
-  }
+// Vars
+@import '~assets/styles/vars';
+// Mixins
+@import '~assets/styles/mixins';
+
+.lineName {
+  text-transform: capitalize;
+}
+
+.selectedItemBox {
+  position: relative;
+  width: 100%;
+  padding: $size-sm;
+  border: 1px solid get-color(primary);
+}
+
+.selectedSummary {
+  max-width: calc(100% - (115px));
+  margin-top: 0;
+  margin-right: $size-md;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: $size-sm;
+  bottom: 0;
+  width: calc(22px + (2 * #{$size-xs}));
+  height: 22px;
+  margin: auto;
+  padding: 0 $size-xs;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.closeIcon {
+  width: 100%;
+  height: 22px;
+  fill: get-color(secondary);
 }

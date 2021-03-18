@@ -1,10 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    target-branch: 'develop'
+    target-branch: 'next-release'
     directory: '/'
     schedule:
-      interval: daily
+      interval: monthly
     open-pull-requests-limit: 10
     # commit-message:
     #   prefix: '[skip netlify]'

@@ -28,7 +28,7 @@ const useFetchValidatePIN = (pin) => {
       })
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             setIsFetching(false); // set to false as we are done fetching now
             setIsFetchSuccessful(true);
             return true; // Return response as json
@@ -37,10 +37,16 @@ const useFetchValidatePIN = (pin) => {
         })
         // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setIsFetching(false); // set to false as we are done fetching now
-          setIsFetchSuccessful(false);
+          const { status } = error.response;
+          if (status === 400) {
+            setIsFetching(false); // set to false as we are done fetching now
+            setIsFetchSuccessful(true);
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setIsFetching(false); // set to false as we are done fetching now
+            setIsFetchSuccessful(false);
+          }
         });
     }
   };

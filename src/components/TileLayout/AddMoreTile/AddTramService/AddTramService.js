@@ -1,69 +1,87 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// Custom Hooks
-// import useFilterSubscribedServices from 'customHooks/useFilterSubscribedServices';
 // Components
 import RemoveService from 'components/shared/RemoveService/RemoveService';
 import Button from 'components/shared/Button/Button';
+// hooks
+import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 
-const AddTramService = ({ selectedServices, setSelectedServices }) => {
+const AddTramService = ({ setMode, selectedServices, setSelectedServices }) => {
+  const { selectableTramLineIds, filterTramLineInfo } = useSelectableTramLines();
   /* Check the services that are already assigned */
-  const { TramServices } = selectedServices;
-
-  const handleRemoveTram = (id) => {
-    setSelectedServices((prevState) => {
-      return {
-        ...prevState,
-        TramServices: prevState.TramServices.filter((tram) => id !== tram.id),
-        LineId: prevState.LineId.filter((tramId) => +id !== tramId),
-      };
-    });
-  };
+  const { TramLines } = selectedServices;
 
   const handleAddTram = () => {
-    const defTram = [
-      {
-        id: '4546',
-        routeName: 'Birmingham - Wolverhampton - Birmingham',
-        serviceNumber: 'MM1',
-      },
-    ];
-
-    setSelectedServices((prevState) => {
-      return { ...prevState, LineId: [...prevState.LineId, 4546], TramServices: defTram };
-    });
+    setMode('tram');
   };
+
+  const removeTramStops = ({ From, To }) => {
+    setSelectedServices((prevState) => ({
+      ...prevState,
+      TramLines: prevState.TramLines.filter(
+        (tram) => tram.From.id !== From.id || tram.To.id !== To.id
+      ),
+    }));
+  };
+
+  const removeTramLine = (lineId) => {
+    setSelectedServices((prevState) => ({
+      ...prevState,
+      LineId: prevState.LineId.filter((id) => id !== lineId),
+    }));
+  };
+
+  // Get the info for selected full lines
+  const selectedFullTramLines = filterTramLineInfo(selectedServices.LineId);
+
+  // Helper booleans
+  const anyStopsSelected = TramLines && TramLines.length > 0;
+  const isFullLineSelected = selectableTramLineIds.some(
+    (lineId) => selectedServices.LineId.indexOf(lineId) > -1
+  );
 
   return (
     <>
       <h3 className="wmnds-p-t-md">Trams</h3>
       {/* Add tram service button */}
-      {(!TramServices || TramServices.length === 0) && (
+      {!isFullLineSelected && (
         <Button
           className="wmnds-btn wmnds-btn--primary wmnds-text-align-left"
+          text={`Add ${TramLines && TramLines.length > 0 ? 'another' : ''} tram service`}
           onClick={handleAddTram}
-          text="Add tram service"
           iconRight="general-expand"
         />
       )}
-
-      {/* Add chosen tram services */}
-      {TramServices && TramServices.length > 0 && (
+      {(anyStopsSelected || isFullLineSelected) && (
+        <h4 className="wmnds-m-b-sm wmnds-m-t-lg">Tram services that you want to add</h4>
+      )}
+      {/* Show the tram services the user has added */}
+      {anyStopsSelected && !isFullLineSelected ? (
         <>
-          <h4>Trams you want to add</h4>
-          {TramServices.map((tramRoute) => {
-            return (
-              <RemoveService
-                showRemove
-                onClick={() => handleRemoveTram(tramRoute.id)}
-                serviceNumber={tramRoute.serviceNumber}
-                mode="tram"
-                routeName={tramRoute.routeName}
-                id={tramRoute.id}
-                key={`${tramRoute.id}`}
-              />
-            );
-          })}
+          {TramLines.map((route) => (
+            <RemoveService
+              showRemove
+              onClick={() => removeTramStops(route)}
+              serviceNumber="MM1"
+              mode="tram"
+              routeName={`${route.From.name} to ${route.To.name}`}
+              id={`${route.From.id}-${route.To.id}`}
+              key={`${route.From.id}-${route.To.id}`}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {selectedFullTramLines.map((line) => (
+            <RemoveService
+              showRemove
+              onClick={() => removeTramLine(line.id)}
+              serviceNumber={line.serviceNumber}
+              mode="tram"
+              routeName={line.routeName}
+              key={line.routeName}
+            />
+          ))}
         </>
       )}
     </>
@@ -71,26 +89,18 @@ const AddTramService = ({ selectedServices, setSelectedServices }) => {
 };
 
 AddTramService.propTypes = {
+  setMode: PropTypes.func.isRequired,
   selectedServices: PropTypes.shape({
-    TramServices: PropTypes.arrayOf(
+    TramLines: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
-    BusServices: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        serviceNumber: PropTypes.string.isRequired,
-      })
-    ),
-    Trains: PropTypes.arrayOf(
-      PropTypes.shape({
-        To: PropTypes.string.isRequired,
-        From: PropTypes.string.isRequired,
-        LineIds: PropTypes.arrayOf(PropTypes.string),
+        To: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
+        From: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
       })
     ),
     LineId: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),

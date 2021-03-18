@@ -18,9 +18,9 @@ const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
         .get(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             const payload = response.data;
-            if (payload === 'no account found') setHasError('noAccount');
+
             subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
             setIsFetching(false); // set to false as we are done fetching now
             return true; // Return response as json
@@ -29,10 +29,16 @@ const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
         })
         // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setHasError('true'); // Set to 'true' as error has occured
-          setIsFetching(false); // set to false as we are done fetching now
+          const { status, data } = error.response;
+          if (status === 400 && data === 'no account found') {
+            setHasError('noAccount');
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload: data }); // Map user details to state
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setHasError('true'); // Set to 'true' as error has occured
+            setIsFetching(false); // set to false as we are done fetching now
+          }
         });
     }
     // Not a valid URL as no search params exist, so not a valide account

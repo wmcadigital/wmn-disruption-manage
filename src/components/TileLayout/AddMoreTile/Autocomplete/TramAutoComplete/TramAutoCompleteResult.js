@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TrainAutoCompleteResult = (props) => {
-  const { result, handleKeyDown, setTrainStation } = props || {};
+const TramAutoCompleteResult = (props) => {
+  const { result, handleKeyDown, setTramStop } = props || {};
   // Destructure fields from result
-  const { id, name, lines } = result;
+  const { atcoCode, name } = result;
 
   // Function to update the state with selected service
-  const selectTrainStation = () => {
-    setTrainStation({ id, name, lines });
+  const selectTramStop = () => {
+    setTramStop({ id: atcoCode, name });
   };
 
   // Return service with the above disruption logic, replace type and iconName with correct icon and class depending on disruption type
@@ -20,11 +20,11 @@ const TrainAutoCompleteResult = (props) => {
       role="button"
       aria-pressed="false"
       onKeyDown={handleKeyDown}
-      onClick={selectTrainStation}
+      onClick={selectTramStop}
     >
       <strong className="wmnds-col-1">{name}</strong>
     </li>
   );
 };
 
-export default TrainAutoCompleteResult;
+export default TramAutoCompleteResult;

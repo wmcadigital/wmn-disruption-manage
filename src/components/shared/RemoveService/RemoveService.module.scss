@@ -14,7 +14,8 @@
 
 .removeBtn {
   margin-top: $size-md;
-  @media screen and(min-width:$breakpoint-sm) {
+
+  @media screen and(min-width: $breakpoint-sm) {
     margin: 0;
   }
 }

@@ -35,7 +35,7 @@ const useFetchSendPin = (mobile, resend) => {
       })
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             const payload = response.data;
             delSearchParam('mobi');
             delSearchParam('nomail');
@@ -48,10 +48,22 @@ const useFetchSendPin = (mobile, resend) => {
         })
         // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setPinSuccessful(false);
-          setSendPinIsFinished(true);
+          const { status, data } = error.response;
+
+          if (status === 400) {
+            const payload = data;
+
+            delSearchParam('mobi');
+            delSearchParam('nomail');
+            setPinSuccessful(true);
+            setSendPinIsFinished(true);
+            subscriberDispatch({ type: 'MAP_USER_DETAILS', payload }); // Map user details to state
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setPinSuccessful(false);
+            setSendPinIsFinished(true);
+          }
         });
     } else {
       setSendPinIsFinished(true);

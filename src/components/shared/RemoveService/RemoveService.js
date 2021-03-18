@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// Custom Hooks
-import useFetchDeleteRoute from 'customHooks/useFetchDeleteRoute';
 // Styles
 import style from './RemoveService.module.scss';
 // Components
 import Button from '../Button/Button';
 
-const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode }) => {
-  const { removeRoute, removeLine } = useFetchDeleteRoute(id);
-
-  const handleCancel = () => {
-    if (mode === 'train') {
-      removeLine();
-    } else {
-      removeRoute();
-    }
-  };
+const RemoveService = ({ serviceNumber, routeName, onClick, showRemove, mode }) => {
+  const buttonTitle = `Remove ${serviceNumber}${mode !== 'train' ? `: ${routeName}` : ' line'}`;
+  const buttonText = mode === 'train' ? 'Remove line' : 'Remove service';
 
   return (
     <>
@@ -36,10 +27,10 @@ const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode
         {showRemove && (
           <Button
             className={`wmnds-btn--destructive wmnds-col-1 wmnds-col-sm-auto ${style.removeBtn}`}
-            text={mode === 'train' ? 'Remove line' : 'Remove service'}
+            text={buttonText}
             iconRight="general-trash"
-            title={`Remove ${serviceNumber}${mode !== 'train' ? `: ${routeName}` : ' line'}`}
-            onClick={onClick || handleCancel}
+            title={buttonTitle}
+            onClick={onClick}
           />
         )}
       </div>
@@ -50,7 +41,6 @@ const RemoveService = ({ id, serviceNumber, routeName, onClick, showRemove, mode
 };
 
 RemoveService.propTypes = {
-  id: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   mode: PropTypes.string.isRequired,
   routeName: PropTypes.string,

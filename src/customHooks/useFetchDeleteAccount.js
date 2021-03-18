@@ -22,7 +22,7 @@ const useFetchDeleteAccount = (setIsUnsubscribed) => {
       })
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
-          if (response.status === 200 || response.status === 400) {
+          if (response.status === 200) {
             setIsUnsubscribed(true);
             setIsFetching(false); // set to false as we are done fetching now
             return true; // Return response as json
@@ -31,9 +31,15 @@ const useFetchDeleteAccount = (setIsUnsubscribed) => {
         })
         // If fetch errors
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error({ error });
-          setIsFetching(false); // set to false as we are done fetching now
+          const { status, data } = error.response;
+          if (status === 400 && data === 'no account found') {
+            setIsUnsubscribed(true);
+            setIsFetching(false); // set to false as we are done fetching now
+          } else {
+            // eslint-disable-next-line no-console
+            console.error({ error });
+            setIsFetching(false); // set to false as we are done fetching now
+          }
         });
     }
   };

@@ -2,12 +2,12 @@ import React from 'react';
 // import { FormDataContext } from 'globalState/FormDataContext';
 
 const BusAutoCompleteResult = (props) => {
-  const { result, handleKeyDown, setSelectedServices, handleCancel } = props || {};
+  const { result, handleKeyDown, setSelectedServices, closeAutoComplete } = props || {};
   // Destructure fields from result
   const { routeName } = result.routes[0];
   const { serviceNumber, id } = result;
 
-  const updateSelectedService = () => {
+  const selectBusService = () => {
     setSelectedServices((prevState) => {
       return {
         ...prevState,
@@ -16,7 +16,7 @@ const BusAutoCompleteResult = (props) => {
       };
     });
 
-    handleCancel();
+    closeAutoComplete();
   };
 
   // Return service with the above disruption logic, replace type and iconName with correc icon and class depending on disruption type
@@ -29,7 +29,7 @@ const BusAutoCompleteResult = (props) => {
       role="button"
       aria-pressed="false"
       onKeyDown={(e) => handleKeyDown(e)}
-      onClick={() => updateSelectedService()}
+      onClick={selectBusService}
     >
       {/* Right section */}
       <div className="wmnds-col-auto">
