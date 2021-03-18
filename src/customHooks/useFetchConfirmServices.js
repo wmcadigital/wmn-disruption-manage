@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { SubscriberContext } from 'globalState/SubscriberContext';
 import { delSearchParam } from 'helpers/URLSearchParams';
-import axios from 'axios';
 
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext

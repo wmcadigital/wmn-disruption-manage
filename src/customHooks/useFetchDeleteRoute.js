@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-import axios from 'axios';
 
 const useFetchDeleteRoute = (data, mode) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
