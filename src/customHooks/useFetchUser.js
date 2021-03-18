@@ -14,6 +14,7 @@ const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
     // Only start fetching the user if the confirm service has been completed
     if (confirmServiceIsFinished && confirmMobileFinished && getSearchParam('user')) {
       setHasError(null); // Set errors to null
+
       axios
         .get(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
         .then((response) => {
