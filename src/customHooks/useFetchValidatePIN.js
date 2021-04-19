@@ -19,7 +19,7 @@ const useFetchValidatePIN = (pin) => {
       // If lineId is passed in then submit a delete request for that lineId
       axios({
         url: `/SignUp`,
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         method: 'POST',
         data: JSON.stringify(dataToSend),
         headers: {

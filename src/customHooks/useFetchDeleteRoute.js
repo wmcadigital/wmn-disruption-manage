@@ -62,7 +62,7 @@ const useFetchDeleteRoute = (data, mode) => {
     if (!data.id) return;
 
     axios({
-      baseURL: `${process.env.REACT_APP_API_HOST}api`,
+      baseURL: `${process.env.REACT_APP_API_HOST}/api`,
       url: `/person/${user}`,
       method: 'DELETE',
       data: dataToDelete,

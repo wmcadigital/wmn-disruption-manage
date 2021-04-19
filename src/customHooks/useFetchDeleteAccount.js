@@ -13,7 +13,7 @@ const useFetchDeleteAccount = (setIsUnsubscribed) => {
       // If lineId is passed in then submit a delete request for that lineId
       axios({
         url: `/removeme/${user}`,
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         method: 'DELETE',
         data: JSON.stringify({ name: user }),
         headers: {

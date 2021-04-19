@@ -42,7 +42,7 @@ const useFetchAddServices = (selectedServices, resend) => {
     }
 
     return axios({
-      baseURL: `${process.env.REACT_APP_API_HOST}api`,
+      baseURL: `${process.env.REACT_APP_API_HOST}/api`,
       url: `/person/${subscriberState.query.user}`,
       method: 'DELETE',
       data: dataToDelete,
@@ -62,7 +62,7 @@ const useFetchAddServices = (selectedServices, resend) => {
   const addServices = useCallback(
     (data) =>
       axios({
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         url: `/personlocal/${subscriberState.query.user}`,
         method: 'PUT',
         data: JSON.stringify(data),
