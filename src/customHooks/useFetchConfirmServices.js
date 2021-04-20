@@ -13,7 +13,7 @@ const useFetchConfirmServices = () => {
     // If secret and lines is available then user needs to confirm new services. So run fetch if confirmservices has not been completed yet.
     if (!confirmServiceIsFinished && secret && (lines.length || trains.length || trams.length)) {
       axios({
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         url: `/personlocal/${user}`,
         method: 'PUT',
         data: JSON.stringify(confirmData),

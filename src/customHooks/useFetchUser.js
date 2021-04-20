@@ -15,7 +15,7 @@ const useFetchUser = (confirmServiceIsFinished, confirmMobileFinished) => {
     if (confirmServiceIsFinished && confirmMobileFinished && getSearchParam('user')) {
       setHasError(null); // Set errors to null
       axios
-        .get(`${process.env.REACT_APP_API_HOST}api/person/${subscriberState.query.user}`)
+        .get(`${process.env.REACT_APP_API_HOST}/api/person/${subscriberState.query.user}`)
         .then((response) => {
           // If the response is successful(200: OK) or error with validation message(400)
           if (response.status === 200) {

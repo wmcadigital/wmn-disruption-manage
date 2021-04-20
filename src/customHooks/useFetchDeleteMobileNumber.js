@@ -18,7 +18,7 @@ const useFetchDeleteMobileNumber = () => {
     if (user) {
       axios({
         url: `/person/${user}`,
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         method: 'DELETE',
         data: JSON.stringify(dataToSend),
         headers: {
