@@ -16,7 +16,7 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
       <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
         <div className="wmnds-col-1 wmnds-col-md-1-2">
           <a
-            href={`${process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}?name=${encodeURI(
+            href={`${process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}/?name=${encodeURI(
               name
             )}&email=${email}&user=${user}`}
             title="Sign up to text message trial"

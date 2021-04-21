@@ -18,7 +18,7 @@ const useFetchConfirmPin = () => {
     if (pin && user) {
       axios({
         url: `/personlocal/${user}`,
-        baseURL: `${process.env.REACT_APP_API_HOST}api`,
+        baseURL: `${process.env.REACT_APP_API_HOST}/api`,
         method: 'PUT',
         data: JSON.stringify(dataToSend),
         headers: {
