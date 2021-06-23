@@ -18,6 +18,7 @@ export const SubscriberProvider = (props) => {
       emailDisabled: getSearchParam('nomail') || '',
       trains: getSearchParam('trains') ? JSON.parse(atob(getSearchParam('trains'))) : [],
       trams: getSearchParam('tram') ? JSON.parse(atob(getSearchParam('tram'))) : [],
+      roads: getSearchParam('road') ? JSON.parse(atob(getSearchParam('road'))) : [],
     },
     user: {
       name: '',
@@ -29,6 +30,7 @@ export const SubscriberProvider = (props) => {
       trains: [],
       trainLines: [],
       tramLines: [],
+      roadLines: [],
     },
     addServices: [],
   };
@@ -72,6 +74,18 @@ export const SubscriberProvider = (props) => {
             ),
           },
         };
+      // Remove tram line from state when deleted via API call
+      case 'REMOVE_ROAD_AREA':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            roadLines: state.user.roadLines.filter((area) => {
+              return action.payload.lat !== area.lat || action.payload.lon !== area.lon;
+            }),
+          },
+        };
+
       case 'REMOVE_MOBILE':
         return {
           ...state,
