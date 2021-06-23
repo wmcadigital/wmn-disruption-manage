@@ -16,19 +16,24 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
         REACT_APP_API_HOST,
         REACT_APP_AUTOCOMPLETE_API,
         REACT_APP_AUTOCOMPLETE_API_KEY,
+        REACT_APP_ROADS_AUTOCOMPLETE_KEY,
       } = process.env; // Destructure env vars
+
       const apiHost = mode === 'bus' ? REACT_APP_API_HOST : REACT_APP_AUTOCOMPLETE_API;
+      const apiKey =
+        mode === 'road' ? REACT_APP_ROADS_AUTOCOMPLETE_KEY : REACT_APP_AUTOCOMPLETE_API_KEY;
+
       setLoading(true); // Update loading state to true as we are hitting API
       axios
         .get(apiHost + apiPath, {
           headers: {
-            'Ocp-Apim-Subscription-Key': REACT_APP_AUTOCOMPLETE_API_KEY,
+            'Ocp-Apim-Subscription-Key': apiKey,
           },
           cancelToken: source.token, // Set token with API call, so we can cancel this call on unmount
         })
         .then((response) => {
           setLoading(false); // Set loading state to false after data is received
-          const { data, metroStopSearch, services } = response.data; // destructure (unused vars will be undefined)
+          const { data, metroStopSearch, services, candidates } = response.data; // destructure (unused vars will be undefined)
           let newResults = [];
           let message;
           // BUS
@@ -44,6 +49,10 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
           // TRAIN
           else if (mode === 'train') {
             newResults = data || [];
+          }
+          // ROAD
+          else if (mode === 'road') {
+            newResults = candidates || [];
           }
 
           // Set the new results
@@ -72,6 +81,7 @@ const useAutoCompleteAPI = (apiPath, mode, query) => {
         });
     } else {
       setLoading(false);
+      setResults([]);
     }
     // Unmount / cleanup
     return () => {
