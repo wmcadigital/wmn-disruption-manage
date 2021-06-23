@@ -6,7 +6,13 @@ import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 import RemoveAPIService from '../../shared/RemoveService/RemoveAPIService';
 
 const RemoveTile = () => {
-  const { busServices, tramServices, trainServices, allServices } = useFilterSubscribedServices();
+  const {
+    busServices,
+    tramServices,
+    trainServices,
+    allServices,
+    roadAreas,
+  } = useFilterSubscribedServices();
   const { filterTramLineInfo } = useSelectableTramLines();
   const selectedTramLines = filterTramLineInfo(allServices.map((service) => service.id));
 
@@ -99,17 +105,42 @@ const RemoveTile = () => {
     );
   }
 
+  let roads;
+  if (roadAreas && roadAreas.length > 0) {
+    roads = (
+      <>
+        <h3>Roads</h3>
+        <div className={`${roadAreas.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
+          {roadAreas.map((area) => {
+            return (
+              <RemoveAPIService
+                showRemove
+                data={{ id: area.id, lat: area.lat, lon: area.lon }}
+                key={`${area.lat}${area.lon}`}
+                routeName={area.name}
+                mode="road"
+              />
+            );
+          })}
+        </div>
+      </>
+    );
+  }
+
+  const isUserSubscribedToAnyServices = buses || trams || trains || roads;
+
   return (
     <div className="wmnds-content-tile wmnds-col-1 wmnds-m-t-lg">
       <h2>Remove your services</h2>
       <p>Remove services you no longer want alerts for.</p>
       <hr className="wmnds-m-t-md wmnds-m-b-md" />
       {/* If we have bus or tram services then map through them */}
-      {buses || trams || trains ? (
+      {isUserSubscribedToAnyServices ? (
         <>
           {buses}
           {trams}
           {trains}
+          {roads}
         </>
       ) : (
         <span>You are not subscribed to any services</span>
