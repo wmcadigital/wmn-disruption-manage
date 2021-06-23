@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BusAutoComplete from './BusAutocomplete/BusAutoComplete';
 import TrainAutoComplete from './TrainAutoComplete/TrainAutoComplete';
 import TramAutoComplete from './TramAutoComplete/TramAutoComplete';
+import RoadAutoComplete from './RoadAutoComplete/RoadAutoComplete';
 
 const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) => {
   // Used to close any mode's autoComplete, if the global state has not been updated then this will clear what the user's progress
@@ -46,6 +47,15 @@ const AutoComplete = ({ mode, setMode, setSelectedServices, selectedServices }) 
       case 'tram':
         return (
           <TramAutoComplete
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+            closeAutoComplete={closeAutoComplete}
+          />
+        );
+
+      case 'road':
+        return (
+          <RoadAutoComplete
             selectedServices={selectedServices}
             setSelectedServices={setSelectedServices}
             closeAutoComplete={closeAutoComplete}
