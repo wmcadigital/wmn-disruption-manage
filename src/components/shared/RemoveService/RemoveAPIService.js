@@ -28,12 +28,13 @@ RemoveAPIService.propTypes = {
   }).isRequired,
   mode: PropTypes.string.isRequired,
   routeName: PropTypes.string,
-  serviceNumber: PropTypes.string.isRequired,
+  serviceNumber: PropTypes.string,
   showRemove: PropTypes.bool,
 };
 
 RemoveAPIService.defaultProps = {
   routeName: null,
+  serviceNumber: null,
   showRemove: false,
 };
 
