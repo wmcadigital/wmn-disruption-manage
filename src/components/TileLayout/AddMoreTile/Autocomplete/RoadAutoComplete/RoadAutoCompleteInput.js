@@ -13,7 +13,7 @@ import useHandleAutoCompleteKeys from '../customHooks/useHandleAutoCompleteKeys'
 const RoadAutoCompleteInput = ({ selectedAreas, area, setRoadArea }) => {
   const removeSelectedAreas = (result) => {
     return !selectedAreas.some(
-      (roadArea) => roadArea.lat === result.lat && roadArea.lon === result.lon
+      (roadArea) => roadArea.lat === result.location.y && roadArea.lon === result.location.x
     );
   };
 
