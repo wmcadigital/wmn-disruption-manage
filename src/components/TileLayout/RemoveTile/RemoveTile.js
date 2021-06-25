@@ -6,17 +6,13 @@ import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 import RemoveAPIService from '../../shared/RemoveService/RemoveAPIService';
 
 const RemoveTile = () => {
-  const {
-    busServices,
-    tramServices,
-    trainServices,
-    allServices,
-    roadAreas,
-  } = useFilterSubscribedServices();
+  const subscribedServices = useFilterSubscribedServices();
+  const { allServices } = subscribedServices;
   const { filterTramLineInfo } = useSelectableTramLines();
   const selectedTramLines = filterTramLineInfo(allServices.map((service) => service.id));
 
   let buses;
+  const { busServices, tramServices } = subscribedServices;
   if (busServices && busServices.length > 0) {
     buses = (
       <>
@@ -51,7 +47,7 @@ const RemoveTile = () => {
     trams = (
       <>
         <h3>Tram services</h3>
-        <div className={`${trainServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
+        <div className={`${tramServices.length > 0 ? 'wmnds-m-b-sm' : 'wmnds-m-b-xl'}`}>
           {tramServices &&
             tramServices.map((serviceRoute) => {
               return (
@@ -84,6 +80,7 @@ const RemoveTile = () => {
   }
 
   let trains;
+  const { trainServices } = subscribedServices;
   if (trainServices && trainServices.length > 0) {
     trains = (
       <>
@@ -106,6 +103,7 @@ const RemoveTile = () => {
   }
 
   let roads;
+  const { roadAreas } = subscribedServices;
   if (roadAreas && roadAreas.length > 0) {
     roads = (
       <>
