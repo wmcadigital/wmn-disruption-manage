@@ -6,8 +6,8 @@ import useSelectableTramLines from 'customHooks/useSelectableTramLines';
 import RemoveAPIService from '../../shared/RemoveService/RemoveAPIService';
 
 const RemoveTile = () => {
-  const subscribedServices = useFilterSubscribedServices();
-  const { allServices } = subscribedServices;
+  const { busServices, tramServices, trainServices, allServices, roadAreas } =
+    useFilterSubscribedServices();
   const { filterTramLineInfo } = useSelectableTramLines();
   const selectedTramLines = filterTramLineInfo(allServices.map((service) => service.id));
 
