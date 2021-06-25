@@ -28,17 +28,17 @@ const AddRoadArea = ({ setMode, selectedServices, setSelectedServices }) => {
         iconRight="general-expand"
       />
 
-      {/* Add chosen bus services */}
+      {/* Add chosen road areas */}
       {RoadAreas && RoadAreas.length > 0 && (
         <>
-          <h4>Bus services that you want to add</h4>
+          <h4>Road areas that you want to add</h4>
           {RoadAreas.map((area) => {
             return (
               <RemoveService
                 showRemove
                 onClick={() => handleRemoveRoad(area.lat, area.lon)}
                 mode="road"
-                routeName={`${area.address} + ${area.radius} miles`}
+                routeName={`${area.address} + ${area.radius} mile${area.miles > 1 ? 's' : ''}`}
                 key={`${area.lat}${area.lon}`}
               />
             );

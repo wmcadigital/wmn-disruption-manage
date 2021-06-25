@@ -115,7 +115,7 @@ const RemoveTile = () => {
                 showRemove
                 data={{ id: area.id, lat: area.lat, lon: area.lon }}
                 key={`${area.lat}${area.lon}`}
-                routeName={area.name}
+                routeName={`${area.address} + ${area.radius} mile${area.radius > 1 ? 's' : ''}`}
                 mode="road"
               />
             );
