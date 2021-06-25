@@ -5,7 +5,7 @@ import { delSearchParam } from 'helpers/URLSearchParams';
 
 const useFetchConfirmServices = () => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const [isFetching, setIsFetching] = useState(false); // Track if fetch request is currently fetching
+  const [isFinished, setIsFinished] = useState(false); // Track if fetch request is currently fetching
   const [confirmServiceIsFetching, setConfirmServiceIsFetching] = useState(false);
   const { lines, trains, trams, roads, secret, user, emailDisabled } = subscriberState.query; // Destructure state
 
@@ -19,8 +19,7 @@ const useFetchConfirmServices = () => {
   const userHasDataToConfirm = lines.length || trains.length || trams.length || roadLines.length;
 
   useEffect(() => {
-    if (!userHasDataToConfirm || !secret || isFetching || confirmServiceIsFetching) {
-      setIsFetching(true);
+    if (!userHasDataToConfirm || !secret || isFinished || confirmServiceIsFetching) {
       return;
     }
 
@@ -54,25 +53,25 @@ const useFetchConfirmServices = () => {
           delSearchParam('tram');
           delSearchParam('road');
           delSearchParam('nomail');
-          setIsFetching(true); // set to false as we are done fetching now
+          setIsFinished(true);
           return true;
         }
         throw new Error(response.statusText, response.Message); // Else throw error and go to our catch below
       })
       // If fetch is successful
       .then(() => {
-        setIsFetching(true); // set to false as we are done fetching now
+        setIsFinished(true);
         setConfirmServiceIsFetching(false);
       }) // If fetch errors
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error({ error });
 
-        setIsFetching(true); // set to false as we are done fetching now
+        setIsFinished(true);
         setConfirmServiceIsFetching(false);
       });
   }, [
-    isFetching,
+    isFinished,
     lines,
     trains,
     trams,
@@ -84,7 +83,7 @@ const useFetchConfirmServices = () => {
     confirmServiceIsFetching,
   ]);
 
-  return { confirmServiceIsFinished: isFetching };
+  return { confirmServiceIsFinished: isFinished };
 };
 
 export default useFetchConfirmServices;
