@@ -19,7 +19,10 @@ const useFetchConfirmServices = () => {
   const userHasDataToConfirm = lines.length || trains.length || trams.length || roadLines.length;
 
   useEffect(() => {
-    if (!userHasDataToConfirm || !secret || isFinished || confirmServiceIsFetching) {
+    if (isFinished || confirmServiceIsFetching) return;
+
+    if (!userHasDataToConfirm || !secret) {
+      setIsFinished(true);
       return;
     }
 
