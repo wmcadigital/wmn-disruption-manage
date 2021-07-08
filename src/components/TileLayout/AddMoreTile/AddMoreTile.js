@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 // Custom hooks
 import useFetchAddServices from 'customHooks/useFetchAddServices';
 import { SubscriberContext } from 'globalState/SubscriberContext';
@@ -7,46 +7,49 @@ import Message from 'components/shared/Message/Message';
 import Button from 'components/shared/Button/Button';
 import WarningText from 'components/shared/WarningText/WarningText';
 import useSelectableTramLines from 'customHooks/useSelectableTramLines';
+import AutoComplete from './Autocomplete/Autocomplete';
 import AddBusService from './AddBusService/AddBusService';
 import AddTramService from './AddTramService/AddTramService';
-import AutoComplete from './Autocomplete/Autocomplete';
 import AddTrainService from './AddTrainService/AddTrainService';
+import AddRoadArea from './AddRoadArea/AddRoadArea';
 
 const AddMoreTile = () => {
   // Hooks
   const [subscriberState] = useContext(SubscriberContext);
   const { filterTramLineInfo } = useSelectableTramLines();
   // Selection state
-  const [selectedServices, setSelectedServices] = useState({
-    BusServices: [],
-    TramLines: [],
-    LineId: [],
-    Trains: [],
-  });
+  const initialSelectionState = useMemo(
+    () => ({
+      BusServices: [],
+      TramLines: [],
+      LineId: [],
+      Trains: [],
+      RoadAreas: [],
+    }),
+    []
+  );
+
+  const [selectedServices, setSelectedServices] = useState(initialSelectionState);
   const [mode, setMode] = useState(null);
   const [resend, setResend] = useState(false);
-  const { BusServices, TramLines, Trains, LineId } = selectedServices;
+  const { BusServices, TramLines, Trains, LineId, RoadAreas } = selectedServices;
   const { isFetching, hasError } = useFetchAddServices(selectedServices, resend);
 
   useEffect(() => {
     if (resend) setResend(false); // Flip resend back to false so we can press the button again
     // If there is no error and the api is done fetching then reset the selected services as they are on the users account now
     if (hasError === false && isFetching === false) {
-      setSelectedServices({
-        BusServices: [],
-        TramLines: [],
-        LineId: [],
-        Trains: [],
-      });
+      setSelectedServices(initialSelectionState);
     }
-  }, [hasError, isFetching, resend]);
+  }, [hasError, initialSelectionState, isFetching, resend]);
 
   // Helper booleans
   const showContinue =
     ((BusServices && BusServices.length > 0) ||
       (TramLines && TramLines.length > 0) ||
       (LineId && LineId.length > 0) ||
-      (Trains && Trains.length > 0)) &&
+      (Trains && Trains.length > 0) ||
+      (RoadAreas && RoadAreas.length > 0)) &&
     !mode;
 
   // Tram line & stop logic
@@ -121,6 +124,12 @@ const AddMoreTile = () => {
           )}
 
           <AddTrainService
+            setMode={setMode}
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+          />
+
+          <AddRoadArea
             setMode={setMode}
             selectedServices={selectedServices}
             setSelectedServices={setSelectedServices}

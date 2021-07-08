@@ -15,3 +15,11 @@
   REACT_APP_AUTOCOMPLETE_API="https://wmca-api-portal-staging.azure-api.net"
   REACT_APP_AUTOCOMPLETE_API_KEY="0d4cca4a2c5d40c3bfbbfe45d1bbf294"
   REACT_APP_DISRUPTION_SIGN_UP_URL="https://next-release--disruption-sign-up.wmnetwork.co.uk"
+  REACT_APP_ROADS_AUTOCOMPLETE_KEY="e0c1216f818a41be8d528ac1d4f7ebfd"
+  
+[context.deploy-preview.environment]
+  REACT_APP_API_HOST="https://rtccdisruptions6zqwajo6s.azurewebsites.net"
+  REACT_APP_AUTOCOMPLETE_API="https://wmca-api-portal-staging.azure-api.net"
+  REACT_APP_AUTOCOMPLETE_API_KEY="0d4cca4a2c5d40c3bfbbfe45d1bbf294"
+  REACT_APP_DISRUPTION_SIGN_UP_URL="https://deploy-preview-236--wmn-disruption-sign-up.netlify.app"
+  REACT_APP_ROADS_AUTOCOMPLETE_KEY="e0c1216f818a41be8d528ac1d4f7ebfd"

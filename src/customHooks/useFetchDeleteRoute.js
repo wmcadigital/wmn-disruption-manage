@@ -54,6 +54,16 @@ const useFetchDeleteRoute = (data, mode) => {
       }
       break;
 
+    case 'road':
+      dataToDelete = { roadLines: [data.id] };
+      callback = () => {
+        subscriberDispatch({
+          type: 'REMOVE_ROAD_AREA',
+          payload: { lat: data.lat, lon: data.lon },
+        });
+      };
+      break;
+
     default:
       return null;
   }

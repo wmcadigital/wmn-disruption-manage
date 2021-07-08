@@ -1,0 +1,49 @@
+@import '~assets/styles/vars';
+@import '~assets/styles/mixins';
+
+.radiusInput {
+  > * {
+    float: left;
+
+    &:not(:last-child) {
+      margin-right: $size-sm;
+    }
+  }
+}
+
+.radiusInputButton {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  padding: $size-sm;
+  transition: background-color 0.2 ease-in-out, border 0.2 ease-in-out;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: $white;
+  background-color: get-color(secondary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  svg {
+    display: block;
+    width: 25px;
+    height: 25px;
+    fill: $white;
+  }
+}
+
+.radiusInputInput {
+  width: 150px;
+
+  // Hide spinner
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+}
