@@ -1,0 +1,4 @@
+# domain redirects
+https://disruption-manage.wmnetwork.co.uk/* https://https://disruption-manage.tfwm.org.uk/:splat 301!
+https://wmn-disruption-manage.netlify.app/* https://https://disruption-manage.tfwm.org.uk/:splat 301!
+/* https://tfwm.org.uk/404/:splat/?from=DisruptionManage 200
