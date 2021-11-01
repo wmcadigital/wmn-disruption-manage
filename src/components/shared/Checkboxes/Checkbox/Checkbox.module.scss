@@ -1,0 +1,23 @@
+@import '~assets/styles/vars';
+@import '~assets/styles/mixins';
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkbox:checked + .button {
+  background-color: get-color(hover);
+}
+
+.checkbox:focus + .button {
+  box-shadow: 0 0 0 2px $white, 0 0 0 4px get-color(secondary);
+}
+
+.button {
+  display: inline;
+  width: 4rem;
+  margin-right: 0.5rem;
+  margin-bottom: 2rem;
+  float: left;
+}
