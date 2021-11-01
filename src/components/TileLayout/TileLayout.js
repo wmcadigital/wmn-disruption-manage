@@ -19,6 +19,7 @@ import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
 import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
+import AddQuietTimes from './AddQuietTimes/AddQuietTimes';
 
 const TileLayout = () => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -38,7 +39,7 @@ const TileLayout = () => {
     <>
       {(!confirmServiceIsFinished || isFetching) && <LoadingView />}
 
-      {!isFetching && !hasError && !isUnsubscribed && (
+      {!isFetching && hasError && !isUnsubscribed && (
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-xl wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-2-3">
             <div className="wmnds-grid">
@@ -84,6 +85,9 @@ const TileLayout = () => {
 
               {/* To ALL: Remove services */}
               <RemoveTile />
+
+              {/* To ALL: Remove services */}
+              <AddQuietTimes />
 
               {/* Only for users that are in the trial (= whoever has mobile number active) */}
               {((mobileNumber && mobileActive) || isEditingManagePreferences) && (
