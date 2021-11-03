@@ -1,14 +1,12 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
-// Import contexts
 // Import styling
 import s from './Checkbox.module.scss';
 
 const Checkbox = ({ name, fieldValidation, text, value, checked, onChange }) => {
   return (
     <>
-      <label>
+      <div>
         <input
           className={`${s.checkbox}`}
           name={name}
@@ -17,9 +15,15 @@ const Checkbox = ({ name, fieldValidation, text, value, checked, onChange }) => 
           value={value}
           checked={checked}
           onChange={onChange}
+          id={text}
         />
-        <div className={`wmnds-btn wmnds-btn--secondary wmnds-btn--block ${s.button} `}>{text}</div>
-      </label>
+        <label
+          htmlFor={text}
+          className={`wmnds-btn wmnds-btn--secondary wmnds-btn--block ${s.button} `}
+        >
+          {text}
+        </label>
+      </div>
     </>
   );
 };
