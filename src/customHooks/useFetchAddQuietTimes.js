@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import { useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 // State
@@ -57,12 +58,48 @@ const useFetchAddQuietTimes = (selectedQuietTimes, resend) => {
   useEffect(() => {
     if (selectedQuietTimes && resend) {
       // Convert date to correct shape for the api
-      const date = new Date().toISOString().slice(0, 10);
-      const QuietTimePeriods = selectedQuietTimes.map((time) => ({
-        StartTime: `${date}T${time.startHour}:${time.startMinute}:00`,
-        EndTime: `${date}T${time.endHour}:${time.endMinute}:00`,
+      const convertH2M = (timeInHour) => {
+        const timeParts = timeInHour.split(':');
+        return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+      };
+      // Convert date to correct shape for the api
+      const QuietTimes = selectedQuietTimes.map((time) => ({
+        StartTime: convertH2M(`${time.startHour}:${time.startMinute}`),
+        EndTime: convertH2M(`${time.endHour}:${time.endMinute}`),
       }));
 
+      const format = (n) => {
+        // eslint-disable-next-line no-bitwise
+        return `${`0${(n / 60) ^ 0}`.slice(-2)}:${`0${n % 60}`.slice(-2)}`;
+      };
+
+      const merge = (arr) => {
+        const result = arr.slice().sort((a, b) => {
+          return a.StartTime > b.StartTime;
+        });
+        let i = 0;
+
+        while (i < result.length - 1) {
+          const current = result[i];
+          const next = result[i + 1];
+          // check if there is an overlapping
+          if (current.EndTime >= next.StartTime) {
+            current.EndTime = Math.max(current.EndTime, next.EndTime);
+            // remove next
+            result.splice(i + 1, 1);
+          } else {
+            // move to next
+            i++;
+          }
+        }
+        return result;
+      };
+
+      const results = merge(QuietTimes).map((i) => [format(i.StartTime), format(i.EndTime)]);
+      const QuietTimePeriods = results.map((time) => ({
+        StartTime: time[0],
+        EndTime: time[1],
+      }));
       const dataToAdd = {
         QuietTimePeriods,
       }; // Structure the data before sending

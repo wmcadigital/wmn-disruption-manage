@@ -11,10 +11,10 @@ const useFilterQuietTimes = () => {
     times.map((time) => {
       return {
         id: `${Math.random()}`,
-        startHour: time.StartTime.substr(11, 2),
-        startMinute: time.StartTime.substr(14, 2),
-        endHour: time.EndTime.substr(11, 2),
-        endMinute: time.EndTime.substr(14, 2),
+        startHour: time.StartTime.substr(1, 2),
+        startMinute: time.StartTime.substr(4, 2),
+        endHour: time.EndTime.substr(1, 2),
+        endMinute: time.EndTime.substr(4, 2),
       };
     });
   return { subscribedQuietDays, subscribedQuietHours, user };
