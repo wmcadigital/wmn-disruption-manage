@@ -74,8 +74,12 @@ const useFetchAddQuietTimes = (selectedQuietTimes, resend) => {
       };
 
       const merge = (arr) => {
-        const result = arr.slice().sort((a, b) => {
-          return a.StartTime > b.StartTime;
+        const arrFiltered = (r) => {
+          return r.EndTime > r.StartTime;
+        };
+        const arrSorted = arr.filter(arrFiltered);
+        const result = arrSorted.sort((a, b) => {
+          return a.StartTime - b.StartTime;
         });
         let i = 0;
 

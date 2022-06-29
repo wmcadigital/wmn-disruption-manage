@@ -24,7 +24,7 @@ const AddQuietHours = () => {
   });
   const [resend, setResend] = useState(false);
   const [mount, setMount] = useState(true);
-  const [selectedQuietTimes, setSelectedQuietTimes] = useState([]);
+  const [selectedQuietTimes, setSelectedQuietTimes] = useState();
   const { isFetching, hasError } = useFetchAddQuietTimes(selectedQuietTimes, resend);
   useEffect(() => {
     if (mount) {
@@ -72,7 +72,7 @@ const AddQuietHours = () => {
   };
   const handleShowHours = () => {
     setShowHours(true);
-    if (QuietHours.length < 1) {
+    if (QuietHours && QuietHours.length < 1) {
       handleAddHours();
     }
   };
@@ -90,7 +90,7 @@ const AddQuietHours = () => {
       <div>
         {/* Subsection */}
         <h3 className="wmnds-p-t-md">Daily quiet hours</h3>
-        {QuietHours && QuietHours.length < 1 ? (
+        {QuietHours && QuietHours.length <= 0 ? (
           <p>You will not receive alerts at the selected times.</p>
         ) : (
           <p>

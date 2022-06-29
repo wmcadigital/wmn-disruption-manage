@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useEffect, useContext, useRef } from 'react';
 // Custom hooks
 import useFetchAddQuietDays from 'customHooks/useFetchAddQuietDays';
 import useFilterQuietTimes from 'customHooks/useFilterQuietTimes';
@@ -12,28 +12,30 @@ import Checkboxes from 'components/shared/Checkboxes/Checkboxes';
 const AddQuietDays = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { QuietDays } = subscriberState.user;
-  const subscribedQuietTimes = useFilterQuietTimes();
   const [showDays, setShowDays] = useState(false);
   const [confirmDays, setConfirmDays] = useState(false);
   const [resend, setResend] = useState(false);
   const [selectedQuietDays, setSelectedQuietDays] = useState([]);
   const { isFetching, hasError } = useFetchAddQuietDays(selectedQuietDays, resend);
+  const subscribedQuietTimes = useFilterQuietTimes();
   const [days, setDays] = useState(subscribedQuietTimes.subscribedQuietDays);
+  const mounted = useRef(false);
   useEffect(() => {
-    if (days) {
+    if (!mounted.current) {
       subscriberDispatch({
         type: 'UPDATE_FORM_DATA',
         payload: {
           QuietDays: [...days],
         },
       });
+    } else {
+      mounted.current = false;
     }
     if (resend) setResend(false); // Flip resend back to false so we can press the button again
     if (hasError === false && isFetching === false) {
       setSelectedQuietDays([]);
     }
   }, [days, hasError, isFetching, resend, subscriberDispatch]);
-
   const checkBoxes = [
     { text: 'Mon', value: 'Monday' },
     { text: 'Tue', value: 'Tuesday' },
@@ -83,11 +85,10 @@ const AddQuietDays = () => {
     setShowDays(true);
     setConfirmDays(true);
   };
-
   return (
     <>
       <h3 className="wmnds-m-t-sm">Quiet days</h3>
-      {QuietDays && QuietDays.length < 1 ? (
+      {(QuietDays && QuietDays.length === []) || QuietDays === undefined ? (
         <p>You will not receive alerts for 24 hours on selected days.</p>
       ) : (
         <p>

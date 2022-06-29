@@ -9,7 +9,7 @@ import Checkbox from './Checkbox/Checkbox';
 const Checkboxes = ({ name, label, checkboxes, fieldValidation, parentCallback }) => {
   const [subscriberState] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
   const { QuietDays } = subscriberState.user;
-  const selectedDays = checkboxes.map((a) => QuietDays.includes(a.value));
+  const selectedDays = QuietDays ? checkboxes.map((a) => QuietDays.includes(a.value)) : [];
   const [checkedState, setCheckedState] = useState(selectedDays);
 
   const handleOnChange = (position) => {

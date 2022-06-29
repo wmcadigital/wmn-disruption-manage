@@ -56,8 +56,7 @@ const useFetchAddQuietDays = (selectedQuietDays, resend) => {
 
   useEffect(() => {
     if (selectedQuietDays && resend) {
-      const QuietDays = selectedQuietDays;
-
+      const QuietDays = selectedQuietDays.map((v) => ({ day: v }));
       const dataToAdd = {
         QuietDays,
       }; // Structure the data before sending
