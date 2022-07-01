@@ -110,6 +110,9 @@ const AddQuietDays = () => {
             className="wmnds-btn--secondary wmnds-col-1 wmnds-m-b-sm wmnds-col-sm-auto"
             onClick={handleShowDays}
             text={QuietDays && QuietDays.length < 1 ? `Set quiet days` : `Edit your quiet days`}
+            aria-label={
+              QuietDays && QuietDays.length < 1 ? `Set quiet days` : `Edit your quiet days`
+            }
           />
         </div>
       ) : (
@@ -125,6 +128,7 @@ const AddQuietDays = () => {
               className="wmnds-text-align-left wmnds-btn wmnds-col-sm-auto"
               onClick={handleAddDays}
               text="Confirm quiet days"
+              aria-label="Confirm quiet days"
             />
             {QuietDays && QuietDays.length > 0 && (
               <Button
@@ -132,12 +136,14 @@ const AddQuietDays = () => {
                 onClick={handleRemoveDays}
                 iconRight="general-trash"
                 text="Remove quiet days"
+                aria-label="Remove quiet days"
               />
             )}
             <Button
               className="wmnds-btn--primary wmnds-m-l-lg wmnds-btn wmnds-col-sm-auto"
               onClick={handleCancelDays}
               text="Cancel"
+              aria-label="Cancel"
             />
           </div>
         </div>
