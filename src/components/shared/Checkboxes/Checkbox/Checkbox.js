@@ -16,6 +16,7 @@ const Checkbox = ({ name, fieldValidation, text, value, checked, onChange }) => 
           checked={checked}
           onChange={onChange}
           id={text}
+          aria-label={name}
         />
         <label
           htmlFor={text}

@@ -114,7 +114,12 @@ const AddQuietDays = () => {
         </div>
       ) : (
         <div>
-          <Checkboxes checkboxes={checkBoxes} QuietDays={QuietDays} parentCallback={callback} />
+          <Checkboxes
+            checkboxes={checkBoxes}
+            QuietDays={QuietDays}
+            parentCallback={callback}
+            aria-label="Edit your quiet days"
+          />
           <div className="wmnds-m-b-sm">
             <Button
               className="wmnds-text-align-left wmnds-btn wmnds-col-sm-auto"
