@@ -13,7 +13,7 @@ export const SubscriberProvider = (props) => {
       lines: getSearchParam('lines') ? JSON.parse(atob(getSearchParam('lines'))) : [],
       lnames: getSearchParam('lnames') ? JSON.parse(atob(getSearchParam('lnames'))) : [],
       secret: getSearchParam('secret') || '',
-      user: getSearchParam('user') || '',
+      user: getSearchParam('id') || '',
       mobileNumber: getSearchParam('mobi') || '',
       emailDisabled: getSearchParam('nomail') || '',
       trains: getSearchParam('trains') ? JSON.parse(atob(getSearchParam('trains'))) : [],
