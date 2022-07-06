@@ -11,13 +11,13 @@ import Checkboxes from 'components/shared/Checkboxes/Checkboxes';
 
 const AddQuietDays = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const { QuietDays } = subscriberState.user;
   const [showDays, setShowDays] = useState(false);
   const [confirmDays, setConfirmDays] = useState(false);
   const [resend, setResend] = useState(false);
   const [selectedQuietDays, setSelectedQuietDays] = useState([]);
   const { isFetching, hasError } = useFetchAddQuietDays(selectedQuietDays, resend);
   const subscribedQuietTimes = useFilterQuietTimes();
+  const QuietDays = subscriberState.user.QuietDays || subscribedQuietTimes.subscribedQuietDays;
   const [days, setDays] = useState(subscribedQuietTimes.subscribedQuietDays);
   const mounted = useRef(false);
   useEffect(() => {

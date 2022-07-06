@@ -12,8 +12,9 @@ import HoursMinutes from './HoursMinutes';
 
 const AddQuietHours = () => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext); // Get the state/dispatch of subscriber/user from SubscriberContext
-  const { QuietHours } = subscriberState.user;
   const subscribedQuietTimes = useFilterQuietTimes();
+  const QuietHours = subscriberState.user.QuietHours || subscribedQuietTimes.subscribedQuietHours;
+
   const [showHours, setShowHours] = useState(false);
   const [times, setTimes] = useState({
     id: `${Math.random()}`,
@@ -75,6 +76,12 @@ const AddQuietHours = () => {
     if (QuietHours && QuietHours.length < 1) {
       handleAddHours();
     }
+    subscriberDispatch({
+      type: 'UPDATE_FORM_DATA',
+      payload: {
+        QuietHours: [...QuietHours],
+      },
+    });
   };
   const handleCancelHours = () => {
     setShowHours(false);
