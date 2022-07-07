@@ -76,7 +76,7 @@ const IntroManagePreferences = ({
           </p>
           <p>
             <a
-              href="https://forms.office.com/Pages/ResponsePage.aspx?id=RetZCK7xCk6e-ubWa7tnLz45Weo_RTVDpYxVYcrD8wxUOE1INTBMOEdXMFJSQTI4MUpRWlJQMEZWTi4u"
+              href="https://forms.office.com/Pages/ResponsePage.aspx?id=RetZCK7xCk6e-ubWa7tnL51Hn3Md47tLqr_OlQdqFgtUMTE0NURDUkE2NExFWDlJTVhTQUxGTEdSWC4u"
               title="Survey about the text message alert trial"
               target="_blank"
               rel="noopener noreferrer"
