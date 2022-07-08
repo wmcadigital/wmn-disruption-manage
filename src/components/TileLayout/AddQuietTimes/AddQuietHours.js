@@ -73,15 +73,15 @@ const AddQuietHours = () => {
   };
   const handleShowHours = () => {
     setShowHours(true);
-    if (QuietHours && QuietHours.length < 1) {
-      handleAddHours();
-    }
     subscriberDispatch({
       type: 'UPDATE_FORM_DATA',
       payload: {
         QuietHours: [...QuietHours],
       },
     });
+    if (QuietHours && QuietHours.length < 1) {
+      handleAddHours();
+    }
   };
   const handleCancelHours = () => {
     setShowHours(false);
@@ -133,7 +133,7 @@ const AddQuietHours = () => {
                 })}
               </>
             )}
-            <div>
+            <div className="wmnds-m-t-sm">
               {QuietHours && QuietHours.length < 10 && (
                 <Button
                   className="wmnds-btn--secondary wmnds-text-align-left wmnds-m-r-lg wmnds-m-b-sm"

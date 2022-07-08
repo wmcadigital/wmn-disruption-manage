@@ -71,19 +71,7 @@ const IntroManagePreferences = ({
         <>
           <h3>Text messages</h3>
           <p>
-            You&apos;re participating in the text message alert trial. We are sending texts to{' '}
-            <strong>{formatAndOmitCountryCode(mobileNumber)}</strong>.
-          </p>
-          <p>
-            <a
-              href="https://forms.office.com/Pages/ResponsePage.aspx?id=RetZCK7xCk6e-ubWa7tnL51Hn3Md47tLqr_OlQdqFgtUMTE0NURDUkE2NExFWDlJTVhTQUxGTEdSWC4u"
-              title="Survey about the text message alert trial"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wmnds-link"
-            >
-              You can give feedback about the text messages.
-            </a>
+            We are sending texts to <strong>{formatAndOmitCountryCode(mobileNumber)}</strong>.
           </p>
         </>
       )}
