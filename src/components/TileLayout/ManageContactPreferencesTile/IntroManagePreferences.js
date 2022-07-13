@@ -15,8 +15,13 @@ const IntroManagePreferences = ({
   setConfirmMobileMode,
 }) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
-  const { mobileNumber, email, mobileActive, emailDisabled, smsMessageSuccess } =
-    subscriberState.user;
+  const {
+    mobileNumber,
+    email,
+    mobileActive,
+    emailDisabled,
+    smsMessageSuccess,
+  } = subscriberState.user;
 
   if (smsMessageSuccess && confirmMobileMode) {
     setMessages([
