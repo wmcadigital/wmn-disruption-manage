@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes, { objectOf } from 'prop-types';
 import { SubscriberContext } from 'globalState/SubscriberContext';
-// Components
+// Component
 import Button from 'components/shared/Button/Button';
 import Message from 'components/shared/Message/Message';
 // Helpers
