@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>%REACT_APP_TITLE% - West Midlands Network</title>
+    <title>%REACT_APP_TITLE%  - Transport for West Midlands</title>
     <meta name="description" content="%REACT_APP_DESCRIPTION%" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -102,6 +102,7 @@
         padding: 0;
         background-color: #f3f2f1;
       }
+      .wmnds-header--mega-menu {display: none}
     </style>
 
     <!-- Google Tag Manager (noscript) -->
@@ -133,21 +134,21 @@
           <!-- Logo -->
           <a
             class="wmnds-header__logo-link"
-            href="//wmnetwork.co.uk"
-            title="West Midlands Network Home"
+            href="//tfwm.org.uk"
+            title="Transport for West Midlands Home"
           >
             <img
               class="wmnds-header__logo"
-              alt="West Midlands Network logo"
+              alt="Transport for West Midlands logo"
               src="//wmnetwork.netlify.com/img/logo.svg"
             />
           </a>
           <!-- Phase indicator -->
           <a
-            href="//wmnetwork.co.uk"
+            href="//tfwm.org.uk"
             target="_self"
             class="wmnds-phase-indicator"
-            title="Beta homepage of West Midlands Network Home"
+            title="Beta homepage of Transport for West Midlands Home"
           >
             Beta
           </a>
@@ -164,21 +165,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="wmnds-footer">
-      <div class="wmnds-container wmnds-grid">
-        <div class="wmnds-col-1 wmnds-col-md-1-2">Copyright West Midlands Network &copy; 2021</div>
-        <div class="wmnds-col-1 wmnds-col-md-1-2">
-          <a
-            href="https://www.wmnetwork.co.uk/privacy-cookies-policy/"
-            title="Privacy and cookies policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="wmnds-footer__link wmnds-link"
-            >Privacy & Cookies Policy</a
-          >
-        </div>
-      </div>
-    </footer>
+    <script src="https://cloudcdn.wmca.org.uk/tfwmassets/js/header-footer.min.js"></script>
     <!-- End footer -->
 
     <!-- Ajax SVG in, SVGS are referenced in app (Icon component) -->

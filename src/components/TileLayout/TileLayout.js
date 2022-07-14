@@ -19,6 +19,7 @@ import DeleteTile from './DeleteTile/DeleteTile';
 import LoadingView from './LoadingView/LoadingView';
 import ErrorView from './ErrorView/ErrorView';
 import UnsubscribedView from './UnsubscribedView/UnsubscribedView';
+import AddQuietTimes from './AddQuietTimes/AddQuietTimes';
 
 const TileLayout = () => {
   const [subscriberState] = useContext(SubscriberContext);
@@ -26,7 +27,7 @@ const TileLayout = () => {
   const { sendPinIsFinished } = useFetchSendPin(subscriberState.query.mobileNumber);
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished);
 
-  const { mobileNumber, mobileActive, smsMessageSuccess } = subscriberState.user;
+  const { mobileNumber, mobileActive, smsMessageSuccess, name } = subscriberState.user;
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
   const [isDismissTrialActive, setIsDismissTrialActive] = useState(
     !!localStorage.getItem('dismissTrial')
@@ -38,9 +39,11 @@ const TileLayout = () => {
     <>
       {(!confirmServiceIsFinished || isFetching) && <LoadingView />}
 
-      {!isFetching && !hasError && !isUnsubscribed && (
+      {!isFetching && !isUnsubscribed && (
         <div className="wmnds-grid wmnds-grid--justify-between wmnds-p-t-xl wmnds-p-b-lg wmnds-container">
           <div className="wmnds-col-1 wmnds-col-md-3-4 wmnds-col-lg-2-3">
+            <h1>Disruption alerts dashboard</h1>
+
             <div className="wmnds-grid">
               {/* To ALL: Intro */}
               <SummaryTile />
@@ -84,6 +87,9 @@ const TileLayout = () => {
 
               {/* To ALL: Remove services */}
               <RemoveTile />
+
+              {/* To ALL: Remove services */}
+              {name && <AddQuietTimes />}
 
               {/* Only for users that are in the trial (= whoever has mobile number active) */}
               {((mobileNumber && mobileActive) || isEditingManagePreferences) && (

@@ -1,0 +1,13 @@
+@import '~assets/styles/vars';
+@import '~assets/styles/mixins';
+
+.button {
+  top: 5px;
+  padding: 5px;
+}
+
+.button svg {
+  width: 40px;
+  height: 40px;
+  margin-left: 0;
+}
