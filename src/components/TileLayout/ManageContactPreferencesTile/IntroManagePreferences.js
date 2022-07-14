@@ -15,12 +15,13 @@ const IntroManagePreferences = ({
   setConfirmMobileMode,
 }) => {
   const [subscriberState, subscriberDispatch] = useContext(SubscriberContext);
+  /* prettier-ignore */
   const {
-    mobileNumber,
+    mobileNumber, //
     email,
     mobileActive,
     emailDisabled,
-    smsMessageSuccess,
+    smsMessageSuccess, //
   } = subscriberState.user;
 
   if (smsMessageSuccess && confirmMobileMode) {
