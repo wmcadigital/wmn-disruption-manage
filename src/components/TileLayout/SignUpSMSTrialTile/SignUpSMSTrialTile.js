@@ -10,7 +10,7 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
 
   return (
     <div className="wmnds-content-tile wmnds-m-t-lg wmnds-col-1">
-      <h2> Sign up to the text message service disruption trial</h2>
+      <h2> Recieve text message alerts for disruptions</h2>
       <p>We’ll automatically send text message disruption alerts straight to your mobile phone.</p>
 
       <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
@@ -19,12 +19,12 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
             href={`${process.env.REACT_APP_DISRUPTION_SIGN_UP_URL}/?name=${encodeURI(
               name
             )}&email=${email}&user=${user}`}
-            title="Sign up to text message trial"
+            title="Set up text message alerts"
             target="_blank"
             rel="noopener noreferrer"
             className="wmnds-btn wmnds-col-1 wmnds-m-b-sm"
           >
-            Sign up to text message trial
+            Set up text message alerts
           </a>
         </div>
         <div className="wmnds-col-1 wmnds-col-md-1-2">

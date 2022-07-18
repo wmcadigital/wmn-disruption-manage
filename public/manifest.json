@@ -1,7 +1,7 @@
 {
   "short_name": "WMN - Manage alert preferences",
-  "name": "Manage alert preferences - West Midlands Network ",
-  "description": "Manage alert preferences section of the West Midlands Network website",
+  "name": "Manage alert preferences - Transport for West Midlands ",
+  "description": "Manage disruption alerts on the Transport for West Midlands network",
   "icons": [
     {
       "src": "favicon.ico",

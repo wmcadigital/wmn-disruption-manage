@@ -31,10 +31,11 @@ export const SubscriberProvider = (props) => {
       trainLines: [],
       tramLines: [],
       roadLines: [],
+      QuietHours: [],
+      QuietDays: [],
     },
     addServices: [],
   };
-
   // Set up a reducer so we can change state based on centralised logic here
   const reducer = (state, action) => {
     // Update the state depening on action type
@@ -45,6 +46,23 @@ export const SubscriberProvider = (props) => {
           ...state,
           user: action.payload,
         };
+      // Update form data
+      case 'UPDATE_FORM_DATA': {
+        return {
+          ...state,
+          user: { ...state.user, ...action.payload },
+        };
+      }
+      // Remove the quite hours from form data
+      case 'REMOVE_QUIET_HOURS': {
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            QuietHours: state.user.QuietHours.filter((hours) => action.payload !== hours.id),
+          },
+        };
+      }
       // Remove line id from state when deleted via API call
       case 'REMOVE_LINE_ID':
         return {
@@ -112,7 +130,6 @@ export const SubscriberProvider = (props) => {
   };
   // Set up reducer using reducer logic and initialState by default
   const [subscriberState, subscriberDispatch] = useReducer(reducer, initialState);
-
   // Pass state and dispatch in context and make accessible to children it wraps
   return (
     <SubscriberContext.Provider value={[subscriberState, subscriberDispatch]}>
