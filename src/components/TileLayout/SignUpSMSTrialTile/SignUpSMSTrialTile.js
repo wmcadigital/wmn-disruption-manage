@@ -10,7 +10,7 @@ const SignUpSMSTrialTile = ({ setIsDismissTrialActive }) => {
 
   return (
     <div className="wmnds-content-tile wmnds-m-t-lg wmnds-col-1">
-      <h2> Recieve text message alerts for disruptions</h2>
+      <h2> Receive text message alerts for disruptions</h2>
       <p>We’ll automatically send text message disruption alerts straight to your mobile phone.</p>
 
       <div className="wmnds-grid wmnds-grid--align-stretch wmnds-grid--spacing-sm-1-xsm wmnds-grid--spacing-md-2-sm wmnds-grid--spacing-lg-2-sm wmnds-m-t-md">
