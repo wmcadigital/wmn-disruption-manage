@@ -18,6 +18,7 @@ options:
   formatter: stylish
   merge-default-rules: true
 rules:
+  no-missing-end-of-file-newline: 0
   # Rule bem-depth will enforce how many elements a BEM selector can contain.
   # https://github.com/sasstools/sass-lint/blob/master/docs/rules/bem-depth.md
   bem-depth: 1

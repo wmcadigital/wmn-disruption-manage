@@ -25,13 +25,13 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "esri-loader": "^3.1.0",
-    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
-    "react-debounce-input": "^3.2.3",
+    "react-debounce-input": "3.3.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.3"
+    "react-scripts": "4.0.3",
+    "sass": "^1.32.8"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.1",
