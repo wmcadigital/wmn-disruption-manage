@@ -85,7 +85,10 @@ const TrainAutoCompleteInput = ({ trainStation, setTrainStation }) => {
 
 // PropTypes
 TrainAutoCompleteInput.propTypes = {
-  trainStation: PropTypes.objectOf(PropTypes.any),
+  trainStation: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
   setTrainStation: PropTypes.func.isRequired,
 };
 

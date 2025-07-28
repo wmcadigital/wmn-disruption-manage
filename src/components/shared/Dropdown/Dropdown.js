@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Import styling
 import s from './Dropdown.module.scss';
 
-const Dropdown = ({ name, hint, label, error, options, defaultValue, onChange, onBlur }) => {
+const Dropdown = ({ name, hint, error, options, defaultValue, onChange, onBlur }) => {
   const defaultSelectValue = defaultValue; // cast to acceptable types for a select element
 
   return (
@@ -39,7 +39,6 @@ Dropdown.propTypes = {
   name: PropTypes.string,
   hint: PropTypes.string,
   error: PropTypes.string,
-  label: PropTypes.string,
   defaultValue: PropTypes.string,
   options: PropTypes.PropTypes.oneOfType([PropTypes.shape, PropTypes.array]).isRequired,
   onChange: PropTypes.func.isRequired,
@@ -50,7 +49,6 @@ Dropdown.defaultProps = {
   name: '',
   hint: '',
   error: '',
-  label: null,
   defaultValue: '',
   onBlur: () => {},
 };

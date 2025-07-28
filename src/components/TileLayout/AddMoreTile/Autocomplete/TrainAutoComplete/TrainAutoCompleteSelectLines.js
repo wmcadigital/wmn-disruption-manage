@@ -139,7 +139,16 @@ const TrainAutoCompleteSelectLines = ({
 
 TrainAutoCompleteSelectLines.propTypes = {
   closeAutoComplete: PropTypes.func.isRequired,
-  trainStations: PropTypes.objectOf(PropTypes.any).isRequired,
+  trainStations: PropTypes.shape({
+    From: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+    To: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+  }).isRequired,
   selectedServices: PropTypes.shape({
     Trains: PropTypes.arrayOf(
       PropTypes.shape({

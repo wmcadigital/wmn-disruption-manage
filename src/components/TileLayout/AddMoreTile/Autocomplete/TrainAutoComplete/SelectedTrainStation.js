@@ -26,7 +26,9 @@ const SelectedTrainStation = ({ trainStation, clearTrainStation }) => {
 
 // PropTypes
 SelectedTrainStation.propTypes = {
-  trainStation: PropTypes.objectOf(PropTypes.any).isRequired,
+  trainStation: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
   clearTrainStation: PropTypes.func.isRequired,
 };
 
