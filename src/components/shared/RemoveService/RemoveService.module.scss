@@ -3,7 +3,7 @@
 .leftWrap {
   flex-wrap: nowrap;
 
-  @media all and(min-width: $breakpoint-sm) {
+  @media all and (min-width: $breakpoint-sm) {
     width: calc(100% - 180px);
   }
 }
@@ -15,7 +15,7 @@
 .removeBtn {
   margin-top: $size-md;
 
-  @media screen and(min-width: $breakpoint-sm) {
+  @media screen and (min-width: $breakpoint-sm) {
     margin: 0;
   }
 }

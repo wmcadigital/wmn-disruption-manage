@@ -85,7 +85,9 @@ const TramAutoCompleteInput = ({ tramStop, setTramStop }) => {
 
 // PropTypes
 TramAutoCompleteInput.propTypes = {
-  tramStop: PropTypes.objectOf(PropTypes.any),
+  tramStop: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }),
   setTramStop: PropTypes.func.isRequired,
 };
 

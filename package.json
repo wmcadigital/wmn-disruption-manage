@@ -11,11 +11,11 @@
   },
   "copyright": "WMCA",
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-scripts start",
     "lint:styles": "sass-lint '**/*.scss'",
     "update-packages": "ncu",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -25,21 +25,21 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "esri-loader": "^3.1.0",
-    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
-    "react-debounce-input": "^3.2.3",
+    "react-debounce-input": "3.3.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.3"
+    "react-scripts": "5.0.1",
+    "sass": "^1.32.8"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.2.1",
+    "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-jam3": "^0.2.3",
     "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.2.1",
-    "react-app-rewired": "^2.1.8",
     "sass-lint": "^1.13.1",
     "sass-lint-webpack": "^1.0.3"
   },
