@@ -5,13 +5,13 @@ import useFetchUser from 'customHooks/useFetchUser';
 import useFetchConfirmServices from 'customHooks/useFetchConfirmServices';
 import useFetchSendPin from 'customHooks/useFetchSendPin';
 // Helpers
-import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
+// import { formatAndOmitCountryCode } from 'helpers/MobilePhoneConversors';
 // Components
 import SummaryTile from 'components/TileLayout/SummaryTile/SummaryTile';
-import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
-import Message from 'components/shared/Message/Message';
-import ConfirmMobilePhone from './ConfirmMobilePhoneTile/ConfirmMobilePhone';
-import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
+// import SignUpSMSTrialTile from 'components/TileLayout/SignUpSMSTrialTile/SignUpSMSTrialTile';
+// import Message from 'components/shared/Message/Message';
+// import ConfirmMobilePhone from './ConfirmMobilePhoneTile/ConfirmMobilePhone';
+// import ResetPhoneTile from './ResetPhoneTile/ResetPhoneTile';
 import AddMoreTile from './AddMoreTile/AddMoreTile';
 import RemoveTile from './RemoveTile/RemoveTile';
 import ManageContactPreferencesTile from './ManageContactPreferencesTile/ManagePreferencesTile';
@@ -27,11 +27,8 @@ const TileLayout = () => {
   const { sendPinIsFinished } = useFetchSendPin(subscriberState.query.mobileNumber);
   const { isFetching, hasError } = useFetchUser(confirmServiceIsFinished, sendPinIsFinished);
 
-  const { mobileNumber, mobileActive, smsMessageSuccess, name } = subscriberState.user;
+  const { mobileNumber, mobileActive, name } = subscriberState.user;
   const [wrongPhoneNumber, setWrongPhoneNumber] = useState(false);
-  const [isDismissTrialActive, setIsDismissTrialActive] = useState(
-    !!localStorage.getItem('dismissTrial')
-  );
   const [isEditingManagePreferences, setIsEditingManagerPreferences] = useState(false);
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
@@ -50,25 +47,25 @@ const TileLayout = () => {
 
               {/* To users that has not mobilePhone in the system or in the url - User has access to his dashboard as usual */}
               {/* It won't show to users that pressed "dismiss" previously */}
-              {!isDismissTrialActive && !mobileNumber && (
+              {/* {!isDismissTrialActive && !mobileNumber && (
                 <SignUpSMSTrialTile setIsDismissTrialActive={setIsDismissTrialActive} />
-              )}
+              )} */}
 
               {/* To Users that clicked to confirm the text message trial email's CTA */}
-              {mobileNumber &&
+              {/* {mobileNumber &&
                 !mobileActive &&
                 !wrongPhoneNumber &&
                 !isEditingManagePreferences && (
                   <ConfirmMobilePhone setWrongPhoneNumber={setWrongPhoneNumber} />
-                )}
+                )} */}
 
               {/* To users that wants to reset Phone number and clicked on "Wrong phone number" link on confirm Pin tile  */}
-              {wrongPhoneNumber && !isEditingManagePreferences && (
+              {/* {wrongPhoneNumber && !isEditingManagePreferences && (
                 <ResetPhoneTile setWrongPhoneNumber={setWrongPhoneNumber} />
-              )}
+              )} */}
 
               {/* To Users that have completed the phone activation by submitting the correct pin number */}
-              {smsMessageSuccess && !isEditingManagePreferences && (
+              {/* {smsMessageSuccess && !isEditingManagePreferences && (
                 <Message
                   type="success"
                   title="Mobile phone number confirmed"
@@ -80,7 +77,7 @@ const TileLayout = () => {
                   className="wmnds-col-1 wmnds-m-t-lg bg-white"
                   hasCloseButton
                 />
-              )}
+              )} */}
 
               {/* To ALL: Add services */}
               <AddMoreTile />
